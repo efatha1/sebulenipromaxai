@@ -1,8 +1,8 @@
 instrument:
-  instrument_id: "INSTRUMENT_EXAMPLE"
+  instrument_id: "XAUUSD"
 
 data_source:
-  ohlc_path: "C:/path/to/your/instrument_1m.parquet"
+  ohlc_path: "/kaggle/input/datasets/efathakanafunzi/1minohlcfull/1min_OHLC_full.parquet"
 
 time:
   source_timezone: "UTC"
