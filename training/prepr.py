@@ -61,12 +61,7 @@ for key, df in labels.items():
     horizon, threshold = key
     print(f"  Horizon {horizon}, threshold {threshold}: {len(df)} samples")
 
-# 8. Build windows
-print("Building windows...")
-lookbacks = {"1m": 90, "5m": 90, "15m": 90, "1h": 90, "4h": 90, "1d": 90}
-windows = build_windows(features_by_tf, lookbacks_by_timeframe=lookbacks)
-
-# 9. Create folds
+# 8. Create folds
 print("Creating walk-forward folds...")
 horizon_key = list(labels.keys())[0]
 label_df = labels[horizon_key]
@@ -74,24 +69,34 @@ label_df = label_df[~label_df["ambiguous"]].copy()
 folds = build_walk_forward_folds(label_df, config)
 print(f"  Created {len(folds)} folds")
 
-# 10. Align and create training dataset
-print("Creating training dataset...")
-# Align labels with windows
-aligned_indices = label_df[label_df["reference_ts"].isin(windows["1m"].reference_ts)].index
-label_df_aligned = label_df.loc[aligned_indices].reset_index(drop=True)
+# 9. Build windows FIRST (before alignment)
+print("Building windows...")
+lookbacks = {"1m": 90, "5m": 90, "15m": 90, "1h": 90, "4h": 90, "1d": 90}
+windows = build_windows(features_by_tf, lookbacks_by_timeframe=lookbacks)
 
-# Filter windows to match aligned labels
-mask = [ts in label_df_aligned["reference_ts"].values for ts in windows["1m"].reference_ts]
+# 10. Align labels with window timestamps
+print("Aligning labels with windows...")
+window_ts_set = set(windows["1m"].reference_ts)
+label_df_aligned = label_df[label_df["reference_ts"].isin(window_ts_set)].reset_index(drop=True)
+print(f"  Aligned {len(label_df_aligned)} labels to {len(window_ts_set)} window timestamps")
+
+# 11. Create index mapping for windows that match aligned labels
+print("Creating training dataset...")
+# Build indices: find which window indices correspond to our aligned labels
+window_ts_list = list(windows["1m"].reference_ts)
+aligned_indices = [window_ts_list.index(ts) for ts in label_df_aligned["reference_ts"]]
+
+# Slice all windows and targets using these indices
 windows_filtered = {
-    tf: type(w)(windows[tf].windows[mask], windows[tf].reference_ts[mask], windows[tf].feature_names)
-    for tf, w in windows.items()
+    tf: windows[tf].windows[aligned_indices]
+    for tf in windows.keys()
 }
 
 dataset = TrainingDataset(
-    reference_ts=tuple(windows_filtered["1m"].reference_ts),
-    windows_by_timeframe={tf: w.windows for tf, w in windows_filtered.items()},
+    reference_ts=tuple(label_df_aligned["reference_ts"]),
+    windows_by_timeframe=windows_filtered,
     reference_close=torch.tensor(
-        bars_1m.loc[windows_filtered["1m"].reference_ts, "close"].values,
+        [bars_1m.loc[ts, "close"] for ts in label_df_aligned["reference_ts"]],
         dtype=torch.float32
     ),
     targets=MultiTaskTargets(
@@ -105,15 +110,15 @@ dataset = TrainingDataset(
     ),
 )
 
-# 11. Create bundle
+# 12. Create bundle
 bundle = TrainingBundle(
     dataset=dataset,
     folds=tuple(folds),
     lookbacks_by_timeframe=lookbacks,
-    retrieval_memory=tuple(),  # Empty initially
+    retrieval_memory=tuple(),
 )
 
-# 12. Save bundle
+# 13. Save bundle
 bundle_path = Path("artifacts/training_bundle.pt")
 bundle_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -123,5 +128,7 @@ torch.save({
     "lookbacks_by_timeframe": bundle.lookbacks_by_timeframe,
     "retrieval_memory": bundle.retrieval_memory,
 }, bundle_path)
+
+print(f"Training bundle saved to {bundle_path}")
 
 print(f"Training bundle saved to {bundle_path}")
