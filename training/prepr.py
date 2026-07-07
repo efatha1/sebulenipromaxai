@@ -83,7 +83,7 @@ label_df_aligned = label_df.loc[aligned_indices].reset_index(drop=True)
 # Filter windows to match aligned labels
 mask = [ts in label_df_aligned["reference_ts"].values for ts in windows["1m"].reference_ts]
 windows_filtered = {
-    tf: type(w)(windows[tf].windows[mask], windows[tf].reference_ts[mask])
+    tf: type(w)(windows[tf].windows[mask], windows[tf].reference_ts[mask], windows[tf].feature_names)
     for tf, w in windows.items()
 }
 
