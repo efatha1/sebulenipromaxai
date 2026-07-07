@@ -2,7 +2,7 @@ instrument:
   instrument_id: "XAUUSD"
 
 data_source:
-  ohlc_path: "C:\\Users\\Spirt Embassy\\Documents\\sebuleni\\1min_OHLCnw1Fixed.parquet"
+  ohlc_path: "/kaggle/input/datasets/efathakanafunzi/full1minohlc-parquet/1min_OHLCnw1Fixed.parquet"
 
 time:
   source_timezone: "UTC"
