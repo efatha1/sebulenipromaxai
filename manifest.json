@@ -19,7 +19,7 @@
     "5m": 60
   },
   "output_layout": {
-    "root": "/kaggle/input/datasets/efathakanafunzi/sebulenipromaxaifinal"
+    "root": "/kaggle/tmp/"
   },
   "targets": {
     "num_shards": 66,
