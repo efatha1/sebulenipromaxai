@@ -1,0 +1,127 @@
+{
+  "config": {
+    "instrument_id": "XAUUSD",
+    "ohlc_path": "/kaggle/input/datasets/efathakanafunzi/full1minohlc-parquet/1min_OHLCnw1Fixed.parquet",
+    "runtime_timezone": "America/New_York"
+  },
+  "created_at_unix": 1783596636,
+  "elapsed_seconds": 2055.8419075012207,
+  "label_selection": {
+    "horizon": 15,
+    "threshold": 10.0
+  },
+  "lookbacks_by_timeframe": {
+    "15m": 48,
+    "1d": 10,
+    "1h": 24,
+    "1m": 90,
+    "4h": 16,
+    "5m": 60
+  },
+  "output_layout": {
+    "root": "/kaggle/input/datasets/efathakanafunzi/sebulenipromaxaifinal"
+  },
+  "targets": {
+    "num_shards": 66,
+    "shard_size": 40000,
+    "total_samples": 2616584
+  },
+  "windows": {
+    "15m": {
+      "feature_names": [
+        "return",
+        "log_return",
+        "hl_range",
+        "oc_change",
+        "body",
+        "upper_wick",
+        "lower_wick",
+        "upper_wick_body_ratio",
+        "lower_wick_body_ratio"
+      ],
+      "lookback": 48,
+      "num_features": 9,
+      "num_window_references": 175523
+    },
+    "1d": {
+      "feature_names": [
+        "return",
+        "log_return",
+        "hl_range",
+        "oc_change",
+        "body",
+        "upper_wick",
+        "lower_wick",
+        "upper_wick_body_ratio",
+        "lower_wick_body_ratio"
+      ],
+      "lookback": 10,
+      "num_features": 9,
+      "num_window_references": 2189
+    },
+    "1h": {
+      "feature_names": [
+        "return",
+        "log_return",
+        "hl_range",
+        "oc_change",
+        "body",
+        "upper_wick",
+        "lower_wick",
+        "upper_wick_body_ratio",
+        "lower_wick_body_ratio"
+      ],
+      "lookback": 24,
+      "num_features": 9,
+      "num_window_references": 44144
+    },
+    "1m": {
+      "feature_names": [
+        "return",
+        "log_return",
+        "hl_range",
+        "oc_change",
+        "body",
+        "upper_wick",
+        "lower_wick",
+        "upper_wick_body_ratio",
+        "lower_wick_body_ratio"
+      ],
+      "lookback": 90,
+      "num_features": 9,
+      "num_window_references": 2627970
+    },
+    "4h": {
+      "feature_names": [
+        "return",
+        "log_return",
+        "hl_range",
+        "oc_change",
+        "body",
+        "upper_wick",
+        "lower_wick",
+        "upper_wick_body_ratio",
+        "lower_wick_body_ratio"
+      ],
+      "lookback": 16,
+      "num_features": 9,
+      "num_window_references": 11301
+    },
+    "5m": {
+      "feature_names": [
+        "return",
+        "log_return",
+        "hl_range",
+        "oc_change",
+        "body",
+        "upper_wick",
+        "lower_wick",
+        "upper_wick_body_ratio",
+        "lower_wick_body_ratio"
+      ],
+      "lookback": 60,
+      "num_features": 9,
+      "num_window_references": 525919
+    }
+  }
+}
