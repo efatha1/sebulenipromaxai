@@ -1,0 +1,8 @@
+fastapi
+numpy
+pandas
+pydantic
+torch
+typer
+uvicorn
+
