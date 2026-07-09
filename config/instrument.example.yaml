@@ -1,0 +1,85 @@
+instrument:
+  instrument_id: "XAUUSD"
+
+data_source:
+  ohlc_path: "C:\\Users\\Spirt Embassy\\Documents\\sebuleni\\1min_OHLC_full.parquet"
+
+time:
+  source_timezone: "UTC"
+  runtime_timezone: "America/New_York"
+  daily_close:
+    time: "17:00"
+    timezone: "America/New_York"
+
+sessions:
+  calendar_name: "instrument_default"
+  weekend_policy: "exclude"
+  holiday_policy: "exclude"
+  definitions:
+    - name: "primary"
+      start: "00:00"
+      end: "23:59"
+
+resampling:
+  base_timeframe: "1m"
+  target_timeframes:
+    - "5m"
+    - "15m"
+    - "1h"
+    - "4h"
+    - "1d"
+
+features:
+  enabled_features:
+    - "returns"
+    - "ranges"
+    - "wick_body_ratios"
+  deterministic_derived_features:
+    - "returns"
+    - "ranges"
+    - "wick_body_ratios"
+
+labeling:
+  thresholds:
+    - 10.0
+  horizon_bars:
+    - 15
+    - 60
+    - 240
+
+walk_forward:
+  train_bars: 1000
+  validation_bars: 200
+  test_bars: 200
+  step_bars: 200
+
+training:
+  random_seed: 123
+  batch_size: 32
+  learning_rate: 0.001
+  max_epochs: 5
+  device_preference: "cpu"
+  allow_nondeterministic: false
+
+preprocessing:
+  lookbacks_by_timeframe:
+    "1m": 90
+    "5m": 60
+    "15m": 48
+    "1h": 24
+    "4h": 16
+    "1d": 10
+
+retrieval:
+  top_k_analogs: 5
+
+api:
+  host: "127.0.0.1"
+  port: 8000
+
+reporting:
+  output_dir: "artifacts/reports"
+
+schedules:
+  reporting_cron: "0 9 * * *"
+  retraining_review_cron: "0 0 * * 1"
