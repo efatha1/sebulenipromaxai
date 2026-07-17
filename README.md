@@ -51,19 +51,69 @@ Configuration is YAML-driven and validated into an immutable runtime config cont
 - Loader: [load_config](file:///c:/Users/Spirt%20Embassy/Documents/sebuleni/training/config_loader.py#L73-L103)
 - Schema: [RuntimeConfig](file:///c:/Users/Spirt%20Embassy/Documents/sebuleni/training/config_schema.py)
 
+### Directory Configuration
+
+The system supports separate read and write root paths for preprocessing and training workflows:
+
+- `preprocessing.output_root`: Directory where preprocessing writes sharded outputs (default: `artifacts/preprocessing_shards`)
+- `training.input_root`: Directory where training reads preprocessing artifacts (default: `artifacts/preprocessing_shards`)
+- `training.output_root`: Directory where training writes checkpoints and evaluation summaries (default: `artifacts/training_artifacts`)
+
+These can be configured in `config/base.yaml`:
+
+```yaml
+preprocessing:
+  lookbacks_by_timeframe:
+    "1m": 90
+    "5m": 60
+    "15m": 48
+    "1h": 24
+    "4h": 16
+    "1d": 10
+  output_root: "artifacts/preprocessing_shards"
+
+training:
+  random_seed: 42
+  batch_size: 32
+  learning_rate: 0.001
+  max_epochs: 6
+  device_preference: "cpu"
+  allow_nondeterministic: false
+  input_root: "artifacts/preprocessing_shards"
+  output_root: "artifacts/training_artifacts"
+```
+
 ### Environment overrides
 
 Environment overrides use the prefix `SEBULENI__` (double underscore separators) and are applied deterministically:
 
 - Implementation: [training/config_loader.py](file:///c:/Users/Spirt%20Embassy/Documents/sebuleni/training/config_loader.py)
+- Example: `SEBULENI__PREPROCESSING__OUTPUT_ROOT=/custom/path`
 
 ## CLI (U11)
 
 The CLI provides operator workflows required by the SRS (train/evaluate/predict/report/retraining/inspection):
 
 - Entry point: [training/cli.py](file:///c:/Users/Spirt%20Embassy/Documents/sebuleni/training/cli.py)
+- Preprocessing entry point: [Preprocessing.py](file:///c:/Users/Spirt%20Embassy/Documents/sebuleni/Preprocessing.py)
 
 ### Commands
+
+#### Preprocessing (`Preprocessing.py`)
+
+Runs the RAM-aware, sharded preprocessing pipeline to build U2/U3/U4/U5 artifacts.
+
+Inputs:
+- `--config-path`: YAML config path
+- `--preprocessing-output-root`: output root for preprocessing artifacts (optional, overrides config)
+- `--output-root`: deprecated, use `--preprocessing-output-root` instead
+- `--lookback`: fallback lookback for all timeframes (default: 90)
+- `--shard-size`: samples per shard (default: 50_000)
+- `--label-horizon`: select specific horizon for dataset shards (optional)
+- `--label-threshold`: select specific threshold for dataset shards (optional)
+- `--verbose`: enable INFO logging
+
+### Training Commands
 
 #### `train`
 
@@ -72,11 +122,28 @@ Runs training/evaluation from a serialized U9 training bundle and writes an eval
 Inputs:
 - `--config-path`: YAML config path
 - `--bundle-path`: path to a serialized training bundle
-- `--evaluation-output-path`: output JSON path for evaluation summary
+- `--evaluation-output-path`: output JSON path for evaluation summary (optional, defaults to `output_root/evaluation_summary.json`)
+- `--training-input-root`: input root for reading preprocessing artifacts (optional, overrides config)
+- `--training-output-root`: output root for writing training artifacts (optional, overrides config)
+
+#### `train-sharded`
+
+Runs training/evaluation from sharded preprocessing outputs (Kaggle-scale workflow).
+
+Inputs:
+- `--config-path`: YAML config path
+- `--manifest-path`: path to preprocessing manifest
+- `--evaluation-output-path`: output JSON path for evaluation summary (optional, defaults to `output_root/evaluation_summary.json`)
+- `--training-input-root`: input root for reading preprocessing artifacts (optional, overrides config)
+- `--training-output-root`: output root for writing training artifacts (optional, overrides config)
 
 #### `evaluate`
 
 Same execution surface as `train`, intended for explicit evaluation runs (also never promotes).
+
+#### `evaluate-sharded`
+
+Same execution surface as `train-sharded`, intended for explicit evaluation runs.
 
 #### `predict`
 

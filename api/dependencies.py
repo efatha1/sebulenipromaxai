@@ -146,15 +146,29 @@ class AppServices:
         self,
         *,
         bundle_path: Path,
-        evaluation_output_path: Path,
+        evaluation_output_path: Path | None = None,
+        input_root: Path | None = None,
+        output_root: Path | None = None,
     ) -> dict[str, str]:
         config = self.load_runtime_config()
         bundle = load_training_bundle(bundle_path)
+        
+        # Resolve output root: CLI parameter > config value > reporting.output_dir
+        resolved_output_root = output_root if output_root is not None else config.training.output_root
+        if resolved_output_root is None:
+            resolved_output_root = config.reporting.output_dir
+        
+        # Resolve evaluation output path: CLI parameter > output_root/evaluation_summary.json
+        if evaluation_output_path is None:
+            evaluation_output_path = Path(resolved_output_root) / "evaluation_summary.json"
+        
         summary = run_training(
             config=config,
             folds=bundle.folds,
             dataset=bundle.dataset,
-            artifact_root=config.reporting.output_dir,
+            artifact_root=resolved_output_root,
+            input_root=input_root,
+            output_root=resolved_output_root,
             checkpoint_metadata={"lookbacks_by_timeframe": dict(bundle.lookbacks_by_timeframe)},
         )
         write_evaluation_summary(summary=summary, output_path=evaluation_output_path)
@@ -170,17 +184,31 @@ class AppServices:
         self,
         *,
         manifest_path: Path,
-        evaluation_output_path: Path,
+        evaluation_output_path: Path | None = None,
+        input_root: Path | None = None,
+        output_root: Path | None = None,
     ) -> dict[str, str]:
         """Run training/evaluation from sharded preprocessing outputs."""
         config = self.load_runtime_config()
         resolved = resolve_sharded_inputs(config=config, manifest_path=manifest_path)
+        
+        # Resolve output root: CLI parameter > config value > reporting.output_dir
+        resolved_output_root = output_root if output_root is not None else config.training.output_root
+        if resolved_output_root is None:
+            resolved_output_root = config.reporting.output_dir
+        
+        # Resolve evaluation output path: CLI parameter > output_root/evaluation_summary.json
+        if evaluation_output_path is None:
+            evaluation_output_path = Path(resolved_output_root) / "evaluation_summary.json"
+        
         summary = run_training_sharded(
             config=config,
             manifest_path=manifest_path,
             folds=resolved.folds,
             labels=resolved.labels,
-            artifact_root=config.reporting.output_dir,
+            artifact_root=resolved_output_root,
+            input_root=input_root,
+            output_root=resolved_output_root,
             checkpoint_metadata={"lookbacks_by_timeframe": dict(resolved.store.manifest.lookbacks_by_timeframe)},
         )
         write_evaluation_summary(summary=summary, output_path=evaluation_output_path)

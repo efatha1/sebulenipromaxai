@@ -62,6 +62,8 @@ training:
   max_epochs: 6
   device_preference: "cpu"
   allow_nondeterministic: false
+  input_root: "/kaggle/input/datasets/efathakanafunzi/sebulenipromaxaifinal2/artifacts/preprocessing_shards"
+  output_root: "kaggle/tmp/sebulenipromaxai/artifacts/training_artifacts"
 
 preprocessing:
   lookbacks_by_timeframe:
@@ -71,6 +73,7 @@ preprocessing:
     "1h": 24
     "4h": 16
     "1d": 10
+  output_root: "kaggle/tmp/sebulenipromaxai/artifacts/preprocessing_shards"
 
 unified_heads:
   enabled: true
@@ -125,7 +128,7 @@ api:
   port: 8000
 
 reporting:
-  output_dir: "artifacts/reports"
+  output_dir: "kaggle/tmp/sebulenipromaxai/artifacts/reports"
 
 schedules:
   reporting_cron: "0 9 * * *"

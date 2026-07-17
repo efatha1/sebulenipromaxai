@@ -272,12 +272,15 @@ class TrainingConfig(FrozenModel):
     max_epochs: PositiveInt
     device_preference: Literal["cpu", "cuda"]
     allow_nondeterministic: StrictBool
+    input_root: Path | None = None
+    output_root: Path | None = None
 
 
 class PreprocessingConfig(FrozenModel):
     """Preprocessing-specific configuration."""
 
     lookbacks_by_timeframe: dict[Literal["1m", "5m", "15m", "1h", "4h", "1d"], PositiveInt] | None = None
+    output_root: Path | None = None
 
     @field_validator("lookbacks_by_timeframe")
     @classmethod

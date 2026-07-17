@@ -19,7 +19,9 @@ app = typer.Typer(help="Sebuleni Pro Max AI CLI")
 def train_command(
     config_path: Path = typer.Option(..., exists=True),
     bundle_path: Path = typer.Option(..., exists=True),
-    evaluation_output_path: Path = typer.Option(...),
+    evaluation_output_path: Path = typer.Option(None),
+    training_input_root: Path = typer.Option(None),
+    training_output_root: Path = typer.Option(None),
 ) -> None:
     """Run training/evaluation from a serialized U9 training bundle."""
     services = AppServices(config_path=config_path)
@@ -27,6 +29,8 @@ def train_command(
         result = services.run_training_bundle(
             bundle_path=bundle_path,
             evaluation_output_path=evaluation_output_path,
+            input_root=training_input_root,
+            output_root=training_output_root,
         )
         typer.echo(json.dumps(result, indent=2, sort_keys=True))
     except Exception as exc:  # pragma: no cover - exercised via CLI tests
@@ -38,7 +42,9 @@ def train_command(
 def train_sharded_command(
     config_path: Path = typer.Option(..., exists=True),
     manifest_path: Path = typer.Option(..., exists=True),
-    evaluation_output_path: Path = typer.Option(...),
+    evaluation_output_path: Path = typer.Option(None),
+    training_input_root: Path = typer.Option(None),
+    training_output_root: Path = typer.Option(None),
 ) -> None:
     """Run training/evaluation from sharded preprocessing outputs."""
     services = AppServices(config_path=config_path)
@@ -46,6 +52,8 @@ def train_sharded_command(
         result = services.run_training_sharded_manifest(
             manifest_path=manifest_path,
             evaluation_output_path=evaluation_output_path,
+            input_root=training_input_root,
+            output_root=training_output_root,
         )
         typer.echo(json.dumps(result, indent=2, sort_keys=True))
     except Exception as exc:  # pragma: no cover - exercised via CLI tests
@@ -58,6 +66,9 @@ def train_sharded_command(
 def evaluate_command(
     config_path: Path = typer.Option(..., exists=True),
     bundle_path: Path = typer.Option(..., exists=True),
+    evaluation_output_path: Path = typer.Option(None),
+    training_input_root: Path = typer.Option(None),
+    training_output_root: Path = typer.Option(None),
 ) -> None:
     """Run walk-forward evaluation from the same serialized training bundle."""
     services = AppServices(config_path=config_path)
@@ -65,6 +76,8 @@ def evaluate_command(
         result = services.run_training_bundle(
             bundle_path=bundle_path,
             evaluation_output_path=evaluation_output_path,
+            input_root=training_input_root,
+            output_root=training_output_root,
         )
         typer.echo(json.dumps(result, indent=2, sort_keys=True))
     except Exception as exc:  # pragma: no cover - exercised via CLI tests
@@ -76,7 +89,9 @@ def evaluate_command(
 def evaluate_sharded_command(
     config_path: Path = typer.Option(..., exists=True),
     manifest_path: Path = typer.Option(..., exists=True),
-    evaluation_output_path: Path = typer.Option(...),
+    evaluation_output_path: Path = typer.Option(None),
+    training_input_root: Path = typer.Option(None),
+    training_output_root: Path = typer.Option(None),
 ) -> None:
     """Run walk-forward evaluation from sharded preprocessing outputs."""
     services = AppServices(config_path=config_path)
@@ -84,6 +99,8 @@ def evaluate_sharded_command(
         result = services.run_training_sharded_manifest(
             manifest_path=manifest_path,
             evaluation_output_path=evaluation_output_path,
+            input_root=training_input_root,
+            output_root=training_output_root,
         )
         typer.echo(json.dumps(result, indent=2, sort_keys=True))
     except Exception as exc:  # pragma: no cover - exercised via CLI tests

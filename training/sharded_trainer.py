@@ -52,9 +52,26 @@ def run_training_sharded(
     labels: pd.DataFrame,
     model_factory: Callable[[RuntimeConfig, int, int], TrainingModel] | None = None,
     artifact_root: str | Path | None = None,
+    input_root: Path | None = None,
+    output_root: Path | None = None,
     checkpoint_metadata: dict[str, Any] | None = None,
 ) -> EvaluationSummary:
-    """Run deterministic walk-forward training and evaluation from shards."""
+    """Run deterministic walk-forward training and evaluation from shards.
+    
+    Args:
+        config: Validated runtime configuration.
+        manifest_path: Path to preprocessing manifest.
+        folds: Walk-forward folds from `U5`.
+        labels: Aligned label DataFrame.
+        model_factory: Optional dependency-injected model factory.
+        artifact_root: Optional artifact root override (deprecated, use output_root).
+        input_root: Optional input root for reading preprocessing artifacts.
+        output_root: Optional output root for writing training artifacts.
+        checkpoint_metadata: Optional checkpoint metadata.
+        
+    Returns:
+        Full evaluation summary for the run.
+    """
     fold_list = tuple(folds)
     if not fold_list:
         raise ShardedTrainerError("folds must not be empty.")
@@ -71,7 +88,23 @@ def run_training_sharded(
     validate_temporal_isolation(fold_list, pd.DatetimeIndex(labels["reference_ts"]))
     feature_dim = int(store.feature_dim)
     max_horizon_bars = int(max(config.labeling.horizon_bars))
-    resolved_root = Path(artifact_root) if artifact_root is not None else Path(config.reporting.output_dir)
+    
+    # Resolve output root: output_root > artifact_root > config.training.output_root > config.reporting.output_dir
+    if artifact_root is not None:
+        import warnings
+        warnings.warn(
+            "artifact_root parameter is deprecated. Use output_root instead.",
+            DeprecationWarning,
+            stacklevel=2
+        )
+        resolved_root = Path(artifact_root)
+    elif output_root is not None:
+        resolved_root = Path(output_root)
+    elif config.training.output_root is not None:
+        resolved_root = config.training.output_root
+    else:
+        resolved_root = Path(config.reporting.output_dir)
+    
     run_id = stable_config_hash(config)
     factory = model_factory or _default_model_factory
 

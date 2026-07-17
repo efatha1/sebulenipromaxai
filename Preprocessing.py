@@ -556,9 +556,14 @@ def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Sebuleni preprocessing (RAM-aware, sharded).")
     parser.add_argument("--config-path", default="config/base.yaml", help="Path to runtime config YAML.")
     parser.add_argument(
+        "--preprocessing-output-root",
+        default=os.environ.get("SEBULENI__PREPROCESSING__OUTPUT_ROOT"),
+        help="Root directory for preprocessing outputs (overrides config).",
+    )
+    parser.add_argument(
         "--output-root",
-        default=os.environ.get("SEBULENI_OUTPUT_ROOT", "artifacts/preprocessing_shards"),
-        help="Root directory for preprocessing outputs.",
+        default=os.environ.get("SEBULENI_OUTPUT_ROOT"),
+        help="Root directory for preprocessing outputs (deprecated, use --preprocessing-output-root).",
     )
     parser.add_argument(
         "--lookback",
@@ -577,12 +582,30 @@ def main() -> None:
     args = _parse_args()
     _configure_logging(verbose=bool(args.verbose))
 
-    t0 = time.time()
-    layout = OutputLayout(root=Path(args.output_root))
-    layout.ensure()
-
     LOGGER.info("loading_config", extra={"event": "loading_config", "config_path": str(args.config_path)})
     config = load_config(config_path=args.config_path)
+
+    # Resolve output root with precedence: CLI flag > config > env var > default
+    output_root = None
+    if args.preprocessing_output_root is not None:
+        output_root = Path(args.preprocessing_output_root)
+    elif args.output_root is not None:
+        import warnings
+        warnings.warn(
+            "--output-root is deprecated. Use --preprocessing-output-root instead.",
+            DeprecationWarning,
+            stacklevel=2
+        )
+        output_root = Path(args.output_root)
+    elif config.preprocessing and config.preprocessing.output_root is not None:
+        output_root = config.preprocessing.output_root
+    else:
+        output_root = Path("artifacts/preprocessing_shards")
+
+    t0 = time.time()
+    layout = OutputLayout(root=output_root)
+    layout.ensure()
+
     _set_determinism(seed=int(config.training.random_seed), allow_nondeterministic=bool(config.training.allow_nondeterministic))
 
     lookbacks_by_tf = _resolve_lookbacks_by_timeframe(config=config, fallback_lookback=int(args.lookback))

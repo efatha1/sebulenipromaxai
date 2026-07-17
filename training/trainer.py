@@ -131,6 +131,8 @@ def run_training(
     dataset: TrainingDataset,
     model_factory: Callable[[RuntimeConfig, int, int], TrainingModel] | None = None,
     artifact_root: str | Path | None = None,
+    input_root: Path | None = None,
+    output_root: Path | None = None,
     checkpoint_metadata: dict[str, Any] | None = None,
 ) -> EvaluationSummary:
     """Run deterministic walk-forward training and evaluation.
@@ -140,7 +142,9 @@ def run_training(
         folds: Walk-forward folds from `U5`.
         dataset: In-memory dataset aligned to the fold timeline.
         model_factory: Optional dependency-injected model factory.
-        artifact_root: Optional artifact root override.
+        artifact_root: Optional artifact root override (deprecated, use output_root).
+        input_root: Optional input root for reading preprocessing artifacts.
+        output_root: Optional output root for writing training artifacts.
 
     Returns:
         Full evaluation summary for the run.
@@ -153,7 +157,23 @@ def run_training(
     validate_temporal_isolation(fold_list, pd.DatetimeIndex(dataset.reference_ts))
     feature_dim = _resolve_feature_dim(dataset.windows_by_timeframe)
     max_horizon_bars = int(max(config.labeling.horizon_bars))
-    resolved_root = Path(artifact_root) if artifact_root is not None else Path(config.reporting.output_dir)
+    
+    # Resolve output root: output_root > artifact_root > config.training.output_root > config.reporting.output_dir
+    if artifact_root is not None:
+        import warnings
+        warnings.warn(
+            "artifact_root parameter is deprecated. Use output_root instead.",
+            DeprecationWarning,
+            stacklevel=2
+        )
+        resolved_root = Path(artifact_root)
+    elif output_root is not None:
+        resolved_root = Path(output_root)
+    elif config.training.output_root is not None:
+        resolved_root = config.training.output_root
+    else:
+        resolved_root = Path(config.reporting.output_dir)
+    
     run_id = stable_config_hash(config)
     factory = model_factory or _default_model_factory
 
