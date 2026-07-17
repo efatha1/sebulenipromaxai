@@ -9,11 +9,12 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
-from typing import Annotated, Literal
+from typing import Annotated, Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr, field_validator
 
 ACTIVE_TARGET_TIMEFRAMES: tuple[str, ...] = ("5m", "15m", "1h", "4h", "1d")
+MODELED_TIMEFRAMES: tuple[str, ...] = ("1m", "5m", "15m", "1h", "4h", "1d")
 TIME_PATTERN = re.compile(r"^\d{2}:\d{2}$")
 
 NonEmptyStr = Annotated[StrictStr, Field(min_length=1)]
@@ -353,6 +354,39 @@ class SchedulesConfig(FrozenModel):
     retraining_review_cron: NonEmptyStr
 
 
+class UnifiedHeadsConfig(FrozenModel):
+    """Configuration for unified multi-horizon multi-timeframe prediction heads."""
+
+    enabled: StrictBool
+    timeframes: tuple[Literal["1m", "5m", "15m", "1h", "4h", "1d"], ...]
+    horizons: tuple[PositiveInt, ...]
+    default_outputs: tuple[dict[str, Any], ...] | None = None
+
+    @field_validator("timeframes")
+    @classmethod
+    def validate_timeframes(
+        cls,
+        value: tuple[Literal["1m", "5m", "15m", "1h", "4h", "1d"], ...],
+    ) -> tuple[Literal["1m", "5m", "15m", "1h", "4h", "1d"], ...]:
+        """Validate that timeframes match the modeled timeframe stack.
+
+        Args:
+            value: Configured timeframes.
+
+        Returns:
+            The validated tuple.
+
+        Raises:
+            ValueError: If timeframes do not match MODELED_TIMEFRAMES.
+        """
+        if value != MODELED_TIMEFRAMES:
+            joined = ", ".join(MODELED_TIMEFRAMES)
+            raise ValueError(
+                f"unified_heads.timeframes must exactly match MODELED_TIMEFRAMES: {joined}."
+            )
+        return value
+
+
 class RuntimeConfig(FrozenModel):
     """Top-level immutable runtime configuration."""
 
@@ -366,6 +400,7 @@ class RuntimeConfig(FrozenModel):
     walk_forward: WalkForwardConfig
     training: TrainingConfig
     preprocessing: PreprocessingConfig | None = None
+    unified_heads: UnifiedHeadsConfig | None = None
     retrieval: RetrievalConfig
     api: ApiConfig
     reporting: ReportingConfig

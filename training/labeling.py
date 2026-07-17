@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 
 from training.ambiguity import classify_ambiguity
-from training.config_schema import RuntimeConfig
+from training.config_schema import MODELED_TIMEFRAMES, RuntimeConfig
 from training.horizons import HorizonMode, resolve_horizons
 
 LOGGER = logging.getLogger(__name__)
@@ -79,6 +79,97 @@ def generate_labels(
             "horizons": list(horizons),
             "threshold_count": len(thresholds_to_use),
             "row_count": int(len(bars)),
+        },
+    )
+    return out
+
+
+def generate_labels_multi_timeframe(
+    bars_by_timeframe: dict[str, pd.DataFrame],
+    config: RuntimeConfig,
+    *,
+    horizon_mode: HorizonMode,
+    horizon_bars: int | None = None,
+    thresholds: tuple[float, ...] | None = None,
+) -> dict[tuple[str, int, float], pd.DataFrame]:
+    """Generate labels for each (timeframe, horizon, threshold) combination.
+
+    For each timeframe in MODELED_TIMEFRAMES, generates labels using that timeframe's
+    own bars. Higher timeframes (5m, 15m, 1h, 4h, 1d) use their resampled bars for
+    label generation. Ambiguity classification uses horizon_bars in 1-minute equivalents,
+    converted per timeframe.
+
+    Args:
+        bars_by_timeframe: Mapping of timeframe -> DataFrame with columns:
+            end_ts, open, high, low, close. Must include all MODELED_TIMEFRAMES.
+        config: Validated runtime configuration.
+        horizon_mode: 'single' or 'multi'.
+        horizon_bars: Horizon in bars for single-horizon mode.
+        thresholds: Optional override thresholds. If omitted, uses config-driven
+            fixed threshold list.
+
+    Returns:
+        Mapping (timeframe, horizon_bars, threshold) -> label DataFrame with columns:
+        reference_ts, horizon_bars, threshold, event_flag, event_start_offset,
+        maturity_offset, future_low, future_high, ambiguous.
+
+    Raises:
+        LabelingError: If inputs are invalid or labels cannot be computed.
+    """
+    # Validate that all required timeframes are present
+    missing_timeframes = set(MODELED_TIMEFRAMES) - set(bars_by_timeframe.keys())
+    if missing_timeframes:
+        raise LabelingError(
+            f"bars_by_timeframe missing required timeframes: {sorted(missing_timeframes)}"
+        )
+
+    horizons = resolve_horizons(config, horizon_mode=horizon_mode, horizon_bars=horizon_bars)
+    thresholds_to_use = thresholds if thresholds is not None else tuple(float(t) for t in config.labeling.thresholds)
+    if not thresholds_to_use:
+        raise LabelingError("Threshold list must not be empty.")
+
+    # Timeframe conversion factors to 1-minute equivalents
+    timeframe_to_minutes = {
+        "1m": 1,
+        "5m": 5,
+        "15m": 15,
+        "1h": 60,
+        "4h": 240,
+        "1d": 1440,
+    }
+
+    out: dict[tuple[str, int, float], pd.DataFrame] = {}
+    for timeframe in MODELED_TIMEFRAMES:
+        bars_tf = bars_by_timeframe[timeframe]
+        minutes_per_bar = timeframe_to_minutes[timeframe]
+
+        for horizon in horizons:
+            # Convert horizon_bars to 1-minute equivalents for ambiguity classification
+            horizon_minutes_1m = int(horizon) * minutes_per_bar
+            ambiguity_mask = classify_ambiguity(
+                pd.DatetimeIndex(bars_tf.index),
+                horizon_bars=horizon_minutes_1m,
+                config=config,
+            )
+
+            for threshold in thresholds_to_use:
+                labels = _labels_for_horizon_threshold(
+                    bars_tf,
+                    horizon_bars=int(horizon),
+                    threshold=float(threshold),
+                    ambiguous_mask=ambiguity_mask,
+                )
+                out[(timeframe, int(horizon), float(threshold))] = labels
+
+    LOGGER.info(
+        "generated_labels_multi_timeframe",
+        extra={
+            "event": "generated_labels_multi_timeframe",
+            "horizon_mode": horizon_mode,
+            "timeframes": list(MODELED_TIMEFRAMES),
+            "horizons": list(horizons),
+            "threshold_count": len(thresholds_to_use),
+            "total_combinations": len(MODELED_TIMEFRAMES) * len(horizons) * len(thresholds_to_use),
         },
     )
     return out

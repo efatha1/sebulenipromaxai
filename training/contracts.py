@@ -86,6 +86,10 @@ class PredictionRequestContract(ContractModel):
     threshold: PositiveFloat
     top_k_analogs: PositiveInt
 
+    # New fields for unified heads
+    requested_timeframes: tuple[Literal["1m", "5m", "15m", "1h", "4h", "1d"], ...] | None = None
+    requested_horizons: tuple[PositiveInt, ...] | None = None
+
     @model_validator(mode="after")
     def validate_horizon_fields(self) -> "PredictionRequestContract":
         """Enforce horizon requirements from the approved request contract.
@@ -100,6 +104,27 @@ class PredictionRequestContract(ContractModel):
             raise ValueError("horizon_bars is required when horizon_mode is 'single'.")
         if self.horizon_mode == "multi" and self.horizon_bars is not None:
             raise ValueError("horizon_bars must not be provided when horizon_mode is 'multi'.")
+        return self
+
+    @model_validator(mode="after")
+    def validate_unified_fields(self) -> "PredictionRequestContract":
+        """Validate that requested timeframes/horizons are configured.
+
+        Returns:
+            The validated instance.
+
+        Raises:
+            ValueError: If the requested timeframes or horizons are invalid.
+        """
+        if self.requested_timeframes is not None:
+            valid_timeframes = ("1m", "5m", "15m", "1h", "4h", "1d")
+            for tf in self.requested_timeframes:
+                if tf not in valid_timeframes:
+                    raise ValueError(f"requested_timeframes contains invalid timeframe: {tf}")
+        if self.requested_horizons is not None:
+            for h in self.requested_horizons:
+                if h <= 0:
+                    raise ValueError(f"requested_horizons must be positive, got: {h}")
         return self
 
 
@@ -117,6 +142,7 @@ class PredictionRecordContract(ContractModel):
     maturity_estimate: PositiveInt | None = None
     duration_estimate: PositiveInt | None = None
     low_confidence_advisory: StrictBool
+    timeframe: Literal["1m", "5m", "15m", "1h", "4h", "1d"] | None = None
 
     @field_validator("reference_ts")
     @classmethod

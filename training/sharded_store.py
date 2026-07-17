@@ -20,7 +20,7 @@ from typing import Any
 import numpy as np
 import torch
 
-from models.losses import MultiTaskTargets
+from models.losses import MultiTaskTargets, MultiTaskTargetsUnified
 
 LOGGER = logging.getLogger(__name__)
 
@@ -248,6 +248,95 @@ class ShardedDatasetStore:
             ),
             confidence_target=None,
             regime_target=None,
+        )
+        return windows_by_tf_torch, reference_close, targets
+
+    def get_slice_unified(self, start: int, end: int) -> tuple[dict[str, torch.Tensor], torch.Tensor, MultiTaskTargetsUnified]:
+        """Load a contiguous slice [start, end) as unified targets for all 18 combinations."""
+        if start < 0 or end < 0 or end < start:
+            raise ShardedStoreError(f"Invalid slice: start={start} end={end}")
+        if end > self.total_samples:
+            raise ShardedStoreError(f"Slice end exceeds dataset size: end={end} total={self.total_samples}")
+        if start == end:
+            raise ShardedStoreError("Empty slice requested (start == end).")
+
+        windows_parts: dict[str, list[np.ndarray]] = {tf: [] for tf in MODELED_TIMEFRAMES}
+        close_parts: list[np.ndarray] = []
+
+        # Initialize unified target parts with nested structure
+        unified_targets_parts: dict[str, dict[str, list[np.ndarray]]] = {
+            "event_flag": {tf: [] for tf in MODELED_TIMEFRAMES},
+            "future_low": {tf: [] for tf in MODELED_TIMEFRAMES},
+            "future_high": {tf: [] for tf in MODELED_TIMEFRAMES},
+            "event_start_offset": {tf: [] for tf in MODELED_TIMEFRAMES},
+            "maturity_offset": {tf: [] for tf in MODELED_TIMEFRAMES},
+        }
+
+        cursor = start
+        while cursor < end:
+            shard_id = cursor // self.shard_size
+            local_start = cursor % self.shard_size
+            local_end = min(self.shard_size, local_start + (end - cursor))
+
+            self.load_shard(shard_id)
+            assert self._cache.windows_by_tf is not None
+            assert self._cache.reference_close is not None
+            assert self._cache.targets_np is not None
+
+            for tf in MODELED_TIMEFRAMES:
+                windows_parts[tf].append(self._cache.windows_by_tf[tf][local_start:local_end])
+            close_parts.append(self._cache.reference_close[local_start:local_end])
+
+            # Parse unified target keys and organize by timeframe
+            for key in self._cache.targets_np:
+                # Key format: {field}_{timeframe}_h{horizon}_t{threshold}
+                parts = key.split("_")
+                if len(parts) >= 3:
+                    field = parts[0]
+                    timeframe = parts[1]
+                    if field in unified_targets_parts and timeframe in unified_targets_parts[field]:
+                        unified_targets_parts[field][timeframe].append(
+                            self._cache.targets_np[key][local_start:local_end]
+                        )
+
+            cursor += (local_end - local_start)
+
+        windows_by_tf_torch = {
+            tf: torch.from_numpy(np.concatenate(windows_parts[tf], axis=0).astype(np.float32, copy=False))
+            for tf in MODELED_TIMEFRAMES
+        }
+        reference_close = torch.from_numpy(np.concatenate(close_parts, axis=0).astype(np.float32, copy=False))
+
+        # Build unified targets
+        event_flag: dict[str, torch.Tensor] = {}
+        future_low: dict[str, torch.Tensor] = {}
+        future_high: dict[str, torch.Tensor] = {}
+        event_start_offset: dict[str, torch.Tensor] = {}
+        maturity_offset: dict[str, torch.Tensor] = {}
+
+        for tf in MODELED_TIMEFRAMES:
+            event_flag[tf] = torch.from_numpy(
+                np.concatenate(unified_targets_parts["event_flag"][tf], axis=0).astype(np.float32, copy=False)
+            )
+            future_low[tf] = torch.from_numpy(
+                np.concatenate(unified_targets_parts["future_low"][tf], axis=0).astype(np.float32, copy=False)
+            )
+            future_high[tf] = torch.from_numpy(
+                np.concatenate(unified_targets_parts["future_high"][tf], axis=0).astype(np.float32, copy=False)
+            )
+            event_start_offset[tf] = torch.from_numpy(
+                np.concatenate(unified_targets_parts["event_start_offset"][tf], axis=0).astype(np.float32, copy=False)
+            )
+            maturity_offset[tf] = torch.from_numpy(
+                np.concatenate(unified_targets_parts["maturity_offset"][tf], axis=0).astype(np.float32, copy=False)
+            )
+
+        targets = MultiTaskTargetsUnified(
+            event_flag=event_flag,
+            future_low=future_low,
+            future_high=future_high,
+            event_start_offset=event_start_offset,
+            maturity_offset=maturity_offset,
         )
         return windows_by_tf_torch, reference_close, targets
 

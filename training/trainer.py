@@ -23,6 +23,7 @@ from models.losses import (
     compute_multitask_loss,
 )
 from models.timing_head import TimingHead, TimingPrediction
+from models.unified_heads import UnifiedBoundaryHead, UnifiedEventHead, UnifiedTimingHead
 from training.checkpointing import save_checkpoint, stable_config_hash
 from training.config_schema import RuntimeConfig
 from training.eval_contract import FoldSplit, WalkForwardFold, fold_iterator
@@ -55,6 +56,9 @@ class ModelOutputs:
     boundary_prediction: BoundaryPrediction
     timing_prediction: TimingPrediction
     confidence_prediction: ConfidencePrediction
+    unified_event: torch.Tensor | None = None
+    unified_boundary: torch.Tensor | None = None
+    unified_timing: torch.Tensor | None = None
 
 
 class TrainingModel(nn.Module):
@@ -68,10 +72,21 @@ class TrainingModel(nn.Module):
             device_preference=config.training.device_preference,
             allow_nondeterministic=bool(config.training.allow_nondeterministic),
         )
+        # Existing heads (backward compatible)
         self.event_head = EventHead(latent_dim=self.backbone.latent_dim)
         self.boundary_head = BoundaryHead(latent_dim=self.backbone.latent_dim)
         self.timing_head = TimingHead(latent_dim=self.backbone.latent_dim, max_horizon_bars=max_horizon_bars)
         self.confidence_head = ConfidenceHead(latent_dim=self.backbone.latent_dim)
+
+        # New unified heads (if enabled)
+        if config.unified_heads and config.unified_heads.enabled:
+            self.unified_event_head = UnifiedEventHead(latent_dim=self.backbone.latent_dim)
+            self.unified_boundary_head = UnifiedBoundaryHead(latent_dim=self.backbone.latent_dim)
+            self.unified_timing_head = UnifiedTimingHead(
+                latent_dim=self.backbone.latent_dim,
+                max_horizon_bars=max_horizon_bars
+            )
+
         self.to(self.backbone.device)
 
     @property
@@ -82,11 +97,30 @@ class TrainingModel(nn.Module):
     def forward(self, windows_by_timeframe: dict[str, torch.Tensor], reference_close: torch.Tensor) -> ModelOutputs:
         """Run the backbone and all supervised heads."""
         backbone_output = self.backbone(windows_by_timeframe)
+
+        # Existing outputs
+        event_prediction = self.event_head(backbone_output.fused_latent)
+        boundary_prediction = self.boundary_head(backbone_output.fused_latent, reference_close)
+        timing_prediction = self.timing_head(backbone_output.fused_latent)
+        confidence_prediction = self.confidence_head(backbone_output.fused_latent)
+
+        # Unified outputs (if enabled)
+        unified_event = None
+        unified_boundary = None
+        unified_timing = None
+        if hasattr(self, 'unified_event_head'):
+            unified_event = self.unified_event_head(backbone_output.fused_latent)
+            unified_boundary = self.unified_boundary_head(backbone_output.fused_latent)
+            unified_timing = self.unified_timing_head(backbone_output.fused_latent)
+
         return ModelOutputs(
-            event_prediction=self.event_head(backbone_output.fused_latent),
-            boundary_prediction=self.boundary_head(backbone_output.fused_latent, reference_close),
-            timing_prediction=self.timing_head(backbone_output.fused_latent),
-            confidence_prediction=self.confidence_head(backbone_output.fused_latent),
+            event_prediction=event_prediction,
+            boundary_prediction=boundary_prediction,
+            timing_prediction=timing_prediction,
+            confidence_prediction=confidence_prediction,
+            unified_event=unified_event,
+            unified_boundary=unified_boundary,
+            unified_timing=unified_timing,
         )
 
 

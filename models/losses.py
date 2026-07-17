@@ -43,6 +43,17 @@ class MultiTaskTargets:
 
 
 @dataclass(frozen=True)
+class MultiTaskTargetsUnified:
+    """Unified targets for all 18 (timeframe, horizon, threshold) combinations."""
+
+    event_flag: dict[str, torch.Tensor]
+    future_low: dict[str, torch.Tensor]
+    future_high: dict[str, torch.Tensor]
+    event_start_offset: dict[str, torch.Tensor]
+    maturity_offset: dict[str, torch.Tensor]
+
+
+@dataclass(frozen=True)
 class HeadLosses:
     """Typed per-task and aggregate loss outputs."""
 
@@ -310,3 +321,97 @@ def _validate_loss_weights(weights: LossWeights) -> None:
         value = getattr(weights, field_name)
         if value < 0.0:
             raise LossError(f"{field_name} loss weight must be non-negative.")
+
+
+def compute_unified_multitask_loss(
+    *,
+    unified_event: torch.Tensor,
+    unified_boundary: torch.Tensor,
+    unified_timing: torch.Tensor,
+    targets: MultiTaskTargetsUnified,
+    requested_outputs: list[tuple[str, int]] | None = None,
+) -> HeadLosses:
+    """Compute multi-task loss for unified 18-output heads.
+
+    Args:
+        unified_event: Event logits of shape (batch, 18).
+        unified_boundary: Boundary predictions of shape (batch, 18, 2).
+        unified_timing: Timing predictions of shape (batch, 18, 2).
+        targets: Unified targets for all 18 combinations.
+        requested_outputs: Optional list of (timeframe, horizon) to compute loss for.
+                          If None, computes loss for all 18 combinations.
+
+    Returns:
+        HeadLosses with aggregated losses across all combinations.
+    """
+    # Reshape unified outputs to separate by timeframe
+    # Output order: 1m_h15, 1m_h60, 1m_h120, 5m_h15, 5m_h60, 5m_h120, ..., 1d_h120
+    timeframes = ("1m", "5m", "15m", "1h", "4h", "1d")
+    horizons = (15, 60, 120)
+
+    event_losses = []
+    boundary_losses = []
+    timing_losses = []
+
+    for tf_idx, timeframe in enumerate(timeframes):
+        if requested_outputs is not None:
+            # Only compute loss for requested combinations
+            requested_horizons_for_tf = [h for t, h in requested_outputs if t == timeframe]
+            if not requested_horizons_for_tf:
+                continue
+        else:
+            requested_horizons_for_tf = horizons
+
+        for h_idx, horizon in enumerate(horizons):
+            if requested_outputs is not None and horizon not in requested_horizons_for_tf:
+                continue
+
+            # Calculate flat index in the 18-output tensor
+            flat_idx = tf_idx * 3 + h_idx
+
+            # Extract event logits for this combination
+            event_logits = unified_event[:, flat_idx : flat_idx + 1]
+            event_target = targets.event_flag[timeframe][:, h_idx : h_idx + 1]
+            event_loss = F.binary_cross_entropy_with_logits(event_logits, event_target)
+            event_losses.append(event_loss)
+
+            # Extract boundary predictions for this combination
+            boundary_pred = unified_boundary[:, flat_idx, :]
+            boundary_low = targets.future_low[timeframe][:, h_idx : h_idx + 1]
+            boundary_high = targets.future_high[timeframe][:, h_idx : h_idx + 1]
+            boundary_truth = torch.stack((boundary_low, boundary_high), dim=1).to(device=boundary_pred.device, dtype=boundary_pred.dtype)
+            boundary_loss = F.smooth_l1_loss(boundary_pred, boundary_truth)
+            boundary_losses.append(boundary_loss)
+
+            # Extract timing predictions for this combination
+            timing_pred = unified_timing[:, flat_idx, :]
+            timing_start = targets.event_start_offset[timeframe][:, h_idx : h_idx + 1]
+            timing_maturity = targets.maturity_offset[timeframe][:, h_idx : h_idx + 1]
+            timing_truth = torch.stack((timing_start, timing_maturity), dim=1).to(device=timing_pred.device, dtype=timing_pred.dtype)
+
+            # Mask invalid timing targets
+            valid_start = timing_start >= 0.0
+            valid_maturity = timing_maturity >= 0.0
+            valid_mask = (valid_start & valid_maturity).to(timing_pred.device)
+
+            if valid_mask.any():
+                timing_loss = F.smooth_l1_loss(timing_pred[valid_mask], timing_truth[valid_mask])
+            else:
+                timing_loss = torch.tensor(0.0, device=timing_pred.device)
+            timing_losses.append(timing_loss)
+
+    # Aggregate losses
+    total_event_loss = torch.stack(event_losses).mean() if event_losses else torch.tensor(0.0, device=unified_event.device)
+    total_boundary_loss = torch.stack(boundary_losses).mean() if boundary_losses else torch.tensor(0.0, device=unified_boundary.device)
+    total_timing_loss = torch.stack(timing_losses).mean() if timing_losses else torch.tensor(0.0, device=unified_timing.device)
+
+    total_loss = total_event_loss + total_boundary_loss + total_timing_loss
+
+    return HeadLosses(
+        event_loss=total_event_loss,
+        boundary_loss=total_boundary_loss,
+        timing_loss=total_timing_loss,
+        confidence_loss=torch.tensor(0.0, device=unified_event.device),
+        regime_loss=torch.tensor(0.0, device=unified_event.device),
+        total_loss=total_loss,
+    )

@@ -59,39 +59,92 @@ def predict(
         reference_close = runtime_window.reference_close.to(model.device)
         backbone_output = model.backbone(windows)
         latent = backbone_output.fused_latent
-        event_prediction = model.event_head(latent)
-        boundary_prediction = model.boundary_head(latent, reference_close)
-        timing_prediction = model.timing_head(latent)
-        confidence_prediction = model.confidence_head(latent)
 
-    evidence = retrieve_analogs(
-        active_model.retrieval_index,
-        latent.squeeze(0).detach().cpu().numpy(),
-        query_reference_ts=runtime_window.reference_ts,
-        top_k=int(request.top_k_analogs),
-    )
-    advisory = evaluate_advisory(
-        confidence=float(confidence_prediction.confidence.item()),
-        evidence=evidence,
-        requested_top_k=int(request.top_k_analogs),
-    )
-    horizons = resolve_horizons(config, horizon_mode=request.horizon_mode, horizon_bars=request.horizon_bars)
-    responses = tuple(
-        _build_prediction_response(
-            request=request,
-            runtime_window=runtime_window,
-            event_probability=float(event_prediction.probabilities.item()),
-            confidence=float(confidence_prediction.confidence.item()),
-            low_price=float(boundary_prediction.future_low.item()),
-            high_price=float(boundary_prediction.future_high.item()),
-            start_estimate=float(timing_prediction.event_start_offset.item()),
-            maturity_estimate=float(timing_prediction.maturity_offset.item()),
-            advisory=advisory,
-            evidence=evidence,
-            horizon=horizon,
-        )
-        for horizon in horizons
-    )
+        # Determine which outputs to use based on request
+        if request.requested_timeframes and request.requested_horizons:
+            # Use unified outputs, extract requested combinations
+            if hasattr(model, 'unified_event_head'):
+                unified_event = model.unified_event_head(latent)
+                unified_boundary = model.unified_boundary_head(latent)
+                unified_timing = model.unified_timing_head(latent)
+                # For unified heads, we still need confidence from the existing head
+                confidence_prediction = model.confidence_head(latent)
+                # Extract predictions for requested combinations
+                predictions = _extract_unified_predictions(
+                    unified_event,
+                    unified_boundary,
+                    unified_timing,
+                    request.requested_timeframes,
+                    request.requested_horizons,
+                    reference_close,
+                )
+                # Use first prediction for evidence retrieval
+                evidence = retrieve_analogs(
+                    active_model.retrieval_index,
+                    latent.squeeze(0).detach().cpu().numpy(),
+                    query_reference_ts=runtime_window.reference_ts,
+                    top_k=int(request.top_k_analogs),
+                )
+                advisory = evaluate_advisory(
+                    confidence=float(confidence_prediction.confidence.item()),
+                    evidence=evidence,
+                    requested_top_k=int(request.top_k_analogs),
+                )
+                responses = tuple(
+                    _build_prediction_response(
+                        request=request,
+                        runtime_window=runtime_window,
+                        event_probability=float(pred['event_probability']),
+                        confidence=float(confidence_prediction.confidence.item()),
+                        low_price=float(pred['low_price']),
+                        high_price=float(pred['high_price']),
+                        start_estimate=float(pred['start_estimate']),
+                        maturity_estimate=float(pred['maturity_estimate']),
+                        advisory=advisory,
+                        evidence=evidence,
+                        horizon=pred['horizon'],
+                        timeframe=pred['timeframe'],
+                    )
+                    for pred in predictions
+                )
+            else:
+                # Unified heads not available, fall back to fused outputs
+                raise InferenceError("Unified heads requested but not available in model")
+        else:
+            # Use existing fused outputs (backward compatible)
+            event_prediction = model.event_head(latent)
+            boundary_prediction = model.boundary_head(latent, reference_close)
+            timing_prediction = model.timing_head(latent)
+            confidence_prediction = model.confidence_head(latent)
+
+            evidence = retrieve_analogs(
+                active_model.retrieval_index,
+                latent.squeeze(0).detach().cpu().numpy(),
+                query_reference_ts=runtime_window.reference_ts,
+                top_k=int(request.top_k_analogs),
+            )
+            advisory = evaluate_advisory(
+                confidence=float(confidence_prediction.confidence.item()),
+                evidence=evidence,
+                requested_top_k=int(request.top_k_analogs),
+            )
+            horizons = resolve_horizons(config, horizon_mode=request.horizon_mode, horizon_bars=request.horizon_bars)
+            responses = tuple(
+                _build_prediction_response(
+                    request=request,
+                    runtime_window=runtime_window,
+                    event_probability=float(event_prediction.probabilities.item()),
+                    confidence=float(confidence_prediction.confidence.item()),
+                    low_price=float(boundary_prediction.future_low.item()),
+                    high_price=float(boundary_prediction.future_high.item()),
+                    start_estimate=float(timing_prediction.event_start_offset.item()),
+                    maturity_estimate=float(timing_prediction.maturity_offset.item()),
+                    advisory=advisory,
+                    evidence=evidence,
+                    horizon=horizon,
+                )
+                for horizon in horizons
+            )
 
     elapsed_ms = (perf_counter() - start) * 1000.0
     LOGGER.info(
@@ -123,6 +176,7 @@ def _build_prediction_response(
     advisory: AdvisoryDecision,
     evidence: RetrievalEvidence,
     horizon: int,
+    timeframe: str | None = None,
 ) -> PredictionResponseContract:
     bounded_start = _bound_positive_offset(start_estimate, horizon)
     bounded_maturity = _bound_positive_offset(max(maturity_estimate, start_estimate), horizon)
@@ -145,6 +199,7 @@ def _build_prediction_response(
         maturity_estimate=bounded_maturity,
         duration_estimate=duration,
         low_confidence_advisory=bool(advisory.low_confidence_advisory),
+        timeframe=timeframe,
     )
     explanation = render_explanation(
         prediction,
@@ -170,3 +225,74 @@ def _build_request_id(*, instrument_id: str, reference_ts: datetime, horizon: in
     raw = f"{instrument_id}|{reference_ts.isoformat()}|{horizon}|{threshold:.8f}"
     digest = hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
     return f"pred-{digest}"
+
+
+def _extract_unified_predictions(
+    unified_event: torch.Tensor,
+    unified_boundary: torch.Tensor,
+    unified_timing: torch.Tensor,
+    requested_timeframes: tuple[str, ...],
+    requested_horizons: tuple[int, ...],
+    reference_close: torch.Tensor,
+) -> list[dict[str, any]]:
+    """Extract predictions for specific timeframe/horizon combinations from unified outputs.
+
+    Args:
+        unified_event: Event logits of shape (batch, 18).
+        unified_boundary: Boundary predictions of shape (batch, 18, 2).
+        unified_timing: Timing predictions of shape (batch, 18, 2).
+        requested_timeframes: Tuple of requested timeframes.
+        requested_horizons: Tuple of requested horizons.
+        reference_close: Reference close price for boundary adjustment.
+
+    Returns:
+        List of prediction dictionaries for each requested combination.
+    """
+    # Output order: 1m_h15, 1m_h60, 1m_h120, 5m_h15, 5m_h60, 5m_h120, ..., 1d_h120
+    timeframes = ("1m", "5m", "15m", "1h", "4h", "1d")
+    horizons = (15, 60, 120)
+
+    predictions = []
+    ref_close = reference_close.item()
+
+    for timeframe in requested_timeframes:
+        if timeframe not in timeframes:
+            continue
+
+        tf_idx = timeframes.index(timeframe)
+        for horizon in requested_horizons:
+            if horizon not in horizons:
+                continue
+
+            h_idx = horizons.index(horizon)
+            flat_idx = tf_idx * 3 + h_idx
+
+            # Extract event probability
+            event_logit = unified_event[0, flat_idx]
+            event_probability = float(torch.sigmoid(event_logit).item())
+
+            # Extract boundary predictions
+            boundary_pred = unified_boundary[0, flat_idx, :]
+            low_price = float(boundary_pred[0].item())
+            high_price = float(boundary_pred[1].item())
+
+            # Adjust boundaries relative to reference close
+            low_price = ref_close - abs(low_price)
+            high_price = ref_close + abs(high_price)
+
+            # Extract timing predictions
+            timing_pred = unified_timing[0, flat_idx, :]
+            start_estimate = float(timing_pred[0].item())
+            maturity_estimate = float(timing_pred[1].item())
+
+            predictions.append({
+                'event_probability': event_probability,
+                'low_price': low_price,
+                'high_price': high_price,
+                'start_estimate': start_estimate,
+                'maturity_estimate': maturity_estimate,
+                'horizon': horizon,
+                'timeframe': timeframe,
+            })
+
+    return predictions

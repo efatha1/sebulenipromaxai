@@ -47,7 +47,7 @@ labeling:
   horizon_bars:
     - 15
     - 60
-    - 240
+    - 120
 
 walk_forward:
   train_bars: 10000
@@ -71,6 +71,51 @@ preprocessing:
     "1h": 24
     "4h": 16
     "1d": 10
+
+unified_heads:
+  enabled: true
+  timeframes:
+    - "1m"
+    - "5m"
+    - "15m"
+    - "1h"
+    - "4h"
+    - "1d"
+  horizons:
+    - 15
+    - 60
+    - 120
+  default_outputs:
+    - timeframe: "1m"
+      horizons:
+        - 15
+        - 60
+        - 120
+    - timeframe: "5m"
+      horizons:
+        - 15
+        - 60
+        - 120
+    - timeframe: "15m"
+      horizons:
+        - 15
+        - 60
+        - 120
+    - timeframe: "1h"
+      horizons:
+        - 15
+        - 60
+        - 120
+    - timeframe: "4h"
+      horizons:
+        - 15
+        - 60
+        - 120
+    - timeframe: "1d"
+      horizons:
+        - 15
+        - 60
+        - 120
 
 retrieval:
   top_k_analogs: 5

@@ -35,7 +35,7 @@ from training.data_loader import load_ohlc_frame
 from training.data_quality import validate_bar_sequence
 from training.features import build_features
 from training.folds import build_walk_forward_folds
-from training.labeling import generate_labels
+from training.labeling import generate_labels, generate_labels_multi_timeframe
 from training.resample import resample_timeframes
 
 LOGGER = logging.getLogger(__name__)
@@ -151,31 +151,64 @@ def _build_window_view(values: np.ndarray, *, lookback: int) -> np.ndarray:
 
 
 def _pick_label_frame(
-    labels_by_key: dict[tuple[int, float], pd.DataFrame],
+    labels_by_key: dict[tuple[int, float], pd.DataFrame] | dict[tuple[str, int, float], pd.DataFrame],
     *,
+    preferred_timeframe: str | None = None,
     preferred_horizon: int | None,
     preferred_threshold: float | None,
-) -> tuple[tuple[int, float], pd.DataFrame]:
-    keys = sorted(labels_by_key.keys(), key=lambda item: (int(item[0]), float(item[1])))
-    if not keys:
-        raise ValueError("No labels were generated (empty labels map).")
+) -> tuple[tuple[int, float] | tuple[str, int, float], pd.DataFrame]:
+    """Pick a label frame from the labels dictionary.
 
-    if preferred_horizon is None and preferred_threshold is None:
-        key = keys[0]
-        return key, labels_by_key[key]
+    Supports both old format (horizon, threshold) and new format (timeframe, horizon, threshold).
+    """
+    # Detect key format
+    if labels_by_key and isinstance(next(iter(labels_by_key.keys()))[0], str):
+        # New format: (timeframe, horizon, threshold)
+        keys = sorted(labels_by_key.keys(), key=lambda item: (str(item[0]), int(item[1]), float(item[2])))
+        if not keys:
+            raise ValueError("No labels were generated (empty labels map).")
 
-    for key in keys:
-        horizon, threshold = key
-        if preferred_horizon is not None and int(horizon) != int(preferred_horizon):
-            continue
-        if preferred_threshold is not None and float(threshold) != float(preferred_threshold):
-            continue
-        return key, labels_by_key[key]
+        if preferred_timeframe is None and preferred_horizon is None and preferred_threshold is None:
+            key = keys[0]
+            return key, labels_by_key[key]
 
-    raise ValueError(
-        "Requested label selection not found. "
-        f"preferred_horizon={preferred_horizon} preferred_threshold={preferred_threshold} available={keys}"
-    )
+        for key in keys:
+            timeframe, horizon, threshold = key
+            if preferred_timeframe is not None and str(timeframe) != str(preferred_timeframe):
+                continue
+            if preferred_horizon is not None and int(horizon) != int(preferred_horizon):
+                continue
+            if preferred_threshold is not None and float(threshold) != float(preferred_threshold):
+                continue
+            return key, labels_by_key[key]
+
+        raise ValueError(
+            "Requested label selection not found. "
+            f"preferred_timeframe={preferred_timeframe} preferred_horizon={preferred_horizon} "
+            f"preferred_threshold={preferred_threshold} available={keys}"
+        )
+    else:
+        # Old format: (horizon, threshold)
+        keys = sorted(labels_by_key.keys(), key=lambda item: (int(item[0]), float(item[1])))
+        if not keys:
+            raise ValueError("No labels were generated (empty labels map).")
+
+        if preferred_horizon is None and preferred_threshold is None:
+            key = keys[0]
+            return key, labels_by_key[key]
+
+        for key in keys:
+            horizon, threshold = key
+            if preferred_horizon is not None and int(horizon) != int(preferred_horizon):
+                continue
+            if preferred_threshold is not None and float(threshold) != float(preferred_threshold):
+                continue
+            return key, labels_by_key[key]
+
+        raise ValueError(
+            "Requested label selection not found. "
+            f"preferred_horizon={preferred_horizon} preferred_threshold={preferred_threshold} available={keys}"
+        )
 
 
 def _compute_common_history_start(
@@ -326,6 +359,104 @@ def _write_sharded_targets(
         np.savez_compressed(layout.targets_dir / f"targets_shard_{shard_id:05d}.npz", **shard_targets)
 
     return {"total_samples": total_samples, "shard_size": shard_size, "num_shards": n_shards}
+
+
+def _write_sharded_targets_unified(
+    layout: OutputLayout,
+    *,
+    labels_by_key: dict[tuple[str, int, float], pd.DataFrame],
+    label_df_aligned: pd.DataFrame,
+    bars_by_timeframe: dict[str, pd.DataFrame],
+    shard_size: int,
+) -> dict[str, Any]:
+    """Write sharded targets for all 18 (timeframe, horizon, threshold) combinations.
+
+    Uses mixed precision:
+    - event_flag: float32 (critical for binary classification)
+    - future_low, future_high: float16 (price data, acceptable precision loss)
+    - event_start_offset, maturity_offset: float16 (offsets, acceptable precision loss)
+
+    Storage structure:
+    - Single targets_shard_{shard_id:05d}.npz file per shard
+    - Column naming convention: {field}_{timeframe}_h{horizon}_t{threshold}
+      Example: event_flag_1m_h15_t10.0, future_low_5m_h60_t10.0
+    - Total columns: 5 fields × 6 timeframes × 3 horizons × 1 threshold = 90 columns
+
+    Args:
+        layout: Output layout for disk paths.
+        labels_by_key: Mapping (timeframe, horizon, threshold) -> label DataFrame.
+        label_df_aligned: Aligned label frame for backward compatibility (1m reference timestamps).
+        bars_by_timeframe: Mapping timeframe -> OHLC bars for reference close prices.
+        shard_size: Samples per shard.
+
+    Returns:
+        Manifest fragment with shard counts and column metadata.
+    """
+    total_samples = int(len(label_df_aligned))
+    if total_samples == 0:
+        raise ValueError("No aligned labels available (0 samples).")
+    if shard_size <= 0:
+        raise ValueError("shard_size must be positive.")
+
+    n_shards = int(math.ceil(total_samples / shard_size))
+    ref_ts_ns = _as_int64_ns(label_df_aligned["reference_ts"])
+
+    # Get reference close from 1m bars (backward compatible)
+    bars_1m = bars_by_timeframe["1m"]
+    reference_close = bars_1m.loc[pd.DatetimeIndex(label_df_aligned["reference_ts"]), "close"].to_numpy(dtype=np.float32)
+
+    # Build column name mapping for all combinations
+    column_names = []
+    for key in sorted(labels_by_key.keys()):
+        timeframe, horizon, threshold = key
+        for field in ("event_flag", "future_low", "future_high", "event_start_offset", "maturity_offset"):
+            col_name = f"{field}_{timeframe}_h{horizon}_t{threshold}"
+            column_names.append((col_name, key, field))
+
+    for shard_id in range(n_shards):
+        start = shard_id * shard_size
+        end = min(start + shard_size, total_samples)
+
+        # Write reference arrays (same for all combinations)
+        shard_ref_ts = ref_ts_ns[start:end]
+        shard_close = reference_close[start:end]
+        np.save(layout.reference_dir / f"reference_ts_ns_shard_{shard_id:05d}.npy", shard_ref_ts, allow_pickle=False)
+        np.save(layout.reference_dir / f"reference_close_shard_{shard_id:05d}.npy", shard_close, allow_pickle=False)
+
+        # Build unified targets dictionary
+        shard_targets = {}
+        for col_name, key, field in column_names:
+            labels_df = labels_by_key[key]
+            # Align labels to the same reference timestamps as label_df_aligned
+            # For now, we assume all label DataFrames have the same reference_ts ordering
+            # In production, we might need to align per-timeframe
+            if len(labels_df) != total_samples:
+                # If lengths differ, we need to align by reference_ts
+                label_ts = pd.DatetimeIndex(labels_df["reference_ts"])
+                aligned_ts = pd.DatetimeIndex(label_df_aligned["reference_ts"][start:end])
+                mask = aligned_ts.isin(label_ts)
+                if not mask.all():
+                    raise ValueError(f"Cannot align labels for {col_name}: some timestamps missing")
+                # Get aligned values
+                values = labels_df.set_index("reference_ts").loc[aligned_ts[mask], field].to_numpy()
+            else:
+                values = labels_df[field].iloc[start:end].to_numpy()
+
+            # Apply mixed precision
+            if field == "event_flag":
+                shard_targets[col_name] = values.astype(np.float32)
+            else:
+                shard_targets[col_name] = values.astype(np.float16)
+
+        np.savez_compressed(layout.targets_dir / f"targets_shard_{shard_id:05d}.npz", **shard_targets)
+
+    return {
+        "total_samples": total_samples,
+        "shard_size": shard_size,
+        "num_shards": n_shards,
+        "column_names": [col_name for col_name, _, _ in column_names],
+        "num_columns": len(column_names),
+    }
 
 
 def _write_sharded_windows(
