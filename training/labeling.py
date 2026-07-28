@@ -138,6 +138,16 @@ def generate_labels_multi_timeframe(
         "1d": 1440,
     }
 
+    # Timeframe-specific cadence for ambiguity validation
+    timeframe_to_cadence = {
+        "1m": pd.Timedelta(minutes=1),
+        "5m": pd.Timedelta(minutes=5),
+        "15m": pd.Timedelta(minutes=15),
+        "1h": pd.Timedelta(hours=1),
+        "4h": pd.Timedelta(hours=4),
+        "1d": pd.Timedelta(days=1),
+    }
+
     out: dict[tuple[str, int, float], pd.DataFrame] = {}
     for timeframe in MODELED_TIMEFRAMES:
         bars_tf = bars_by_timeframe[timeframe]
@@ -150,6 +160,7 @@ def generate_labels_multi_timeframe(
                 pd.DatetimeIndex(bars_tf.index),
                 horizon_bars=horizon_minutes_1m,
                 config=config,
+                expected_cadence=timeframe_to_cadence[timeframe],
             )
 
             for threshold in thresholds_to_use:
