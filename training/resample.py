@@ -76,7 +76,9 @@ def _standardize_1m(frame_1m: pd.DataFrame) -> pd.DataFrame:
     frame = frame_1m[["end_ts", "open", "high", "low", "close"]].copy()
     frame["timeframe"] = "1m"
     frame["start_ts"] = frame["end_ts"] - pd.Timedelta(minutes=1)
-    return frame[["timeframe", "start_ts", "end_ts", "open", "high", "low", "close"]].reset_index(drop=True)
+    result = frame[["timeframe", "start_ts", "end_ts", "open", "high", "low", "close"]].reset_index(drop=True)
+    result.set_index("end_ts", inplace=True, drop=False)
+    return result
 
 
 def _resample_fixed_interval(frame_1m: pd.DataFrame, timeframe: str) -> pd.DataFrame:
@@ -97,7 +99,7 @@ def _resample_fixed_interval(frame_1m: pd.DataFrame, timeframe: str) -> pd.DataF
             first_bad = ohlc[ohlc.isna().any(axis=1)].index[0]
             raise ResampleError(f"Empty resample bucket detected for timeframe={timeframe} at {first_bad.isoformat()}")
 
-        ohlc = ohlc.reset_index().rename(columns={"end_ts": "end_ts"})
+        ohlc = ohlc.reset_index().rename(columns={"index": "end_ts"})
         ohlc["timeframe"] = timeframe
         ohlc["start_ts"] = ohlc["end_ts"] - period
         frames.append(ohlc[["timeframe", "start_ts", "end_ts", "open", "high", "low", "close"]])
@@ -106,6 +108,7 @@ def _resample_fixed_interval(frame_1m: pd.DataFrame, timeframe: str) -> pd.DataF
         raise ResampleError(f"No data available to resample timeframe={timeframe}")
 
     result = pd.concat(frames, ignore_index=True).sort_values("end_ts").reset_index(drop=True)
+    result.set_index("end_ts", inplace=True, drop=False)
     return result
 
 
@@ -135,7 +138,9 @@ def _resample_daily_close(frame_1m: pd.DataFrame, config: RuntimeConfig) -> pd.D
     aggregated = aggregated.reset_index().rename(columns={"bucket_end": "end_ts"})
     aggregated["timeframe"] = "1d"
     aggregated["start_ts"] = aggregated["end_ts"].apply(lambda ts: (ts.tz_convert(close_tz) - pd.Timedelta(days=1)).tz_convert(runtime_tz))
-    return aggregated[["timeframe", "start_ts", "end_ts", "open", "high", "low", "close"]]
+    result = aggregated[["timeframe", "start_ts", "end_ts", "open", "high", "low", "close"]]
+    result.set_index("end_ts", inplace=True, drop=False)
+    return result
 
 
 def _split_contiguous_segments(index: pd.DatetimeIndex) -> list[tuple[pd.Timestamp, pd.Timestamp]]:
