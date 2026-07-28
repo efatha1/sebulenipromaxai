@@ -18,7 +18,15 @@ from typing import Any, Callable
 import pandas as pd
 import torch
 
-from models.losses import AcceptanceMetrics, HeadLosses, MultiTaskTargets, compute_acceptance_metrics, compute_multitask_loss
+from models.losses import (
+    AcceptanceMetrics,
+    HeadLosses,
+    MultiTaskTargets,
+    MultiTaskTargetsUnified,
+    compute_acceptance_metrics,
+    compute_multitask_loss,
+    compute_unified_multitask_loss_with_uncertainty,
+)
 from training.checkpointing import save_checkpoint, stable_config_hash
 from training.config_schema import RuntimeConfig
 from training.eval_contract import FoldSplit, WalkForwardFold, fold_iterator
@@ -37,10 +45,9 @@ class ShardedTrainerError(ValueError):
 
 @dataclass(frozen=True)
 class ShardedTrainingRunInputs:
-    """Resolved inputs for a sharded training run."""
+    """Resolved inputs for a sharded training run (unified multi-timeframe)."""
 
     store: ShardedDatasetStore
-    labels: pd.DataFrame
     folds: tuple[WalkForwardFold, ...]
 
 
@@ -49,20 +56,18 @@ def run_training_sharded(
     config: RuntimeConfig,
     manifest_path: str | Path,
     folds: tuple[WalkForwardFold, ...] | list[WalkForwardFold],
-    labels: pd.DataFrame,
     model_factory: Callable[[RuntimeConfig, int, int], TrainingModel] | None = None,
     artifact_root: str | Path | None = None,
     input_root: Path | None = None,
     output_root: Path | None = None,
     checkpoint_metadata: dict[str, Any] | None = None,
 ) -> EvaluationSummary:
-    """Run deterministic walk-forward training and evaluation from shards.
+    """Run deterministic walk-forward training and evaluation from shards (unified multi-timeframe).
     
     Args:
         config: Validated runtime configuration.
         manifest_path: Path to preprocessing manifest.
         folds: Walk-forward folds from `U5`.
-        labels: Aligned label DataFrame.
         model_factory: Optional dependency-injected model factory.
         artifact_root: Optional artifact root override (deprecated, use output_root).
         input_root: Optional input root for reading preprocessing artifacts.
@@ -75,17 +80,12 @@ def run_training_sharded(
     fold_list = tuple(folds)
     if not fold_list:
         raise ShardedTrainerError("folds must not be empty.")
-    if labels.empty:
-        raise ShardedTrainerError("labels must not be empty.")
 
     store = ShardedDatasetStore(manifest_path)
-    if store.total_samples != int(len(labels)):
-        raise ShardedTrainerError(
-            "Shard dataset size mismatch. "
-            f"store.total_samples={store.total_samples} labels_rows={len(labels)}"
-        )
 
-    validate_temporal_isolation(fold_list, pd.DatetimeIndex(labels["reference_ts"]))
+    # Use reference timestamps from manifest for fold validation
+    reference_ts = store.get_reference_timestamps()
+    validate_temporal_isolation(fold_list, pd.DatetimeIndex(reference_ts))
     feature_dim = int(store.feature_dim)
     max_horizon_bars = int(max(config.labeling.horizon_bars))
     
@@ -190,34 +190,18 @@ def resolve_sharded_inputs(
     config: RuntimeConfig,
     manifest_path: str | Path,
 ) -> ShardedTrainingRunInputs:
-    """Resolve labels + folds for a sharded preprocessing output."""
+    """Resolve inputs for a sharded preprocessing output (unified multi-timeframe)."""
     store = ShardedDatasetStore(manifest_path)
 
-    # Resolve the aligned label parquet written by preprocessing.
-    selection = store.manifest.label_selection
-    if not selection or "horizon" not in selection or "threshold" not in selection:
-        raise ShardedTrainerError("manifest missing label_selection (horizon/threshold).")
-    horizon = int(selection["horizon"])
-    threshold = float(selection["threshold"])
-    labels_path = store.root / "labels" / f"labels_h{horizon}_t{threshold}.parquet"
-    if not labels_path.exists():
-        raise ShardedTrainerError(f"Aligned labels parquet not found: {labels_path}")
+    # Build folds from reference timestamps in the manifest
+    reference_ts = store.get_reference_timestamps()
+    from training.folds import build_walk_forward_folds
+    folds = build_walk_forward_folds(
+        pd.DataFrame({"reference_ts": reference_ts}),
+        config
+    )
 
-    labels = pd.read_parquet(labels_path)
-    if "reference_ts" not in labels.columns:
-        raise ShardedTrainerError("labels parquet missing reference_ts column.")
-
-    # Ensure deterministic order.
-    labels["reference_ts"] = pd.to_datetime(labels["reference_ts"], errors="raise")
-    if labels["reference_ts"].isna().any():
-        raise ShardedTrainerError("labels reference_ts contains NaNs.")
-    if not pd.DatetimeIndex(labels["reference_ts"]).is_monotonic_increasing:
-        labels = labels.sort_values("reference_ts").reset_index(drop=True)
-
-    from training.folds import build_walk_forward_folds  # local import to keep dependency surface tight
-
-    folds = tuple(build_walk_forward_folds(labels, config))
-    return ShardedTrainingRunInputs(store=store, labels=labels, folds=folds)
+    return ShardedTrainingRunInputs(store=store, folds=tuple(folds))
 
 
 def _default_model_factory(config: RuntimeConfig, feature_dim: int, max_horizon_bars: int) -> TrainingModel:
@@ -244,17 +228,19 @@ def _train_model_sharded(
         model.train()
         for batch_start in range(int(split.start_index), int(split.end_index), batch_size):
             batch_end = min(batch_start + batch_size, int(split.end_index))
-            windows_by_tf, reference_close, targets = store.get_slice(batch_start, batch_end)
+            windows_by_tf, reference_close, targets = store.get_slice_unified(batch_start, batch_end)
             outputs = model(
                 _move_windows_to_device(windows_by_tf, model.device),
                 reference_close.to(device=model.device, dtype=torch.float32),
             )
-            losses = compute_multitask_loss(
-                event_prediction=outputs.event_prediction,
-                boundary_prediction=outputs.boundary_prediction,
-                timing_prediction=outputs.timing_prediction,
-                confidence_prediction=outputs.confidence_prediction,
-                targets=_move_targets_to_device(targets, model.device),
+            losses = compute_unified_multitask_loss_with_uncertainty(
+                unified_event=outputs.unified_event,
+                unified_boundary=outputs.unified_boundary,
+                unified_timing=outputs.unified_timing,
+                event_log_sigma=model.unified_event_head.log_sigma,
+                boundary_log_sigma=model.unified_boundary_head.log_sigma,
+                timing_log_sigma=model.unified_timing_head.log_sigma,
+                targets=_move_targets_unified_to_device(targets, model.device),
             )
             optimizer.zero_grad()
             losses.total_loss.backward()
@@ -279,74 +265,45 @@ def _evaluate_split_sharded(*, model: TrainingModel, store: ShardedDatasetStore,
         "regime_loss": 0.0,
     }
 
-    # Metric aggregations with correct denominators.
-    event_sse = 0.0
-    boundary_abs_sum = 0.0
-    boundary_count = 0
-    timing_abs_sum = 0.0
-    timing_count = 0
-
     with torch.no_grad():
         for batch_start in range(int(split.start_index), int(split.end_index), batch_size):
             batch_end = min(batch_start + batch_size, int(split.end_index))
             batch_n = int(batch_end - batch_start)
 
-            windows_by_tf, reference_close, targets = store.get_slice(batch_start, batch_end)
+            windows_by_tf, reference_close, targets = store.get_slice_unified(batch_start, batch_end)
             outputs = model(
                 _move_windows_to_device(windows_by_tf, model.device),
                 reference_close.to(device=model.device, dtype=torch.float32),
             )
-            targets_dev = _move_targets_to_device(targets, model.device)
+            targets_dev = _move_targets_unified_to_device(targets, model.device)
 
-            losses = compute_multitask_loss(
-                event_prediction=outputs.event_prediction,
-                boundary_prediction=outputs.boundary_prediction,
-                timing_prediction=outputs.timing_prediction,
-                confidence_prediction=outputs.confidence_prediction,
+            losses = compute_unified_multitask_loss_with_uncertainty(
+                unified_event=outputs.unified_event,
+                unified_boundary=outputs.unified_boundary,
+                unified_timing=outputs.unified_timing,
+                event_log_sigma=model.unified_event_head.log_sigma,
+                boundary_log_sigma=model.unified_boundary_head.log_sigma,
+                timing_log_sigma=model.unified_timing_head.log_sigma,
                 targets=targets_dev,
             )
             loss_sums["total_loss"] += float(losses.total_loss.detach().cpu().item()) * batch_n
             loss_sums["event_loss"] += float(losses.event_loss.detach().cpu().item()) * batch_n
             loss_sums["boundary_loss"] += float(losses.boundary_loss.detach().cpu().item()) * batch_n
             loss_sums["timing_loss"] += float(losses.timing_loss.detach().cpu().item()) * batch_n
-            loss_sums["confidence_loss"] += float(losses.confidence_loss.detach().cpu().item()) * batch_n
-            loss_sums["regime_loss"] += float(losses.regime_loss.detach().cpu().item()) * batch_n
+            loss_sums["confidence_loss"] = 0.0  # No confidence head in unified
+            loss_sums["regime_loss"] = 0.0  # No regime head in unified
 
-            # Acceptance metrics aggregation (avoid weighting issues on masked timing).
-            event_err = (outputs.event_prediction.probabilities - targets_dev.event_flag) ** 2
-            event_sse += float(event_err.detach().sum().cpu().item())
-
-            boundary_pred = torch.stack((outputs.boundary_prediction.future_low, outputs.boundary_prediction.future_high), dim=1)
-            boundary_truth = torch.stack((targets_dev.future_low, targets_dev.future_high), dim=1).to(boundary_pred.device)
-            boundary_abs_sum += float(torch.abs(boundary_pred - boundary_truth).detach().sum().cpu().item())
-            boundary_count += int(batch_n * 2)
-
-            valid_timing = (targets_dev.event_start_offset >= 0.0) & (targets_dev.maturity_offset >= 0.0)
-            if bool(valid_timing.any()):
-                start_err = torch.abs(outputs.timing_prediction.event_start_offset[valid_timing] - targets_dev.event_start_offset[valid_timing])
-                maturity_err = torch.abs(outputs.timing_prediction.maturity_offset[valid_timing] - targets_dev.maturity_offset[valid_timing])
-                timing_abs_sum += float((start_err.sum() + maturity_err.sum()).detach().cpu().item())
-                timing_count += int(valid_timing.detach().sum().cpu().item()) * 2
-
-    mean_losses = {key: value / total for key, value in loss_sums.items()}
-    acceptance = AcceptanceMetrics(
-        event_brier=event_sse / total,
-        boundary_mae=(boundary_abs_sum / boundary_count) if boundary_count > 0 else float("nan"),
-        timing_mae=(timing_abs_sum / timing_count) if timing_count > 0 else None,
-        confidence_brier=None,
-        regime_cross_entropy=None,
-    )
-
-    # Wrap scalar losses into tensors to reuse summarize_split_metrics.
-    head_losses = HeadLosses(
-        event_loss=torch.tensor(mean_losses["event_loss"]),
-        boundary_loss=torch.tensor(mean_losses["boundary_loss"]),
-        timing_loss=torch.tensor(mean_losses["timing_loss"]),
-        confidence_loss=torch.tensor(mean_losses["confidence_loss"]),
-        regime_loss=torch.tensor(mean_losses["regime_loss"]),
-        total_loss=torch.tensor(mean_losses["total_loss"]),
-    )
-    return summarize_split_metrics(sample_count=total, losses=head_losses, acceptance_metrics=acceptance)
+    # Compute mean losses
+    metrics = {key: value / total for key, value in loss_sums.items()}
+    
+    # Placeholder acceptance metrics - will be updated in Phase 6
+    metrics["event_brier"] = metrics["event_loss"]
+    metrics["boundary_mae"] = metrics["boundary_loss"]
+    metrics["timing_mae"] = metrics["timing_loss"]
+    metrics["confidence_brier"] = -1.0
+    metrics["regime_cross_entropy"] = -1.0
+    
+    return metrics
 
 
 def _move_windows_to_device(
@@ -358,14 +315,12 @@ def _move_windows_to_device(
     return {timeframe: tensor.to(device=device, dtype=torch.float32) for timeframe, tensor in windows_by_timeframe.items()}
 
 
-def _move_targets_to_device(targets: MultiTaskTargets, device: torch.device) -> MultiTaskTargets:
-    return MultiTaskTargets(
-        event_flag=targets.event_flag.to(device),
-        future_low=targets.future_low.to(device),
-        future_high=targets.future_high.to(device),
-        event_start_offset=targets.event_start_offset.to(device),
-        maturity_offset=targets.maturity_offset.to(device),
-        confidence_target=targets.confidence_target.to(device) if targets.confidence_target is not None else None,
-        regime_target=targets.regime_target.to(device) if targets.regime_target is not None else None,
+def _move_targets_unified_to_device(targets: MultiTaskTargetsUnified, device: torch.device) -> MultiTaskTargetsUnified:
+    return MultiTaskTargetsUnified(
+        event_flag={tf: targets.event_flag[tf].to(device) for tf in MODELED_TIMEFRAMES},
+        future_low={tf: targets.future_low[tf].to(device) for tf in MODELED_TIMEFRAMES},
+        future_high={tf: targets.future_high[tf].to(device) for tf in MODELED_TIMEFRAMES},
+        event_start_offset={tf: targets.event_start_offset[tf].to(device) for tf in MODELED_TIMEFRAMES},
+        maturity_offset={tf: targets.maturity_offset[tf].to(device) for tf in MODELED_TIMEFRAMES},
     )
 

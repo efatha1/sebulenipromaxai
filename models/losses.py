@@ -66,6 +66,19 @@ class HeadLosses:
 
 
 @dataclass(frozen=True)
+class UncertaintyWeightedLosses:
+    """Typed per-task and aggregate loss outputs with uncertainty parameters."""
+
+    event_loss: torch.Tensor
+    boundary_loss: torch.Tensor
+    timing_loss: torch.Tensor
+    total_loss: torch.Tensor
+    event_log_sigma: torch.Tensor  # Shape: (18,)
+    boundary_log_sigma: torch.Tensor  # Shape: (18,)
+    timing_log_sigma: torch.Tensor  # Shape: (18,)
+
+
+@dataclass(frozen=True)
 class AcceptanceMetrics:
     """Typed evaluation metrics for downstream offline reporting."""
 
@@ -414,4 +427,121 @@ def compute_unified_multitask_loss(
         confidence_loss=torch.tensor(0.0, device=unified_event.device),
         regime_loss=torch.tensor(0.0, device=unified_event.device),
         total_loss=total_loss,
+    )
+
+
+def compute_unified_multitask_loss_with_uncertainty(
+    *,
+    unified_event: torch.Tensor,
+    unified_boundary: torch.Tensor,
+    unified_timing: torch.Tensor,
+    event_log_sigma: torch.Tensor,
+    boundary_log_sigma: torch.Tensor,
+    timing_log_sigma: torch.Tensor,
+    targets: MultiTaskTargetsUnified,
+    requested_outputs: list[tuple[str, int]] | None = None,
+) -> UncertaintyWeightedLosses:
+    """Compute multi-task loss for unified 18-output heads with homoscedastic uncertainty weighting.
+
+    Implements the loss function: L_total = Σ(1/(2σ_i²) * L_i + log(σ_i))
+    where σ_i is a learnable uncertainty parameter for each of the 18 targets.
+
+    Args:
+        unified_event: Event logits of shape (batch, 18).
+        unified_boundary: Boundary predictions of shape (batch, 18, 2).
+        unified_timing: Timing predictions of shape (batch, 18, 2).
+        event_log_sigma: Log uncertainty parameters for event head, shape (18,).
+        boundary_log_sigma: Log uncertainty parameters for boundary head, shape (18,).
+        timing_log_sigma: Log uncertainty parameters for timing head, shape (18,).
+        targets: Unified targets for all 18 combinations.
+        requested_outputs: Optional list of (timeframe, horizon) to compute loss for.
+                          If None, computes loss for all 18 combinations.
+
+    Returns:
+        UncertaintyWeightedLosses with aggregated losses and uncertainty parameters.
+    """
+    # Reshape unified outputs to separate by timeframe
+    # Output order: 1m_h15, 1m_h60, 1m_h120, 5m_h15, 5m_h60, 5m_h120, ..., 1d_h120
+    timeframes = ("1m", "5m", "15m", "1h", "4h", "1d")
+    horizons = (15, 60, 120)
+
+    event_losses = []
+    boundary_losses = []
+    timing_losses = []
+
+    for tf_idx, timeframe in enumerate(timeframes):
+        if requested_outputs is not None:
+            # Only compute loss for requested combinations
+            requested_horizons_for_tf = [h for t, h in requested_outputs if t == timeframe]
+            if not requested_horizons_for_tf:
+                continue
+        else:
+            requested_horizons_for_tf = horizons
+
+        for h_idx, horizon in enumerate(horizons):
+            if requested_outputs is not None and horizon not in requested_horizons_for_tf:
+                continue
+
+            # Calculate flat index in the 18-output tensor
+            flat_idx = tf_idx * 3 + h_idx
+
+            # Extract event logits for this combination
+            event_logits = unified_event[:, flat_idx : flat_idx + 1]
+            event_target = targets.event_flag[timeframe][:, h_idx : h_idx + 1]
+            event_loss = F.binary_cross_entropy_with_logits(event_logits, event_target)
+            event_losses.append(event_loss)
+
+            # Extract boundary predictions for this combination
+            boundary_pred = unified_boundary[:, flat_idx, :]
+            boundary_low = targets.future_low[timeframe][:, h_idx : h_idx + 1]
+            boundary_high = targets.future_high[timeframe][:, h_idx : h_idx + 1]
+            boundary_truth = torch.stack((boundary_low, boundary_high), dim=1).to(device=boundary_pred.device, dtype=boundary_pred.dtype)
+            boundary_loss = F.smooth_l1_loss(boundary_pred, boundary_truth)
+            boundary_losses.append(boundary_loss)
+
+            # Extract timing predictions for this combination
+            timing_pred = unified_timing[:, flat_idx, :]
+            timing_start = targets.event_start_offset[timeframe][:, h_idx : h_idx + 1]
+            timing_maturity = targets.maturity_offset[timeframe][:, h_idx : h_idx + 1]
+            timing_truth = torch.stack((timing_start, timing_maturity), dim=1).to(device=timing_pred.device, dtype=timing_pred.dtype)
+
+            # Mask invalid timing targets
+            valid_start = timing_start >= 0.0
+            valid_maturity = timing_maturity >= 0.0
+            valid_mask = (valid_start & valid_maturity).to(timing_pred.device)
+
+            if valid_mask.any():
+                timing_loss = F.smooth_l1_loss(timing_pred[valid_mask], timing_truth[valid_mask])
+            else:
+                timing_loss = torch.tensor(0.0, device=timing_pred.device)
+            timing_losses.append(timing_loss)
+
+    # Stack losses per combination (18 losses per task)
+    event_losses_stacked = torch.stack(event_losses)  # Shape: (18,)
+    boundary_losses_stacked = torch.stack(boundary_losses)  # Shape: (18,)
+    timing_losses_stacked = torch.stack(timing_losses)  # Shape: (18,)
+
+    # Compute uncertainty-weighted loss: L_total = Σ(1/(2σ²) * L + log(σ))
+    # For event head
+    event_weights = torch.exp(-2 * event_log_sigma)  # 1/σ²
+    event_weighted_loss = (0.5 * event_weights * event_losses_stacked + event_log_sigma).sum()
+
+    # For boundary head
+    boundary_weights = torch.exp(-2 * boundary_log_sigma)  # 1/σ²
+    boundary_weighted_loss = (0.5 * boundary_weights * boundary_losses_stacked + boundary_log_sigma).sum()
+
+    # For timing head
+    timing_weights = torch.exp(-2 * timing_log_sigma)  # 1/σ²
+    timing_weighted_loss = (0.5 * timing_weights * timing_losses_stacked + timing_log_sigma).sum()
+
+    total_loss = event_weighted_loss + boundary_weighted_loss + timing_weighted_loss
+
+    return UncertaintyWeightedLosses(
+        event_loss=event_weighted_loss,
+        boundary_loss=boundary_weighted_loss,
+        timing_loss=timing_weighted_loss,
+        total_loss=total_loss,
+        event_log_sigma=event_log_sigma,
+        boundary_log_sigma=boundary_log_sigma,
+        timing_log_sigma=timing_log_sigma,
     )

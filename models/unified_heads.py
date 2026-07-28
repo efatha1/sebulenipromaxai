@@ -12,11 +12,14 @@ from torch import nn
 
 
 class UnifiedEventHead(nn.Module):
-    """Unified event prediction head for all 18 combinations.
+    """Unified event prediction head for all 18 combinations with uncertainty weighting.
 
     Outputs a single tensor of shape (batch, 18) where each output corresponds
     to a specific (timeframe, horizon) combination in the order:
     1m_h15, 1m_h60, 1m_h120, 5m_h15, 5m_h60, 5m_h120, ..., 1d_h120
+
+    Includes trainable homoscedastic uncertainty parameters (log_sigma) for each
+    of the 18 targets for automatic loss balancing.
     """
 
     def __init__(self, latent_dim: int, num_outputs: int = 18) -> None:
@@ -28,6 +31,8 @@ class UnifiedEventHead(nn.Module):
         """
         super().__init__()
         self.linear = nn.Linear(latent_dim, num_outputs)
+        # Trainable log uncertainty parameters (initialized to log(1.0) = 0.0)
+        self.log_sigma = nn.Parameter(torch.zeros(num_outputs))
 
     def forward(self, fused_latent: torch.Tensor) -> torch.Tensor:
         """Forward pass through the unified event head.
@@ -40,12 +45,23 @@ class UnifiedEventHead(nn.Module):
         """
         return self.linear(fused_latent)
 
+    def get_uncertainty_weights(self) -> torch.Tensor:
+        """Get inverse variance weights (1/σ²) for loss weighting.
+
+        Returns:
+            Tensor of shape (18,) containing 1/σ² for each target.
+        """
+        return torch.exp(-2 * self.log_sigma)
+
 
 class UnifiedBoundaryHead(nn.Module):
-    """Unified boundary prediction head for all 18 combinations.
+    """Unified boundary prediction head for all 18 combinations with uncertainty weighting.
 
     Outputs a tensor of shape (batch, 18, 2) where the last dimension
     represents (future_low, future_high) for each combination.
+
+    Includes trainable homoscedastic uncertainty parameters (log_sigma) for each
+    of the 18 targets for automatic loss balancing.
     """
 
     def __init__(self, latent_dim: int, num_outputs: int = 36) -> None:
@@ -57,6 +73,8 @@ class UnifiedBoundaryHead(nn.Module):
         """
         super().__init__()
         self.linear = nn.Linear(latent_dim, num_outputs)
+        # Trainable log uncertainty parameters (initialized to log(1.0) = 0.0)
+        self.log_sigma = nn.Parameter(torch.zeros(18))
 
     def forward(self, fused_latent: torch.Tensor) -> torch.Tensor:
         """Forward pass through the unified boundary head.
@@ -72,13 +90,24 @@ class UnifiedBoundaryHead(nn.Module):
         # Reshape to (batch, 18, 2) for (future_low, future_high) per combination
         return output.view(-1, 18, 2)
 
+    def get_uncertainty_weights(self) -> torch.Tensor:
+        """Get inverse variance weights (1/σ²) for loss weighting.
+
+        Returns:
+            Tensor of shape (18,) containing 1/σ² for each target.
+        """
+        return torch.exp(-2 * self.log_sigma)
+
 
 class UnifiedTimingHead(nn.Module):
-    """Unified timing prediction head for all 18 combinations with timeframe-aware scaling.
+    """Unified timing prediction head for all 18 combinations with timeframe-aware scaling and uncertainty weighting.
 
     Outputs a tensor of shape (batch, 18, 2) where the last dimension
     represents (event_start_offset, maturity_offset) for each combination.
     Applies timeframe-aware scaling to account for different bar durations.
+
+    Includes trainable homoscedastic uncertainty parameters (log_sigma) for each
+    of the 18 targets for automatic loss balancing.
     """
 
     def __init__(self, latent_dim: int, num_outputs: int = 36, max_horizon_bars: int = 120) -> None:
@@ -98,6 +127,8 @@ class UnifiedTimingHead(nn.Module):
             "timeframe_scale",
             torch.tensor([1.0, 5.0, 15.0, 60.0, 240.0, 1440.0]).repeat_interleave(3),
         )
+        # Trainable log uncertainty parameters (initialized to log(1.0) = 0.0)
+        self.log_sigma = nn.Parameter(torch.zeros(18))
 
     def forward(self, fused_latent: torch.Tensor) -> torch.Tensor:
         """Forward pass through the unified timing head.
@@ -119,3 +150,11 @@ class UnifiedTimingHead(nn.Module):
         # Bound to [0, max_horizon_bars]
         output = torch.clamp(output, 0, self.max_horizon_bars)
         return output
+
+    def get_uncertainty_weights(self) -> torch.Tensor:
+        """Get inverse variance weights (1/σ²) for loss weighting.
+
+        Returns:
+            Tensor of shape (18,) containing 1/σ² for each target.
+        """
+        return torch.exp(-2 * self.log_sigma)

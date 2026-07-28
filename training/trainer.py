@@ -13,16 +13,14 @@ import torch
 from torch import nn
 
 from models.backbone import Backbone
-from models.boundary_head import BoundaryHead, BoundaryPrediction
 from models.common import TIMEFRAMES
-from models.confidence_head import ConfidenceHead, ConfidencePrediction
-from models.event_head import EventHead, EventPrediction
 from models.losses import (
     MultiTaskTargets,
+    MultiTaskTargetsUnified,
     compute_acceptance_metrics,
     compute_multitask_loss,
+    compute_unified_multitask_loss_with_uncertainty,
 )
-from models.timing_head import TimingHead, TimingPrediction
 from models.unified_heads import UnifiedBoundaryHead, UnifiedEventHead, UnifiedTimingHead
 from training.checkpointing import save_checkpoint, stable_config_hash
 from training.config_schema import RuntimeConfig
@@ -50,19 +48,15 @@ class TrainingDataset:
 
 @dataclass(frozen=True)
 class ModelOutputs:
-    """Typed outputs of the training model."""
+    """Typed outputs of the training model (unified multi-timeframe)."""
 
-    event_prediction: EventPrediction
-    boundary_prediction: BoundaryPrediction
-    timing_prediction: TimingPrediction
-    confidence_prediction: ConfidencePrediction
-    unified_event: torch.Tensor | None = None
-    unified_boundary: torch.Tensor | None = None
-    unified_timing: torch.Tensor | None = None
+    unified_event: torch.Tensor
+    unified_boundary: torch.Tensor
+    unified_timing: torch.Tensor
 
 
 class TrainingModel(nn.Module):
-    """Trainable composition of backbone and U7 heads."""
+    """Trainable composition of backbone and unified multi-timeframe heads."""
 
     def __init__(self, *, config: RuntimeConfig, feature_dim: int, max_horizon_bars: int) -> None:
         super().__init__()
@@ -72,20 +66,13 @@ class TrainingModel(nn.Module):
             device_preference=config.training.device_preference,
             allow_nondeterministic=bool(config.training.allow_nondeterministic),
         )
-        # Existing heads (backward compatible)
-        self.event_head = EventHead(latent_dim=self.backbone.latent_dim)
-        self.boundary_head = BoundaryHead(latent_dim=self.backbone.latent_dim)
-        self.timing_head = TimingHead(latent_dim=self.backbone.latent_dim, max_horizon_bars=max_horizon_bars)
-        self.confidence_head = ConfidenceHead(latent_dim=self.backbone.latent_dim)
-
-        # New unified heads (if enabled)
-        if config.unified_heads and config.unified_heads.enabled:
-            self.unified_event_head = UnifiedEventHead(latent_dim=self.backbone.latent_dim)
-            self.unified_boundary_head = UnifiedBoundaryHead(latent_dim=self.backbone.latent_dim)
-            self.unified_timing_head = UnifiedTimingHead(
-                latent_dim=self.backbone.latent_dim,
-                max_horizon_bars=max_horizon_bars
-            )
+        # Unified heads (always initialized)
+        self.unified_event_head = UnifiedEventHead(latent_dim=self.backbone.latent_dim)
+        self.unified_boundary_head = UnifiedBoundaryHead(latent_dim=self.backbone.latent_dim)
+        self.unified_timing_head = UnifiedTimingHead(
+            latent_dim=self.backbone.latent_dim,
+            max_horizon_bars=max_horizon_bars
+        )
 
         self.to(self.backbone.device)
 
@@ -95,29 +82,15 @@ class TrainingModel(nn.Module):
         return self.backbone.device
 
     def forward(self, windows_by_timeframe: dict[str, torch.Tensor], reference_close: torch.Tensor) -> ModelOutputs:
-        """Run the backbone and all supervised heads."""
+        """Run the backbone and unified heads."""
         backbone_output = self.backbone(windows_by_timeframe)
 
-        # Existing outputs
-        event_prediction = self.event_head(backbone_output.fused_latent)
-        boundary_prediction = self.boundary_head(backbone_output.fused_latent, reference_close)
-        timing_prediction = self.timing_head(backbone_output.fused_latent)
-        confidence_prediction = self.confidence_head(backbone_output.fused_latent)
-
-        # Unified outputs (if enabled)
-        unified_event = None
-        unified_boundary = None
-        unified_timing = None
-        if hasattr(self, 'unified_event_head'):
-            unified_event = self.unified_event_head(backbone_output.fused_latent)
-            unified_boundary = self.unified_boundary_head(backbone_output.fused_latent)
-            unified_timing = self.unified_timing_head(backbone_output.fused_latent)
+        # Unified outputs
+        unified_event = self.unified_event_head(backbone_output.fused_latent)
+        unified_boundary = self.unified_boundary_head(backbone_output.fused_latent)
+        unified_timing = self.unified_timing_head(backbone_output.fused_latent)
 
         return ModelOutputs(
-            event_prediction=event_prediction,
-            boundary_prediction=boundary_prediction,
-            timing_prediction=timing_prediction,
-            confidence_prediction=confidence_prediction,
             unified_event=unified_event,
             unified_boundary=unified_boundary,
             unified_timing=unified_timing,
@@ -283,12 +256,14 @@ def _train_model(
                 _move_windows_to_device(batch_dataset.windows_by_timeframe, model.device),
                 batch_dataset.reference_close.to(model.device),
             )
-            losses = compute_multitask_loss(
-                event_prediction=outputs.event_prediction,
-                boundary_prediction=outputs.boundary_prediction,
-                timing_prediction=outputs.timing_prediction,
-                confidence_prediction=outputs.confidence_prediction,
-                targets=_move_targets_to_device(batch_dataset.targets, model.device),
+            losses = compute_unified_multitask_loss_with_uncertainty(
+                unified_event=outputs.unified_event,
+                unified_boundary=outputs.unified_boundary,
+                unified_timing=outputs.unified_timing,
+                event_log_sigma=model.unified_event_head.log_sigma,
+                boundary_log_sigma=model.unified_boundary_head.log_sigma,
+                timing_log_sigma=model.unified_timing_head.log_sigma,
+                targets=_move_targets_unified_to_device(batch_dataset.targets, model.device),
             )
             optimizer.zero_grad()
             losses.total_loss.backward()
@@ -302,24 +277,39 @@ def _evaluate_split(*, model: TrainingModel, dataset: TrainingDataset) -> dict[s
             _move_windows_to_device(dataset.windows_by_timeframe, model.device),
             dataset.reference_close.to(model.device),
         )
-        targets = _move_targets_to_device(dataset.targets, model.device)
-        losses = compute_multitask_loss(
-            event_prediction=outputs.event_prediction,
-            boundary_prediction=outputs.boundary_prediction,
-            timing_prediction=outputs.timing_prediction,
-            confidence_prediction=outputs.confidence_prediction,
+        targets = _move_targets_unified_to_device(dataset.targets, model.device)
+        losses = compute_unified_multitask_loss_with_uncertainty(
+            unified_event=outputs.unified_event,
+            unified_boundary=outputs.unified_boundary,
+            unified_timing=outputs.unified_timing,
+            event_log_sigma=model.unified_event_head.log_sigma,
+            boundary_log_sigma=model.unified_boundary_head.log_sigma,
+            timing_log_sigma=model.unified_timing_head.log_sigma,
             targets=targets,
         )
-        acceptance_metrics = compute_acceptance_metrics(
-            event_prediction=outputs.event_prediction,
-            boundary_prediction=outputs.boundary_prediction,
-            timing_prediction=outputs.timing_prediction,
-            confidence_prediction=outputs.confidence_prediction,
-            targets=targets,
+        # For now, use simple metrics - will be updated in Phase 6
+        # Convert UncertaintyWeightedLosses to HeadLosses for summarize_split_metrics
+        from models.losses import HeadLosses
+        head_losses = HeadLosses(
+            event_loss=losses.event_loss,
+            boundary_loss=losses.boundary_loss,
+            timing_loss=losses.timing_loss,
+            confidence_loss=torch.tensor(0.0, device=model.device),
+            regime_loss=torch.tensor(0.0, device=model.device),
+            total_loss=losses.total_loss,
+        )
+        # Placeholder acceptance metrics - will be updated in Phase 6
+        from models.losses import AcceptanceMetrics
+        acceptance_metrics = AcceptanceMetrics(
+            event_brier=float(losses.event_loss.detach().cpu().item()),
+            boundary_mae=float(losses.boundary_loss.detach().cpu().item()),
+            timing_mae=float(losses.timing_loss.detach().cpu().item()),
+            confidence_brier=None,
+            regime_cross_entropy=None,
         )
     return summarize_split_metrics(
         sample_count=len(dataset.reference_ts),
-        losses=losses,
+        losses=head_losses,
         acceptance_metrics=acceptance_metrics,
     )
 
@@ -342,12 +332,24 @@ def _validate_dataset(dataset: TrainingDataset) -> None:
             raise TrainerError(f"windows for timeframe={timeframe} must have shape (batch, lookback, feature_dim).")
         if windows.shape[0] != expected:
             raise TrainerError(f"windows batch size must match reference_ts for timeframe={timeframe}.")
-    for field_name in ("event_flag", "future_low", "future_high", "event_start_offset", "maturity_offset"):
-        tensor = getattr(dataset.targets, field_name)
-        if tensor.ndim != 1 or tensor.shape[0] != expected:
-            raise TrainerError(f"targets.{field_name} must have shape (batch,) aligned to reference_ts.")
-    if dataset.targets.confidence_target is not None and dataset.targets.confidence_target.shape[0] != expected:
-        raise TrainerError("targets.confidence_target must align to reference_ts when provided.")
+    
+    # Validate unified targets
+    if isinstance(dataset.targets, MultiTaskTargetsUnified):
+        for timeframe in TIMEFRAMES:
+            if timeframe not in dataset.targets.event_flag:
+                raise TrainerError(f"targets.event_flag missing timeframe={timeframe}")
+            for field_name in ("event_flag", "future_low", "future_high", "event_start_offset", "maturity_offset"):
+                tensor = getattr(dataset.targets, field_name)[timeframe]
+                if tensor.ndim != 2 or tensor.shape[0] != expected:
+                    raise TrainerError(f"targets.{field_name}[{timeframe}] must have shape (batch, 3) aligned to reference_ts.")
+    else:
+        # Legacy MultiTaskTargets validation
+        for field_name in ("event_flag", "future_low", "future_high", "event_start_offset", "maturity_offset"):
+            tensor = getattr(dataset.targets, field_name)
+            if tensor.ndim != 1 or tensor.shape[0] != expected:
+                raise TrainerError(f"targets.{field_name} must have shape (batch,) aligned to reference_ts.")
+        if dataset.targets.confidence_target is not None and dataset.targets.confidence_target.shape[0] != expected:
+            raise TrainerError("targets.confidence_target must align to reference_ts when provided.")
 
 
 def _resolve_feature_dim(windows_by_timeframe: dict[str, torch.Tensor]) -> int:
@@ -361,11 +363,18 @@ def _resolve_feature_dim(windows_by_timeframe: dict[str, torch.Tensor]) -> int:
 def _slice_dataset(dataset: TrainingDataset, split: FoldSplit) -> TrainingDataset:
     start = int(split.start_index)
     end = int(split.end_index)
-    return TrainingDataset(
-        reference_ts=dataset.reference_ts[start:end],
-        windows_by_timeframe={timeframe: windows[start:end] for timeframe, windows in dataset.windows_by_timeframe.items()},
-        reference_close=dataset.reference_close[start:end],
-        targets=MultiTaskTargets(
+    
+    # Slice targets based on type
+    if isinstance(dataset.targets, MultiTaskTargetsUnified):
+        sliced_targets = MultiTaskTargetsUnified(
+            event_flag={tf: dataset.targets.event_flag[tf][start:end] for tf in TIMEFRAMES},
+            future_low={tf: dataset.targets.future_low[tf][start:end] for tf in TIMEFRAMES},
+            future_high={tf: dataset.targets.future_high[tf][start:end] for tf in TIMEFRAMES},
+            event_start_offset={tf: dataset.targets.event_start_offset[tf][start:end] for tf in TIMEFRAMES},
+            maturity_offset={tf: dataset.targets.maturity_offset[tf][start:end] for tf in TIMEFRAMES},
+        )
+    else:
+        sliced_targets = MultiTaskTargets(
             event_flag=dataset.targets.event_flag[start:end],
             future_low=dataset.targets.future_low[start:end],
             future_high=dataset.targets.future_high[start:end],
@@ -375,7 +384,13 @@ def _slice_dataset(dataset: TrainingDataset, split: FoldSplit) -> TrainingDatase
                 dataset.targets.confidence_target[start:end] if dataset.targets.confidence_target is not None else None
             ),
             regime_target=dataset.targets.regime_target[start:end] if dataset.targets.regime_target is not None else None,
-        ),
+        )
+    
+    return TrainingDataset(
+        reference_ts=dataset.reference_ts[start:end],
+        windows_by_timeframe={timeframe: windows[start:end] for timeframe, windows in dataset.windows_by_timeframe.items()},
+        reference_close=dataset.reference_close[start:end],
+        targets=sliced_targets,
     )
 
 
@@ -395,4 +410,14 @@ def _move_targets_to_device(targets: MultiTaskTargets, device: torch.device) -> 
         maturity_offset=targets.maturity_offset.to(device),
         confidence_target=targets.confidence_target.to(device) if targets.confidence_target is not None else None,
         regime_target=targets.regime_target.to(device) if targets.regime_target is not None else None,
+    )
+
+
+def _move_targets_unified_to_device(targets: MultiTaskTargetsUnified, device: torch.device) -> MultiTaskTargetsUnified:
+    return MultiTaskTargetsUnified(
+        event_flag={tf: targets.event_flag[tf].to(device) for tf in TIMEFRAMES},
+        future_low={tf: targets.future_low[tf].to(device) for tf in TIMEFRAMES},
+        future_high={tf: targets.future_high[tf].to(device) for tf in TIMEFRAMES},
+        event_start_offset={tf: targets.event_start_offset[tf].to(device) for tf in TIMEFRAMES},
+        maturity_offset={tf: targets.maturity_offset[tf].to(device) for tf in TIMEFRAMES},
     )

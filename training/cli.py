@@ -113,14 +113,23 @@ def predict_command(
     config_path: Path = typer.Option(..., exists=True),
     active_model_manifest_path: Path = typer.Option(..., exists=True),
     request_path: Path = typer.Option(..., exists=True),
+    requested_timeframes: str = typer.Option(None, help="Comma-separated timeframes (e.g., '1m,5m,15m')"),
+    requested_horizons: str = typer.Option(None, help="Comma-separated horizons in bars (e.g., '15,60,120')"),
 ) -> None:
-    """Run prediction using the shared U10 inference contract."""
+    """Run prediction using the shared U10 inference contract with unified multi-timeframe heads."""
     services = AppServices(
         config_path=config_path,
         active_model_manifest_path=active_model_manifest_path,
     )
     try:
         request = PredictRequest.model_validate_json(request_path.read_text(encoding="utf-8"))
+        
+        # Override requested_timeframes and requested_horizons if provided via CLI
+        if requested_timeframes:
+            request.requested_timeframes = tuple(tf.strip() for tf in requested_timeframes.split(','))
+        if requested_horizons:
+            request.requested_horizons = tuple(int(h.strip()) for h in requested_horizons.split(','))
+        
         responses = services.predict_request(request)
         payload = [serialize_prediction_response(item) for item in responses]
         typer.echo(json.dumps(payload[0] if len(payload) == 1 else payload, indent=2, sort_keys=True))

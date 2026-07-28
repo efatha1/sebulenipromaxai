@@ -150,67 +150,6 @@ def _build_window_view(values: np.ndarray, *, lookback: int) -> np.ndarray:
     )
 
 
-def _pick_label_frame(
-    labels_by_key: dict[tuple[int, float], pd.DataFrame] | dict[tuple[str, int, float], pd.DataFrame],
-    *,
-    preferred_timeframe: str | None = None,
-    preferred_horizon: int | None,
-    preferred_threshold: float | None,
-) -> tuple[tuple[int, float] | tuple[str, int, float], pd.DataFrame]:
-    """Pick a label frame from the labels dictionary.
-
-    Supports both old format (horizon, threshold) and new format (timeframe, horizon, threshold).
-    """
-    # Detect key format
-    if labels_by_key and isinstance(next(iter(labels_by_key.keys()))[0], str):
-        # New format: (timeframe, horizon, threshold)
-        keys = sorted(labels_by_key.keys(), key=lambda item: (str(item[0]), int(item[1]), float(item[2])))
-        if not keys:
-            raise ValueError("No labels were generated (empty labels map).")
-
-        if preferred_timeframe is None and preferred_horizon is None and preferred_threshold is None:
-            key = keys[0]
-            return key, labels_by_key[key]
-
-        for key in keys:
-            timeframe, horizon, threshold = key
-            if preferred_timeframe is not None and str(timeframe) != str(preferred_timeframe):
-                continue
-            if preferred_horizon is not None and int(horizon) != int(preferred_horizon):
-                continue
-            if preferred_threshold is not None and float(threshold) != float(preferred_threshold):
-                continue
-            return key, labels_by_key[key]
-
-        raise ValueError(
-            "Requested label selection not found. "
-            f"preferred_timeframe={preferred_timeframe} preferred_horizon={preferred_horizon} "
-            f"preferred_threshold={preferred_threshold} available={keys}"
-        )
-    else:
-        # Old format: (horizon, threshold)
-        keys = sorted(labels_by_key.keys(), key=lambda item: (int(item[0]), float(item[1])))
-        if not keys:
-            raise ValueError("No labels were generated (empty labels map).")
-
-        if preferred_horizon is None and preferred_threshold is None:
-            key = keys[0]
-            return key, labels_by_key[key]
-
-        for key in keys:
-            horizon, threshold = key
-            if preferred_horizon is not None and int(horizon) != int(preferred_horizon):
-                continue
-            if preferred_threshold is not None and float(threshold) != float(preferred_threshold):
-                continue
-            return key, labels_by_key[key]
-
-        raise ValueError(
-            "Requested label selection not found. "
-            f"preferred_horizon={preferred_horizon} preferred_threshold={preferred_threshold} available={keys}"
-        )
-
-
 def _compute_common_history_start(
     *,
     features_by_tf: dict[str, pd.DataFrame],
@@ -553,7 +492,7 @@ def _write_sharded_windows(
 
 
 def _parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Sebuleni preprocessing (RAM-aware, sharded).")
+    parser = argparse.ArgumentParser(description="Sebuleni preprocessing (RAM-aware, sharded, unified multi-timeframe).")
     parser.add_argument("--config-path", default="config/base.yaml", help="Path to runtime config YAML.")
     parser.add_argument(
         "--preprocessing-output-root",
@@ -572,8 +511,6 @@ def _parse_args() -> argparse.Namespace:
         help="Fallback lookback for all timeframes when preprocessing.lookbacks_by_timeframe is not configured.",
     )
     parser.add_argument("--shard-size", type=int, default=50_000, help="Samples per shard.")
-    parser.add_argument("--label-horizon", type=int, default=None, help="Select a specific horizon for dataset shards.")
-    parser.add_argument("--label-threshold", type=float, default=None, help="Select a specific threshold for dataset shards.")
     parser.add_argument("--verbose", action="store_true", help="Enable INFO logging.")
     return parser.parse_args()
 
@@ -627,19 +564,13 @@ def main() -> None:
     LOGGER.info("building_features")
     features_by_tf = build_features(bars_by_tf, config)
 
-    LOGGER.info("generating_labels_multi")
-    labels_by_key = generate_labels(bars_1m, config, horizon_mode="multi")
-    selected_key, label_df = _pick_label_frame(
-        labels_by_key,
-        preferred_horizon=args.label_horizon,
-        preferred_threshold=args.label_threshold,
-    )
-    horizon, threshold = selected_key
-    LOGGER.info(
-        "selected_label_frame",
-        extra={"event": "selected_label_frame", "horizon": int(horizon), "threshold": float(threshold), "rows": int(len(label_df))},
-    )
-
+    LOGGER.info("generating_labels_multi_timeframe")
+    labels_by_key = generate_labels_multi_timeframe(bars_by_tf, config, horizon_mode="multi")
+    
+    # Use the first label frame for alignment (all have same reference timestamps)
+    first_key = next(iter(labels_by_key.keys()))
+    label_df = labels_by_key[first_key]
+    
     label_df = label_df[~label_df["ambiguous"]].copy()
     if len(label_df) == 0:
         raise ValueError("All labels are ambiguous after filtering; cannot proceed.")
@@ -675,19 +606,16 @@ def main() -> None:
             f"common_start={common_start.isoformat()} lookbacks_by_tf={lookbacks_by_tf}"
         )
 
-    # Persist aligned labels for traceability/debugging.
-    label_out = layout.labels_dir / f"labels_h{int(horizon)}_t{float(threshold)}.parquet"
-    label_df_aligned.to_parquet(label_out, index=False)
-
     LOGGER.info("building_folds")
     folds = build_walk_forward_folds(label_df_aligned, config)
     _write_folds(layout, folds)
 
-    LOGGER.info("writing_sharded_targets")
-    target_manifest = _write_sharded_targets(
+    LOGGER.info("writing_sharded_targets_unified")
+    target_manifest = _write_sharded_targets_unified(
         layout,
+        labels_by_key=labels_by_key,
         label_df_aligned=label_df_aligned,
-        bars_1m=bars_1m,
+        bars_by_timeframe=bars_by_tf,
         shard_size=int(args.shard_size),
     )
 
@@ -707,7 +635,6 @@ def main() -> None:
             "ohlc_path": str(config.data_source.ohlc_path),
             "runtime_timezone": config.time.runtime_timezone,
         },
-        "label_selection": {"horizon": int(horizon), "threshold": float(threshold)},
         "lookbacks_by_timeframe": lookbacks_by_tf,
         "targets": target_manifest,
         "windows": windows_manifest,

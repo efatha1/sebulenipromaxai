@@ -32,7 +32,7 @@ def predict(
     *,
     current_time: datetime | None = None,
 ) -> tuple[PredictionResponseContract, ...]:
-    """Run local inference for a single- or multi-horizon request.
+    """Run local inference for unified multi-timeframe predictions.
 
     Args:
         request: Validated prediction request.
@@ -41,8 +41,7 @@ def predict(
         current_time: Optional current time override for closed-bar validation.
 
     Returns:
-        Tuple of typed prediction response payloads. Single-horizon requests
-        return a tuple of length one.
+        Tuple of typed prediction response payloads for requested timeframe/horizon combinations.
     """
     start = perf_counter()
     runtime_window = build_runtime_window(
@@ -60,91 +59,58 @@ def predict(
         backbone_output = model.backbone(windows)
         latent = backbone_output.fused_latent
 
-        # Determine which outputs to use based on request
-        if request.requested_timeframes and request.requested_horizons:
-            # Use unified outputs, extract requested combinations
-            if hasattr(model, 'unified_event_head'):
-                unified_event = model.unified_event_head(latent)
-                unified_boundary = model.unified_boundary_head(latent)
-                unified_timing = model.unified_timing_head(latent)
-                # For unified heads, we still need confidence from the existing head
-                confidence_prediction = model.confidence_head(latent)
-                # Extract predictions for requested combinations
-                predictions = _extract_unified_predictions(
-                    unified_event,
-                    unified_boundary,
-                    unified_timing,
-                    request.requested_timeframes,
-                    request.requested_horizons,
-                    reference_close,
-                )
-                # Use first prediction for evidence retrieval
-                evidence = retrieve_analogs(
-                    active_model.retrieval_index,
-                    latent.squeeze(0).detach().cpu().numpy(),
-                    query_reference_ts=runtime_window.reference_ts,
-                    top_k=int(request.top_k_analogs),
-                )
-                advisory = evaluate_advisory(
-                    confidence=float(confidence_prediction.confidence.item()),
-                    evidence=evidence,
-                    requested_top_k=int(request.top_k_analogs),
-                )
-                responses = tuple(
-                    _build_prediction_response(
-                        request=request,
-                        runtime_window=runtime_window,
-                        event_probability=float(pred['event_probability']),
-                        confidence=float(confidence_prediction.confidence.item()),
-                        low_price=float(pred['low_price']),
-                        high_price=float(pred['high_price']),
-                        start_estimate=float(pred['start_estimate']),
-                        maturity_estimate=float(pred['maturity_estimate']),
-                        advisory=advisory,
-                        evidence=evidence,
-                        horizon=pred['horizon'],
-                        timeframe=pred['timeframe'],
-                    )
-                    for pred in predictions
-                )
-            else:
-                # Unified heads not available, fall back to fused outputs
-                raise InferenceError("Unified heads requested but not available in model")
-        else:
-            # Use existing fused outputs (backward compatible)
-            event_prediction = model.event_head(latent)
-            boundary_prediction = model.boundary_head(latent, reference_close)
-            timing_prediction = model.timing_head(latent)
-            confidence_prediction = model.confidence_head(latent)
+        # Use unified outputs (always available)
+        unified_event = model.unified_event_head(latent)
+        unified_boundary = model.unified_boundary_head(latent)
+        unified_timing = model.unified_timing_head(latent)
 
-            evidence = retrieve_analogs(
-                active_model.retrieval_index,
-                latent.squeeze(0).detach().cpu().numpy(),
-                query_reference_ts=runtime_window.reference_ts,
-                top_k=int(request.top_k_analogs),
-            )
-            advisory = evaluate_advisory(
-                confidence=float(confidence_prediction.confidence.item()),
+        # Default to all timeframes and horizons if not specified
+        requested_timeframes = request.requested_timeframes or ("1m", "5m", "15m", "1h", "4h", "1d")
+        requested_horizons = request.requested_horizons or (15, 60, 120)
+
+        # Extract predictions for requested combinations
+        predictions = _extract_unified_predictions(
+            unified_event,
+            unified_boundary,
+            unified_timing,
+            requested_timeframes,
+            requested_horizons,
+            reference_close,
+        )
+
+        # Use first prediction for evidence retrieval
+        evidence = retrieve_analogs(
+            active_model.retrieval_index,
+            latent.squeeze(0).detach().cpu().numpy(),
+            query_reference_ts=runtime_window.reference_ts,
+            top_k=int(request.top_k_analogs),
+        )
+
+        # Use average event probability as confidence (placeholder - could be improved)
+        avg_event_prob = sum(pred['event_probability'] for pred in predictions) / len(predictions)
+        advisory = evaluate_advisory(
+            confidence=float(avg_event_prob),
+            evidence=evidence,
+            requested_top_k=int(request.top_k_analogs),
+        )
+
+        responses = tuple(
+            _build_prediction_response(
+                request=request,
+                runtime_window=runtime_window,
+                event_probability=float(pred['event_probability']),
+                confidence=float(avg_event_prob),
+                low_price=float(pred['low_price']),
+                high_price=float(pred['high_price']),
+                start_estimate=float(pred['start_estimate']),
+                maturity_estimate=float(pred['maturity_estimate']),
+                advisory=advisory,
                 evidence=evidence,
-                requested_top_k=int(request.top_k_analogs),
+                horizon=pred['horizon'],
+                timeframe=pred['timeframe'],
             )
-            horizons = resolve_horizons(config, horizon_mode=request.horizon_mode, horizon_bars=request.horizon_bars)
-            responses = tuple(
-                _build_prediction_response(
-                    request=request,
-                    runtime_window=runtime_window,
-                    event_probability=float(event_prediction.probabilities.item()),
-                    confidence=float(confidence_prediction.confidence.item()),
-                    low_price=float(boundary_prediction.future_low.item()),
-                    high_price=float(boundary_prediction.future_high.item()),
-                    start_estimate=float(timing_prediction.event_start_offset.item()),
-                    maturity_estimate=float(timing_prediction.maturity_offset.item()),
-                    advisory=advisory,
-                    evidence=evidence,
-                    horizon=horizon,
-                )
-                for horizon in horizons
-            )
+            for pred in predictions
+        )
 
     elapsed_ms = (perf_counter() - start) * 1000.0
     LOGGER.info(
@@ -153,8 +119,8 @@ def predict(
             "event": "completed_inference",
             "reference_ts": runtime_window.reference_ts.isoformat(),
             "request_instrument_id": request.instrument_id,
-            "horizon_mode": request.horizon_mode,
-            "threshold": float(request.threshold),
+            "requested_timeframes": list(requested_timeframes),
+            "requested_horizons": list(requested_horizons),
             "latency_ms": float(round(elapsed_ms, 4)),
             "degraded_mode": bool(advisory.low_confidence_advisory),
             "model_id": active_model.checkpoint.model_id,
