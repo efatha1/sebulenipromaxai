@@ -205,7 +205,6 @@ class AppServices:
             config=config,
             manifest_path=manifest_path,
             folds=resolved.folds,
-            labels=resolved.labels,
             artifact_root=resolved_output_root,
             input_root=input_root,
             output_root=resolved_output_root,
