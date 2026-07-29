@@ -324,7 +324,7 @@ class ShardedDatasetStore:
             for tf in MODELED_TIMEFRAMES:
                 tf_targets = self._cache.targets_np[tf]
                 if self.debug:
-                    LOGGER.info(f"[DEBUG] Processing timeframe={tf}, found {len(tf_targets)} keys: {list(tf_targets.keys())}")
+                    print(f"[DEBUG] Processing timeframe={tf}, found {len(tf_targets)} keys: {list(tf_targets.keys())}")
                 
                 for key in tf_targets:
                     parts = key.split("_")
@@ -348,8 +348,8 @@ class ShardedDatasetStore:
                             
                             # DEBUG: Key parsing verification
                             if self.debug:
-                                LOGGER.info(f"[DEBUG] Key={key}, field={field}, horizon={horizon}, threshold={threshold}")
-                                LOGGER.info(f"[DEBUG] Comparison: horizon in self.horizons={horizon in self.horizons}, threshold in self.thresholds={threshold in self.thresholds}")
+                                print(f"[DEBUG] Key={key}, field={field}, horizon={horizon}, threshold={threshold}")
+                                print(f"[DEBUG] Comparison: horizon in self.horizons={horizon in self.horizons}, threshold in self.thresholds={threshold in self.thresholds}")
                             
                             # Validate against config
                             if horizon is not None and threshold is not None:
@@ -365,15 +365,13 @@ class ShardedDatasetStore:
                                         tf_targets[key][local_start:local_end]
                                     )
                                     if self.debug:
-                                        LOGGER.info(f"[DEBUG] Successfully stored: field={field}, tf={tf}, horizon_idx={horizon_idx}")
+                                        print(f"[DEBUG] Successfully stored: field={field}, tf={tf}, horizon_idx={horizon_idx}")
                                 else:
                                     if self.debug:
-                                        LOGGER.warning(
-                                            f"[DEBUG] Failed comparison: key={key}, horizon={horizon} not in {self.horizons} or threshold={threshold} not in {self.thresholds}"
-                                        )
+                                        print(f"[DEBUG] Failed comparison: key={key}, horizon={horizon} not in {self.horizons} or threshold={threshold} not in {self.thresholds}")
                             else:
                                 if self.debug:
-                                    LOGGER.warning(f"[DEBUG] Failed to parse: key={key}, horizon={horizon}, threshold={threshold}")
+                                    print(f"[DEBUG] Failed to parse: key={key}, horizon={horizon}, threshold={threshold}")
 
             cursor += (local_end - local_start)
 
