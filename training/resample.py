@@ -122,7 +122,8 @@ def _resample_daily_close(frame_1m: pd.DataFrame, config: RuntimeConfig) -> pd.D
 
     close_midnight = end_ts_close.normalize()
     close_dt = close_midnight + pd.Timedelta(hours=close_time.hour, minutes=close_time.minute)
-    bucket_end_close = close_dt.where(end_ts_close <= close_dt, close_dt + pd.Timedelta(days=1))
+    # Use DateOffset instead of Timedelta to handle DST transitions correctly
+    bucket_end_close = close_dt.where(end_ts_close <= close_dt, close_dt + pd.DateOffset(days=1))
     bucket_end_runtime = bucket_end_close.tz_convert(runtime_tz)
 
     grouped = frame_1m.copy()
@@ -137,7 +138,8 @@ def _resample_daily_close(frame_1m: pd.DataFrame, config: RuntimeConfig) -> pd.D
 
     aggregated = aggregated.reset_index().rename(columns={"bucket_end": "end_ts"})
     aggregated["timeframe"] = "1d"
-    aggregated["start_ts"] = aggregated["end_ts"].apply(lambda ts: (ts.tz_convert(close_tz) - pd.Timedelta(days=1)).tz_convert(runtime_tz))
+    # Use DateOffset instead of Timedelta to handle DST transitions correctly
+    aggregated["start_ts"] = aggregated["end_ts"].apply(lambda ts: (ts.tz_convert(close_tz) - pd.DateOffset(days=1)).tz_convert(runtime_tz))
     result = aggregated[["timeframe", "start_ts", "end_ts", "open", "high", "low", "close"]]
     result.set_index("end_ts", inplace=True, drop=False)
     return result
