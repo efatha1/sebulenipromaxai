@@ -146,8 +146,9 @@ class ShardedDatasetStore:
         self.manifest = load_sharded_manifest(self.manifest_path)
         self._cache = _ShardCache()
         # Store horizons and thresholds from config for dynamic target parsing
-        self.horizons = config.labeling.horizon_bars if config else (15, 60, 120)
-        self.thresholds = config.labeling.thresholds if config else (10.0,)
+        # Convert to tuples to handle both list and tuple inputs from config
+        self.horizons = tuple(config.labeling.horizon_bars) if config else (15, 60, 120)
+        self.thresholds = tuple(config.labeling.thresholds) if config else (10.0,)
 
     @property
     def root(self) -> Path:
