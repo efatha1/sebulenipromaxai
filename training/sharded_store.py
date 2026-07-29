@@ -331,51 +331,60 @@ class ShardedDatasetStore:
                     if self.debug:
                         print(f"[DEBUG] Processing key={key}, parts={parts}, len(parts)={len(parts)}")
                     if len(parts) >= 3:
-                        field = parts[0]
-                        if self.debug:
-                            print(f"[DEBUG] field={field}, field in unified_targets_parts={field in unified_targets_parts}")
-                        if field in unified_targets_parts:
-                            # Extract horizon and threshold from key
-                            horizon = None
-                            threshold = None
-                            for part in parts[1:]:
-                                if part.startswith("h"):
-                                    try:
-                                        horizon = int(part[1:])
-                                    except ValueError:
-                                        continue
-                                elif part.startswith("t"):
-                                    try:
-                                        threshold = float(part[1:])
-                                    except ValueError:
-                                        continue
-                            
-                            # DEBUG: Key parsing verification
+                        # Find horizon indicator to split field from parameters
+                        horizon_idx = None
+                        for i, part in enumerate(parts):
+                            if part.startswith("h"):
+                                horizon_idx = i
+                                break
+                        
+                        if horizon_idx is not None:
+                            # Field is everything before the horizon indicator
+                            field = "_".join(parts[:horizon_idx])
                             if self.debug:
-                                print(f"[DEBUG] Key={key}, field={field}, horizon={horizon}, threshold={threshold}")
-                                print(f"[DEBUG] Comparison: horizon in self.horizons={horizon in self.horizons}, threshold in self.thresholds={threshold in self.thresholds}")
-                            
-                            # Validate against config
-                            if horizon is not None and threshold is not None:
-                                if horizon in self.horizons and threshold in self.thresholds:
-                                    horizon_idx = self.horizons.index(horizon)
-                                    # For single threshold, threshold_idx is always 0
-                                    threshold_idx = 0 if len(self.thresholds) == 1 else self.thresholds.index(threshold)
-                                    
-                                    # Store in nested structure: field[timeframe][horizon_idx]
-                                    if horizon_idx not in unified_targets_parts[field][tf]:
-                                        unified_targets_parts[field][tf][horizon_idx] = []
-                                    unified_targets_parts[field][tf][horizon_idx].append(
-                                        tf_targets[key][local_start:local_end]
-                                    )
-                                    if self.debug:
-                                        print(f"[DEBUG] Successfully stored: field={field}, tf={tf}, horizon_idx={horizon_idx}")
+                                print(f"[DEBUG] field={field}, field in unified_targets_parts={field in unified_targets_parts}")
+                            if field in unified_targets_parts:
+                                # Extract horizon and threshold from key
+                                horizon = None
+                                threshold = None
+                                for part in parts[1:]:
+                                    if part.startswith("h"):
+                                        try:
+                                            horizon = int(part[1:])
+                                        except ValueError:
+                                            continue
+                                    elif part.startswith("t"):
+                                        try:
+                                            threshold = float(part[1:])
+                                        except ValueError:
+                                            continue
+                                
+                                # DEBUG: Key parsing verification
+                                if self.debug:
+                                    print(f"[DEBUG] Key={key}, field={field}, horizon={horizon}, threshold={threshold}")
+                                    print(f"[DEBUG] Comparison: horizon in self.horizons={horizon in self.horizons}, threshold in self.thresholds={threshold in self.thresholds}")
+                                
+                                # Validate against config
+                                if horizon is not None and threshold is not None:
+                                    if horizon in self.horizons and threshold in self.thresholds:
+                                        horizon_idx = self.horizons.index(horizon)
+                                        # For single threshold, threshold_idx is always 0
+                                        threshold_idx = 0 if len(self.thresholds) == 1 else self.thresholds.index(threshold)
+                                        
+                                        # Store in nested structure: field[timeframe][horizon_idx]
+                                        if horizon_idx not in unified_targets_parts[field][tf]:
+                                            unified_targets_parts[field][tf][horizon_idx] = []
+                                        unified_targets_parts[field][tf][horizon_idx].append(
+                                            tf_targets[key][local_start:local_end]
+                                        )
+                                        if self.debug:
+                                            print(f"[DEBUG] Successfully stored: field={field}, tf={tf}, horizon_idx={horizon_idx}")
+                                    else:
+                                        if self.debug:
+                                            print(f"[DEBUG] Failed comparison: key={key}, horizon={horizon} not in {self.horizons} or threshold={threshold} not in {self.thresholds}")
                                 else:
                                     if self.debug:
-                                        print(f"[DEBUG] Failed comparison: key={key}, horizon={horizon} not in {self.horizons} or threshold={threshold} not in {self.thresholds}")
-                            else:
-                                if self.debug:
-                                    print(f"[DEBUG] Failed to parse: key={key}, horizon={horizon}, threshold={threshold}")
+                                        print(f"[DEBUG] Failed to parse: key={key}, horizon={horizon}, threshold={threshold}")
 
             cursor += (local_end - local_start)
 
