@@ -332,15 +332,18 @@ class ShardedDatasetStore:
                         print(f"[DEBUG] Processing key={key}, parts={parts}, len(parts)={len(parts)}")
                     if len(parts) >= 3:
                         # Find horizon indicator to split field from parameters
-                        horizon_idx = None
+                        horizon_part_idx = None
                         for i, part in enumerate(parts):
                             if part.startswith("h"):
-                                horizon_idx = i
+                                horizon_part_idx = i
                                 break
                         
-                        if horizon_idx is not None:
+                        if self.debug:
+                            print(f"[DEBUG] horizon_part_idx={horizon_part_idx}")
+                        
+                        if horizon_part_idx is not None:
                             # Field is everything before the horizon indicator
-                            field = "_".join(parts[:horizon_idx])
+                            field = "_".join(parts[:horizon_part_idx])
                             if self.debug:
                                 print(f"[DEBUG] field={field}, field in unified_targets_parts={field in unified_targets_parts}")
                             if field in unified_targets_parts:
