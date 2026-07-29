@@ -44,7 +44,19 @@ class MultiTaskTargets:
 
 @dataclass(frozen=True)
 class MultiTaskTargetsUnified:
-    """Unified targets for all 18 (timeframe, horizon, threshold) combinations."""
+    """Unified targets for all (timeframe, horizon, threshold) combinations.
+    
+    Tensor structure:
+    - Each field is a dict keyed by timeframe (e.g., "1m", "5m", "1h", "4h", "1d")
+    - Each tensor has shape (batch, num_horizons) for the current single-threshold configuration
+    - Future multi-threshold support would add a third dimension: (batch, num_horizons, num_thresholds)
+    
+    Example with horizons [15, 60, 120]:
+    - targets.event_flag["1m"] has shape (batch, 3)
+    - targets.event_flag["1m"][:, 0] corresponds to horizon 15
+    - targets.event_flag["1m"][:, 1] corresponds to horizon 60
+    - targets.event_flag["1m"][:, 2] corresponds to horizon 120
+    """
 
     event_flag: dict[str, torch.Tensor]
     future_low: dict[str, torch.Tensor]

@@ -20,6 +20,8 @@ from typing import Any
 import numpy as np
 import torch
 
+from training.config_schema import RuntimeConfig
+
 from models.losses import MultiTaskTargets, MultiTaskTargetsUnified
 
 LOGGER = logging.getLogger(__name__)
@@ -139,10 +141,13 @@ class _ShardCache:
 class ShardedDatasetStore:
     """Batch loader over sharded preprocessing outputs."""
 
-    def __init__(self, manifest_path: str | Path) -> None:
+    def __init__(self, manifest_path: str | Path, config: RuntimeConfig | None = None) -> None:
         self.manifest_path = Path(manifest_path)
         self.manifest = load_sharded_manifest(self.manifest_path)
         self._cache = _ShardCache()
+        # Store horizons and thresholds from config for dynamic target parsing
+        self.horizons = config.labeling.horizon_bars if config else (15, 60, 120)
+        self.thresholds = config.labeling.thresholds if config else (10.0,)
 
     @property
     def root(self) -> Path:
@@ -277,13 +282,14 @@ class ShardedDatasetStore:
         windows_parts: dict[str, list[np.ndarray]] = {tf: [] for tf in MODELED_TIMEFRAMES}
         close_parts: list[np.ndarray] = []
 
-        # Initialize unified target parts with nested structure
-        unified_targets_parts: dict[str, dict[str, list[np.ndarray]]] = {
-            "event_flag": {tf: [] for tf in MODELED_TIMEFRAMES},
-            "future_low": {tf: [] for tf in MODELED_TIMEFRAMES},
-            "future_high": {tf: [] for tf in MODELED_TIMEFRAMES},
-            "event_start_offset": {tf: [] for tf in MODELED_TIMEFRAMES},
-            "maturity_offset": {tf: [] for tf in MODELED_TIMEFRAMES},
+        # Initialize unified target parts with nested structure for horizons
+        # Structure: field[timeframe][horizon_idx] = list of arrays
+        unified_targets_parts: dict[str, dict[str, dict[int, list[np.ndarray]]]] = {
+            "event_flag": {tf: {} for tf in MODELED_TIMEFRAMES},
+            "future_low": {tf: {} for tf in MODELED_TIMEFRAMES},
+            "future_high": {tf: {} for tf in MODELED_TIMEFRAMES},
+            "event_start_offset": {tf: {} for tf in MODELED_TIMEFRAMES},
+            "maturity_offset": {tf: {} for tf in MODELED_TIMEFRAMES},
         }
 
         cursor = start
@@ -302,19 +308,43 @@ class ShardedDatasetStore:
             # Use 1m reference close for backward compatibility
             close_parts.append(self._cache.reference_close["1m"][local_start:local_end])
 
-            # Parse unified target keys and organize by timeframe
-            # New structure: targets_np is per-timeframe dict
+            # Parse unified target keys and organize by timeframe, horizon, threshold
+            # Key format: {field}_h{horizon}_t{threshold} (timeframe in filename, not key)
             for tf in MODELED_TIMEFRAMES:
                 tf_targets = self._cache.targets_np[tf]
                 for key in tf_targets:
-                    # Key format: {field}_h{horizon}_t{threshold} (timeframe in filename, not key)
                     parts = key.split("_")
                     if len(parts) >= 3:
                         field = parts[0]
-                        if field in unified_targets_parts and tf in unified_targets_parts[field]:
-                            unified_targets_parts[field][tf].append(
-                                tf_targets[key][local_start:local_end]
-                            )
+                        if field in unified_targets_parts:
+                            # Extract horizon and threshold from key
+                            horizon = None
+                            threshold = None
+                            for part in parts[1:]:
+                                if part.startswith("h"):
+                                    try:
+                                        horizon = int(part[1:])
+                                    except ValueError:
+                                        continue
+                                elif part.startswith("t"):
+                                    try:
+                                        threshold = float(part[1:])
+                                    except ValueError:
+                                        continue
+                            
+                            # Validate against config
+                            if horizon is not None and threshold is not None:
+                                if horizon in self.horizons and threshold in self.thresholds:
+                                    horizon_idx = self.horizons.index(horizon)
+                                    # For single threshold, threshold_idx is always 0
+                                    threshold_idx = 0 if len(self.thresholds) == 1 else self.thresholds.index(threshold)
+                                    
+                                    # Store in nested structure: field[timeframe][horizon_idx]
+                                    if horizon_idx not in unified_targets_parts[field][tf]:
+                                        unified_targets_parts[field][tf][horizon_idx] = []
+                                    unified_targets_parts[field][tf][horizon_idx].append(
+                                        tf_targets[key][local_start:local_end]
+                                    )
 
             cursor += (local_end - local_start)
 
@@ -324,7 +354,7 @@ class ShardedDatasetStore:
         }
         reference_close = torch.from_numpy(np.concatenate(close_parts, axis=0).astype(np.float32, copy=False))
 
-        # Build unified targets
+        # Build unified targets with horizon dimension
         event_flag: dict[str, torch.Tensor] = {}
         future_low: dict[str, torch.Tensor] = {}
         future_high: dict[str, torch.Tensor] = {}
@@ -332,21 +362,58 @@ class ShardedDatasetStore:
         maturity_offset: dict[str, torch.Tensor] = {}
 
         for tf in MODELED_TIMEFRAMES:
-            event_flag[tf] = torch.from_numpy(
-                np.concatenate(unified_targets_parts["event_flag"][tf], axis=0).astype(np.float32, copy=False)
-            )
-            future_low[tf] = torch.from_numpy(
-                np.concatenate(unified_targets_parts["future_low"][tf], axis=0).astype(np.float32, copy=False)
-            )
-            future_high[tf] = torch.from_numpy(
-                np.concatenate(unified_targets_parts["future_high"][tf], axis=0).astype(np.float32, copy=False)
-            )
-            event_start_offset[tf] = torch.from_numpy(
-                np.concatenate(unified_targets_parts["event_start_offset"][tf], axis=0).astype(np.float32, copy=False)
-            )
-            maturity_offset[tf] = torch.from_numpy(
-                np.concatenate(unified_targets_parts["maturity_offset"][tf], axis=0).astype(np.float32, copy=False)
-            )
+            # Build tensors for each field with horizon dimension
+            event_flag_tensors = []
+            future_low_tensors = []
+            future_high_tensors = []
+            event_start_offset_tensors = []
+            maturity_offset_tensors = []
+            
+            for horizon_idx in range(len(self.horizons)):
+                horizon = self.horizons[horizon_idx]
+                
+                # Check if we have data for this horizon
+                if horizon_idx in unified_targets_parts["event_flag"][tf]:
+                    event_flag_tensors.append(
+                        np.concatenate(unified_targets_parts["event_flag"][tf][horizon_idx], axis=0).astype(np.float32, copy=False)
+                    )
+                else:
+                    raise ShardedStoreError(f"Missing event_flag for timeframe={tf}, horizon={horizon}. Check that target files contain the expected keys.")
+                
+                if horizon_idx in unified_targets_parts["future_low"][tf]:
+                    future_low_tensors.append(
+                        np.concatenate(unified_targets_parts["future_low"][tf][horizon_idx], axis=0).astype(np.float32, copy=False)
+                    )
+                else:
+                    raise ShardedStoreError(f"Missing future_low for timeframe={tf}, horizon={horizon}. Check that target files contain the expected keys.")
+                
+                if horizon_idx in unified_targets_parts["future_high"][tf]:
+                    future_high_tensors.append(
+                        np.concatenate(unified_targets_parts["future_high"][tf][horizon_idx], axis=0).astype(np.float32, copy=False)
+                    )
+                else:
+                    raise ShardedStoreError(f"Missing future_high for timeframe={tf}, horizon={horizon}. Check that target files contain the expected keys.")
+                
+                if horizon_idx in unified_targets_parts["event_start_offset"][tf]:
+                    event_start_offset_tensors.append(
+                        np.concatenate(unified_targets_parts["event_start_offset"][tf][horizon_idx], axis=0).astype(np.float32, copy=False)
+                    )
+                else:
+                    raise ShardedStoreError(f"Missing event_start_offset for timeframe={tf}, horizon={horizon}. Check that target files contain the expected keys.")
+                
+                if horizon_idx in unified_targets_parts["maturity_offset"][tf]:
+                    maturity_offset_tensors.append(
+                        np.concatenate(unified_targets_parts["maturity_offset"][tf][horizon_idx], axis=0).astype(np.float32, copy=False)
+                    )
+                else:
+                    raise ShardedStoreError(f"Missing maturity_offset for timeframe={tf}, horizon={horizon}. Check that target files contain the expected keys.")
+            
+            # Stack horizons: (batch, num_horizons)
+            event_flag[tf] = torch.from_numpy(np.stack(event_flag_tensors, axis=1))
+            future_low[tf] = torch.from_numpy(np.stack(future_low_tensors, axis=1))
+            future_high[tf] = torch.from_numpy(np.stack(future_high_tensors, axis=1))
+            event_start_offset[tf] = torch.from_numpy(np.stack(event_start_offset_tensors, axis=1))
+            maturity_offset[tf] = torch.from_numpy(np.stack(maturity_offset_tensors, axis=1))
 
         targets = MultiTaskTargetsUnified(
             event_flag=event_flag,
