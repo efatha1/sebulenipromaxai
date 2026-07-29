@@ -1,0 +1,258 @@
+{
+  "config": {
+    "instrument_id": "XAUUSD",
+    "ohlc_path": "/kaggle/input/datasets/efathakanafunzi/full1minohlc-parquet/1min_OHLCnw1Fixed.parquet",
+    "runtime_timezone": "America/New_York"
+  },
+  "created_at_unix": 1785319461,
+  "elapsed_seconds": 1883.202356338501,
+  "lookbacks_by_timeframe": {
+    "15m": 48,
+    "1d": 10,
+    "1h": 24,
+    "1m": 90,
+    "4h": 16,
+    "5m": 60
+  },
+  "output_layout": {
+    "root": "/kaggle/tmp/sebulenipromaxai/artifacts/preprocessing_shards"
+  },
+  "targets": {
+    "15m": {
+      "column_names": [
+        "event_flag_h15_t10.0",
+        "future_low_h15_t10.0",
+        "future_high_h15_t10.0",
+        "event_start_offset_h15_t10.0",
+        "maturity_offset_h15_t10.0",
+        "event_flag_h60_t10.0",
+        "future_low_h60_t10.0",
+        "future_high_h60_t10.0",
+        "event_start_offset_h60_t10.0",
+        "maturity_offset_h60_t10.0",
+        "event_flag_h120_t10.0",
+        "future_low_h120_t10.0",
+        "future_high_h120_t10.0",
+        "event_start_offset_h120_t10.0",
+        "maturity_offset_h120_t10.0"
+      ],
+      "num_columns": 15,
+      "num_shards": 4,
+      "shard_size": 50000,
+      "total_samples": 175555
+    },
+    "1d": {
+      "column_names": [
+        "event_flag_h15_t10.0",
+        "future_low_h15_t10.0",
+        "future_high_h15_t10.0",
+        "event_start_offset_h15_t10.0",
+        "maturity_offset_h15_t10.0",
+        "event_flag_h60_t10.0",
+        "future_low_h60_t10.0",
+        "future_high_h60_t10.0",
+        "event_start_offset_h60_t10.0",
+        "maturity_offset_h60_t10.0",
+        "event_flag_h120_t10.0",
+        "future_low_h120_t10.0",
+        "future_high_h120_t10.0",
+        "event_start_offset_h120_t10.0",
+        "maturity_offset_h120_t10.0"
+      ],
+      "num_columns": 15,
+      "num_shards": 1,
+      "shard_size": 50000,
+      "total_samples": 2183
+    },
+    "1h": {
+      "column_names": [
+        "event_flag_h15_t10.0",
+        "future_low_h15_t10.0",
+        "future_high_h15_t10.0",
+        "event_start_offset_h15_t10.0",
+        "maturity_offset_h15_t10.0",
+        "event_flag_h60_t10.0",
+        "future_low_h60_t10.0",
+        "future_high_h60_t10.0",
+        "event_start_offset_h60_t10.0",
+        "maturity_offset_h60_t10.0",
+        "event_flag_h120_t10.0",
+        "future_low_h120_t10.0",
+        "future_high_h120_t10.0",
+        "event_start_offset_h120_t10.0",
+        "maturity_offset_h120_t10.0"
+      ],
+      "num_columns": 15,
+      "num_shards": 1,
+      "shard_size": 50000,
+      "total_samples": 44152
+    },
+    "1m": {
+      "column_names": [
+        "event_flag_h15_t10.0",
+        "future_low_h15_t10.0",
+        "future_high_h15_t10.0",
+        "event_start_offset_h15_t10.0",
+        "maturity_offset_h15_t10.0",
+        "event_flag_h60_t10.0",
+        "future_low_h60_t10.0",
+        "future_high_h60_t10.0",
+        "event_start_offset_h60_t10.0",
+        "maturity_offset_h60_t10.0",
+        "event_flag_h120_t10.0",
+        "future_low_h120_t10.0",
+        "future_high_h120_t10.0",
+        "event_start_offset_h120_t10.0",
+        "maturity_offset_h120_t10.0"
+      ],
+      "num_columns": 15,
+      "num_shards": 53,
+      "shard_size": 50000,
+      "total_samples": 2628044
+    },
+    "4h": {
+      "column_names": [
+        "event_flag_h15_t10.0",
+        "future_low_h15_t10.0",
+        "future_high_h15_t10.0",
+        "event_start_offset_h15_t10.0",
+        "maturity_offset_h15_t10.0",
+        "event_flag_h60_t10.0",
+        "future_low_h60_t10.0",
+        "future_high_h60_t10.0",
+        "event_start_offset_h60_t10.0",
+        "maturity_offset_h60_t10.0",
+        "event_flag_h120_t10.0",
+        "future_low_h120_t10.0",
+        "future_high_h120_t10.0",
+        "event_start_offset_h120_t10.0",
+        "maturity_offset_h120_t10.0"
+      ],
+      "num_columns": 15,
+      "num_shards": 1,
+      "shard_size": 50000,
+      "total_samples": 11301
+    },
+    "5m": {
+      "column_names": [
+        "event_flag_h15_t10.0",
+        "future_low_h15_t10.0",
+        "future_high_h15_t10.0",
+        "event_start_offset_h15_t10.0",
+        "maturity_offset_h15_t10.0",
+        "event_flag_h60_t10.0",
+        "future_low_h60_t10.0",
+        "future_high_h60_t10.0",
+        "event_start_offset_h60_t10.0",
+        "maturity_offset_h60_t10.0",
+        "event_flag_h120_t10.0",
+        "future_low_h120_t10.0",
+        "future_high_h120_t10.0",
+        "event_start_offset_h120_t10.0",
+        "maturity_offset_h120_t10.0"
+      ],
+      "num_columns": 15,
+      "num_shards": 11,
+      "shard_size": 50000,
+      "total_samples": 525963
+    }
+  },
+  "windows": {
+    "15m": {
+      "feature_names": [
+        "return",
+        "log_return",
+        "hl_range",
+        "oc_change",
+        "body",
+        "upper_wick",
+        "lower_wick",
+        "upper_wick_body_ratio",
+        "lower_wick_body_ratio"
+      ],
+      "lookback": 48,
+      "num_features": 9,
+      "num_window_references": 175523
+    },
+    "1d": {
+      "feature_names": [
+        "return",
+        "log_return",
+        "hl_range",
+        "oc_change",
+        "body",
+        "upper_wick",
+        "lower_wick",
+        "upper_wick_body_ratio",
+        "lower_wick_body_ratio"
+      ],
+      "lookback": 10,
+      "num_features": 9,
+      "num_window_references": 2189
+    },
+    "1h": {
+      "feature_names": [
+        "return",
+        "log_return",
+        "hl_range",
+        "oc_change",
+        "body",
+        "upper_wick",
+        "lower_wick",
+        "upper_wick_body_ratio",
+        "lower_wick_body_ratio"
+      ],
+      "lookback": 24,
+      "num_features": 9,
+      "num_window_references": 44144
+    },
+    "1m": {
+      "feature_names": [
+        "return",
+        "log_return",
+        "hl_range",
+        "oc_change",
+        "body",
+        "upper_wick",
+        "lower_wick",
+        "upper_wick_body_ratio",
+        "lower_wick_body_ratio"
+      ],
+      "lookback": 90,
+      "num_features": 9,
+      "num_window_references": 2627970
+    },
+    "4h": {
+      "feature_names": [
+        "return",
+        "log_return",
+        "hl_range",
+        "oc_change",
+        "body",
+        "upper_wick",
+        "lower_wick",
+        "upper_wick_body_ratio",
+        "lower_wick_body_ratio"
+      ],
+      "lookback": 16,
+      "num_features": 9,
+      "num_window_references": 11301
+    },
+    "5m": {
+      "feature_names": [
+        "return",
+        "log_return",
+        "hl_range",
+        "oc_change",
+        "body",
+        "upper_wick",
+        "lower_wick",
+        "upper_wick_body_ratio",
+        "lower_wick_body_ratio"
+      ],
+      "lookback": 60,
+      "num_features": 9,
+      "num_window_references": 525919
+    }
+  }
+}
