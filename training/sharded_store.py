@@ -141,14 +141,24 @@ class _ShardCache:
 class ShardedDatasetStore:
     """Batch loader over sharded preprocessing outputs."""
 
-    def __init__(self, manifest_path: str | Path, config: RuntimeConfig | None = None) -> None:
+    def __init__(self, manifest_path: str | Path, config: RuntimeConfig | None = None, debug: bool = False) -> None:
         self.manifest_path = Path(manifest_path)
         self.manifest = load_sharded_manifest(self.manifest_path)
         self._cache = _ShardCache()
+        self.debug = debug
         # Store horizons and thresholds from config for dynamic target parsing
         # Convert to tuples to handle both list and tuple inputs from config
         self.horizons = tuple(config.labeling.horizon_bars) if config else (15, 60, 120)
         self.thresholds = tuple(config.labeling.thresholds) if config else (10.0,)
+        
+        # DEBUG: Config loading verification
+        if self.debug:
+            print(f"[DEBUG] Config received: {config is not None}")
+            print(f"[DEBUG] Horizons in store: {self.horizons} (type: {type(self.horizons)})")
+            print(f"[DEBUG] Thresholds in store: {self.thresholds} (type: {type(self.thresholds)})")
+            if config:
+                print(f"[DEBUG] Original config horizons: {config.labeling.horizon_bars} (type: {type(config.labeling.horizon_bars)})")
+                print(f"[DEBUG] Original config thresholds: {config.labeling.thresholds} (type: {type(config.labeling.thresholds)})")
 
     @property
     def root(self) -> Path:
@@ -313,6 +323,9 @@ class ShardedDatasetStore:
             # Key format: {field}_h{horizon}_t{threshold} (timeframe in filename, not key)
             for tf in MODELED_TIMEFRAMES:
                 tf_targets = self._cache.targets_np[tf]
+                if self.debug:
+                    LOGGER.info(f"[DEBUG] Processing timeframe={tf}, found {len(tf_targets)} keys: {list(tf_targets.keys())}")
+                
                 for key in tf_targets:
                     parts = key.split("_")
                     if len(parts) >= 3:
@@ -333,6 +346,11 @@ class ShardedDatasetStore:
                                     except ValueError:
                                         continue
                             
+                            # DEBUG: Key parsing verification
+                            if self.debug:
+                                LOGGER.info(f"[DEBUG] Key={key}, field={field}, horizon={horizon}, threshold={threshold}")
+                                LOGGER.info(f"[DEBUG] Comparison: horizon in self.horizons={horizon in self.horizons}, threshold in self.thresholds={threshold in self.thresholds}")
+                            
                             # Validate against config
                             if horizon is not None and threshold is not None:
                                 if horizon in self.horizons and threshold in self.thresholds:
@@ -346,6 +364,16 @@ class ShardedDatasetStore:
                                     unified_targets_parts[field][tf][horizon_idx].append(
                                         tf_targets[key][local_start:local_end]
                                     )
+                                    if self.debug:
+                                        LOGGER.info(f"[DEBUG] Successfully stored: field={field}, tf={tf}, horizon_idx={horizon_idx}")
+                                else:
+                                    if self.debug:
+                                        LOGGER.warning(
+                                            f"[DEBUG] Failed comparison: key={key}, horizon={horizon} not in {self.horizons} or threshold={threshold} not in {self.thresholds}"
+                                        )
+                            else:
+                                if self.debug:
+                                    LOGGER.warning(f"[DEBUG] Failed to parse: key={key}, horizon={horizon}, threshold={threshold}")
 
             cursor += (local_end - local_start)
 

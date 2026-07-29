@@ -81,7 +81,7 @@ def run_training_sharded(
     if not fold_list:
         raise ShardedTrainerError("folds must not be empty.")
 
-    store = ShardedDatasetStore(manifest_path, config=config)
+    store = ShardedDatasetStore(manifest_path, config=config, debug=True)
 
     # Use reference timestamps from manifest for fold validation
     reference_ts = store.get_reference_timestamps()
@@ -191,7 +191,7 @@ def resolve_sharded_inputs(
     manifest_path: str | Path,
 ) -> ShardedTrainingRunInputs:
     """Resolve inputs for a sharded preprocessing output (unified multi-timeframe)."""
-    store = ShardedDatasetStore(manifest_path, config=config)
+    store = ShardedDatasetStore(manifest_path, config=config, debug=True)
 
     # Build folds from reference timestamps in the manifest
     reference_ts = store.get_reference_timestamps()
