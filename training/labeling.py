@@ -161,6 +161,7 @@ def generate_labels_multi_timeframe(
                 horizon_bars=horizon_minutes_1m,
                 config=config,
                 expected_cadence=timeframe_to_cadence[timeframe],
+                validate_cadence=(timeframe != "1d"),  # Skip cadence validation for daily data due to DST transitions
             )
 
             for threshold in thresholds_to_use:

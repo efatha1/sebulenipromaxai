@@ -16,7 +16,7 @@ class AmbiguityError(ValueError):
     """Raised when ambiguity classification fails."""
 
 
-def classify_ambiguity(end_ts: pd.DatetimeIndex, *, horizon_bars: int, config: RuntimeConfig, expected_cadence: pd.Timedelta = pd.Timedelta(minutes=1)) -> pd.Series:
+def classify_ambiguity(end_ts: pd.DatetimeIndex, *, horizon_bars: int, config: RuntimeConfig, expected_cadence: pd.Timedelta = pd.Timedelta(minutes=1), validate_cadence: bool = True) -> pd.Series:
     """Classify ambiguous label rows for a given horizon.
 
     Ambiguity is explicit and deterministic:
@@ -30,6 +30,8 @@ def classify_ambiguity(end_ts: pd.DatetimeIndex, *, horizon_bars: int, config: R
         horizon_bars: Horizon length in bars.
         config: Validated runtime configuration for session definitions.
         expected_cadence: Expected time difference between consecutive bars (default: 1 minute).
+        validate_cadence: Whether to validate cadence. Set to False for timeframes where
+            cadence validation is not applicable (e.g., daily timeframe with DST transitions).
 
     Returns:
         Boolean Series aligned to end_ts indicating ambiguous rows.
@@ -49,31 +51,32 @@ def classify_ambiguity(end_ts: pd.DatetimeIndex, *, horizon_bars: int, config: R
     session_mask = _compute_session_mask(end_ts, session_windows)
 
     # Check cadence only within active sessions, not across session boundaries
-    diffs = end_ts.to_series().diff().dropna()
-    if len(diffs) > 0:
-        # Only check cadence for consecutive bars that are both in active sessions
-        in_session = session_mask.to_numpy()
-        
-        # Detect weekend boundary crossings (Friday -> Sunday)
-        # This allows the expected 48-hour gap from Friday 16:59 to Sunday 17:00
-        prev_weekday = end_ts[:-1].weekday
-        curr_weekday = end_ts[1:].weekday
-        weekend_boundary = (prev_weekday == 4) & (curr_weekday == 6)
-        
-        # Only check cadence for gaps that don't cross weekend boundaries
-        valid_cadence_mask = pd.Series(in_session[:-1] & in_session[1:] & ~weekend_boundary, index=diffs.index)
-        diffs_to_check = diffs[valid_cadence_mask]
-        
-        if len(diffs_to_check) > 0 and (diffs_to_check != expected_cadence).any():
-            # Debug: find the problematic timestamps
-            bad_diffs = diffs_to_check[diffs_to_check != expected_cadence]
-            print(f"DEBUG: Found {len(bad_diffs)} cadence issues within active sessions")
-            for i, (ts, diff) in enumerate(bad_diffs.head(5).items()):
-                ts_idx = end_ts.get_loc(ts)
-                print(f"  Gap {i+1}: {diff} (expected {expected_cadence})")
-                print(f"    Previous timestamp: {end_ts[ts_idx-1]}")
-                print(f"    Current timestamp: {end_ts[ts_idx]}")
-            raise AmbiguityError(f"end_ts cadence is not {expected_cadence} within active sessions; label generation requires validated bars.")
+    if validate_cadence:
+        diffs = end_ts.to_series().diff().dropna()
+        if len(diffs) > 0:
+            # Only check cadence for consecutive bars that are both in active sessions
+            in_session = session_mask.to_numpy()
+            
+            # Detect weekend boundary crossings (Friday -> Sunday)
+            # This allows the expected 48-hour gap from Friday 16:59 to Sunday 17:00
+            prev_weekday = end_ts[:-1].weekday
+            curr_weekday = end_ts[1:].weekday
+            weekend_boundary = (prev_weekday == 4) & (curr_weekday == 6)
+            
+            # Only check cadence for gaps that don't cross weekend boundaries
+            valid_cadence_mask = pd.Series(in_session[:-1] & in_session[1:] & ~weekend_boundary, index=diffs.index)
+            diffs_to_check = diffs[valid_cadence_mask]
+            
+            if len(diffs_to_check) > 0 and (diffs_to_check != expected_cadence).any():
+                # Debug: find the problematic timestamps
+                bad_diffs = diffs_to_check[diffs_to_check != expected_cadence]
+                print(f"DEBUG: Found {len(bad_diffs)} cadence issues within active sessions")
+                for i, (ts, diff) in enumerate(bad_diffs.head(5).items()):
+                    ts_idx = end_ts.get_loc(ts)
+                    print(f"  Gap {i+1}: {diff} (expected {expected_cadence})")
+                    print(f"    Previous timestamp: {end_ts[ts_idx-1]}")
+                    print(f"    Current timestamp: {end_ts[ts_idx]}")
+                raise AmbiguityError(f"end_ts cadence is not {expected_cadence} within active sessions; label generation requires validated bars.")
 
     n = len(end_ts)
     ambiguous = [False] * n
