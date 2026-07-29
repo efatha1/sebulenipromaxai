@@ -328,8 +328,12 @@ class ShardedDatasetStore:
                 
                 for key in tf_targets:
                     parts = key.split("_")
+                    if self.debug:
+                        print(f"[DEBUG] Processing key={key}, parts={parts}, len(parts)={len(parts)}")
                     if len(parts) >= 3:
                         field = parts[0]
+                        if self.debug:
+                            print(f"[DEBUG] field={field}, field in unified_targets_parts={field in unified_targets_parts}")
                         if field in unified_targets_parts:
                             # Extract horizon and threshold from key
                             horizon = None
