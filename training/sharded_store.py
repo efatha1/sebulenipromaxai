@@ -37,21 +37,24 @@ class ShardedManifest:
 
     root: Path
     lookbacks_by_timeframe: dict[str, int]
-    targets: dict[str, Any]
+    targets: dict[str, Any]  # Now a dict of manifests per timeframe (Option A)
     windows: dict[str, Any]
     label_selection: dict[str, Any] | None
 
     @property
     def shard_size(self) -> int:
-        return int(self.targets["shard_size"])
+        # Use 1m shard size as reference (all timeframes should have same shard_size)
+        return int(self.targets["1m"]["shard_size"])
 
     @property
     def num_shards(self) -> int:
-        return int(self.targets["num_shards"])
+        # Use 1m num_shards as reference
+        return int(self.targets["1m"]["num_shards"])
 
     @property
     def total_samples(self) -> int:
-        return int(self.targets["total_samples"])
+        # Use 1m total_samples as reference
+        return int(self.targets["1m"]["total_samples"])
 
 
 def load_sharded_manifest(manifest_path: str | Path) -> ShardedManifest:
@@ -76,10 +79,15 @@ def load_sharded_manifest(manifest_path: str | Path) -> ShardedManifest:
     if not isinstance(windows, dict) or not windows:
         raise ShardedStoreError("manifest missing windows.")
 
-    required_targets = ("total_samples", "shard_size", "num_shards")
-    missing_targets = [key for key in required_targets if key not in targets]
-    if missing_targets:
-        raise ShardedStoreError(f"manifest targets missing required keys: {missing_targets}")
+    # Validate targets structure (now per-timeframe manifests)
+    for tf in MODELED_TIMEFRAMES:
+        if tf not in targets:
+            raise ShardedStoreError(f"manifest targets missing timeframe={tf}.")
+        tf_manifest = targets[tf]
+        required_keys = ("total_samples", "shard_size", "num_shards", "column_names")
+        missing_keys = [key for key in required_keys if key not in tf_manifest]
+        if missing_keys:
+            raise ShardedStoreError(f"manifest targets for timeframe={tf} missing required keys: {missing_keys}")
 
     for tf in MODELED_TIMEFRAMES:
         if tf not in windows:
@@ -124,8 +132,8 @@ def _validate_manifest(manifest: ShardedManifest) -> None:
 class _ShardCache:
     shard_id: int | None = None
     windows_by_tf: dict[str, np.ndarray] | None = None
-    reference_close: np.ndarray | None = None
-    targets_np: dict[str, np.ndarray] | None = None
+    reference_close: dict[str, np.ndarray] | None = None  # Now per-timeframe
+    targets_np: dict[str, dict[str, np.ndarray]] | None = None  # Now per-timeframe
 
 
 class ShardedDatasetStore:
@@ -173,22 +181,27 @@ class ShardedDatasetStore:
                 raise ShardedStoreError(f"Missing windows shard file: {path}")
             windows_by_tf[tf] = np.load(path, allow_pickle=False)
 
-        targets_path = targets_dir / f"targets_shard_{shard_id:05d}.npz"
-        if not targets_path.exists():
-            raise ShardedStoreError(f"Missing targets shard file: {targets_path}")
-        targets_payload = np.load(targets_path)
-        targets_np = {key: targets_payload[key] for key in targets_payload.files}
-
-        close_path = reference_dir / f"reference_close_shard_{shard_id:05d}.npy"
-        if not close_path.exists():
-            raise ShardedStoreError(f"Missing reference_close shard file: {close_path}")
-        reference_close = np.load(close_path, allow_pickle=False)
+        # Load per-timeframe targets and reference data
+        targets_by_tf: dict[str, dict[str, np.ndarray]] = {}
+        reference_close_by_tf: dict[str, np.ndarray] = {}
+        
+        for tf in MODELED_TIMEFRAMES:
+            targets_path = targets_dir / f"targets_{tf}_shard_{shard_id:05d}.npz"
+            if not targets_path.exists():
+                raise ShardedStoreError(f"Missing targets shard file for timeframe={tf}: {targets_path}")
+            targets_payload = np.load(targets_path)
+            targets_by_tf[tf] = {key: targets_payload[key] for key in targets_payload.files}
+            
+            close_path = reference_dir / f"reference_close_{tf}_shard_{shard_id:05d}.npy"
+            if not close_path.exists():
+                raise ShardedStoreError(f"Missing reference_close shard file for timeframe={tf}: {close_path}")
+            reference_close_by_tf[tf] = np.load(close_path, allow_pickle=False)
 
         self._cache = _ShardCache(
             shard_id=shard_id,
             windows_by_tf=windows_by_tf,
-            reference_close=reference_close,
-            targets_np=targets_np,
+            reference_close=reference_close_by_tf,  # Now per-timeframe
+            targets_np=targets_by_tf,  # Now per-timeframe
         )
 
     def get_slice(self, start: int, end: int) -> tuple[dict[str, torch.Tensor], torch.Tensor, MultiTaskTargets]:
@@ -223,11 +236,12 @@ class ShardedDatasetStore:
 
             for tf in MODELED_TIMEFRAMES:
                 windows_parts[tf].append(self._cache.windows_by_tf[tf][local_start:local_end])
-            close_parts.append(self._cache.reference_close[local_start:local_end])
+            # Use 1m reference close for backward compatibility
+            close_parts.append(self._cache.reference_close["1m"][local_start:local_end])
             for key in targets_parts:
-                if key not in self._cache.targets_np:
+                if key not in self._cache.targets_np["1m"]:
                     raise ShardedStoreError(f"Targets shard missing key={key} shard_id={shard_id}.")
-                targets_parts[key].append(self._cache.targets_np[key][local_start:local_end])
+                targets_parts[key].append(self._cache.targets_np["1m"][key][local_start:local_end])
 
             cursor += (local_end - local_start)
 
@@ -285,19 +299,22 @@ class ShardedDatasetStore:
 
             for tf in MODELED_TIMEFRAMES:
                 windows_parts[tf].append(self._cache.windows_by_tf[tf][local_start:local_end])
-            close_parts.append(self._cache.reference_close[local_start:local_end])
+            # Use 1m reference close for backward compatibility
+            close_parts.append(self._cache.reference_close["1m"][local_start:local_end])
 
             # Parse unified target keys and organize by timeframe
-            for key in self._cache.targets_np:
-                # Key format: {field}_{timeframe}_h{horizon}_t{threshold}
-                parts = key.split("_")
-                if len(parts) >= 3:
-                    field = parts[0]
-                    timeframe = parts[1]
-                    if field in unified_targets_parts and timeframe in unified_targets_parts[field]:
-                        unified_targets_parts[field][timeframe].append(
-                            self._cache.targets_np[key][local_start:local_end]
-                        )
+            # New structure: targets_np is per-timeframe dict
+            for tf in MODELED_TIMEFRAMES:
+                tf_targets = self._cache.targets_np[tf]
+                for key in tf_targets:
+                    # Key format: {field}_h{horizon}_t{threshold} (timeframe in filename, not key)
+                    parts = key.split("_")
+                    if len(parts) >= 3:
+                        field = parts[0]
+                        if field in unified_targets_parts and tf in unified_targets_parts[field]:
+                            unified_targets_parts[field][tf].append(
+                                tf_targets[key][local_start:local_end]
+                            )
 
             cursor += (local_end - local_start)
 

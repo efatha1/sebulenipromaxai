@@ -154,11 +154,11 @@ def generate_labels_multi_timeframe(
         minutes_per_bar = timeframe_to_minutes[timeframe]
 
         for horizon in horizons:
-            # Convert horizon_bars to 1-minute equivalents for ambiguity classification
-            horizon_minutes_1m = int(horizon) * minutes_per_bar
+            # Use horizon_bars in the native timeframe units
+            # For 1d, horizon is in days; for 1m, horizon is in minutes, etc.
             ambiguity_mask = classify_ambiguity(
                 pd.DatetimeIndex(bars_tf.index),
-                horizon_bars=horizon_minutes_1m,
+                horizon_bars=int(horizon),
                 config=config,
                 expected_cadence=timeframe_to_cadence[timeframe],
                 validate_cadence=(timeframe != "1d"),  # Skip cadence validation for daily data due to DST transitions
