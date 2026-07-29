@@ -450,13 +450,22 @@ def _write_sharded_windows(
         first_key = next(iter(labels_by_timeframe[tf].keys()))
         tf_labels = labels_by_timeframe[tf][first_key]
         tf_labels_filtered = tf_labels[~tf_labels["ambiguous"]].copy()
-        tf_label_ts_ns = _as_int64_ns(tf_labels_filtered["reference_ts"])
+        
+        # Align labels to this timeframe's feature timestamps
+        # Use the same alignment logic as the main flow
+        tf_label_ts = pd.DatetimeIndex(tf_labels_filtered["reference_ts"])
+        mask = tf_label_ts.isin(tf_ref_ts)
+        tf_labels_aligned = tf_labels_filtered.loc[mask].reset_index(drop=True)
+        
+        if len(tf_labels_aligned) == 0:
+            raise ValueError(f"No labels align to available {tf} window reference timestamps.")
+        
+        tf_label_ts_ns = _as_int64_ns(tf_labels_aligned["reference_ts"])
         
         total_samples = int(len(tf_label_ts_ns))
         n_shards = int(math.ceil(total_samples / shard_size))
 
-        # For per-timeframe storage, we require exact timestamp matches
-        # since labels are generated from the same timeframe's bars
+        # Verify exact timestamp matches after alignment
         positions = np.searchsorted(tf_ref_ts_ns, tf_label_ts_ns, side="left")
         if positions.max(initial=0) >= len(tf_ref_ts_ns):
             raise ValueError(f"Label timestamps exceed available window references for timeframe={tf}.")
