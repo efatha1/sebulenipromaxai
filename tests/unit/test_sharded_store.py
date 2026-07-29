@@ -25,21 +25,25 @@ def test_sharded_store_slice_roundtrip(tmp_path: Path) -> None:
         arr = np.arange(total * lookback * feature_dim, dtype=np.float32).reshape(total, lookback, feature_dim)
         np.save(root / "windows" / tf / "windows_shard_00000.npy", arr, allow_pickle=False)
 
-    np.save(root / "reference" / "reference_close_shard_00000.npy", np.array([1.0, 2.0, 3.0], dtype=np.float32), allow_pickle=False)
-    np.save(root / "reference" / "reference_ts_ns_shard_00000.npy", np.array([10, 11, 12], dtype=np.int64), allow_pickle=False)
-    np.savez_compressed(
-        root / "targets" / "targets_shard_00000.npz",
-        event_flag=np.array([0.0, 1.0, 0.0], dtype=np.float32),
-        future_low=np.array([0.1, 0.2, 0.3], dtype=np.float32),
-        future_high=np.array([0.4, 0.5, 0.6], dtype=np.float32),
-        event_start_offset=np.array([1.0, 2.0, -1.0], dtype=np.float32),
-        maturity_offset=np.array([3.0, 4.0, -1.0], dtype=np.float32),
-    )
+    # Per-timeframe reference files
+    for tf in ("1m", "5m", "15m", "1h", "4h", "1d"):
+        np.save(root / "reference" / f"reference_close_{tf}_shard_00000.npy", np.array([1.0, 2.0, 3.0], dtype=np.float32), allow_pickle=False)
+    
+    # Per-timeframe target files
+    for tf in ("1m", "5m", "15m", "1h", "4h", "1d"):
+        np.savez_compressed(
+            root / "targets" / f"targets_{tf}_shard_00000.npz",
+            event_flag=np.array([0.0, 1.0, 0.0], dtype=np.float32),
+            future_low=np.array([0.1, 0.2, 0.3], dtype=np.float32),
+            future_high=np.array([0.4, 0.5, 0.6], dtype=np.float32),
+            event_start_offset=np.array([1.0, 2.0, -1.0], dtype=np.float32),
+            maturity_offset=np.array([3.0, 4.0, -1.0], dtype=np.float32),
+        )
 
     manifest = {
         "output_layout": {"root": str(root)},
         "lookbacks_by_timeframe": {tf: lookback for tf in ("1m", "5m", "15m", "1h", "4h", "1d")},
-        "targets": {"total_samples": total, "shard_size": total, "num_shards": 1},
+        "targets": {tf: {"total_samples": total, "shard_size": total, "num_shards": 1, "column_names": ["event_flag_h15_t10.0"]} for tf in ("1m", "5m", "15m", "1h", "4h", "1d")},
         "windows": {tf: {"lookback": lookback, "num_features": feature_dim, "feature_names": ["a", "b", "c", "d"]} for tf in ("1m", "5m", "15m", "1h", "4h", "1d")},
         "label_selection": {"horizon": 15, "threshold": 10.0},
     }
