@@ -367,17 +367,25 @@ def _write_sharded_targets_unified(
         for col_name, key, field in column_names:
             labels_df = labels_by_key[key]
             # Align labels to the same reference timestamps as label_df_aligned
-            # For now, we assume all label DataFrames have the same reference_ts ordering
-            # In production, we might need to align per-timeframe
+            # Different timeframes have different numbers of bars, so we need to align by reference_ts
             if len(labels_df) != total_samples:
                 # If lengths differ, we need to align by reference_ts
                 label_ts = pd.DatetimeIndex(labels_df["reference_ts"])
                 aligned_ts = pd.DatetimeIndex(label_df_aligned["reference_ts"][start:end])
-                mask = aligned_ts.isin(label_ts)
+                # Check if label timestamps are present in aligned timestamps (not the other way around)
+                mask = label_ts.isin(aligned_ts)
                 if not mask.all():
-                    raise ValueError(f"Cannot align labels for {col_name}: some timestamps missing")
-                # Get aligned values
-                values = labels_df.set_index("reference_ts").loc[aligned_ts[mask], field].to_numpy()
+                    # Some label timestamps are not in the aligned reference timestamps
+                    # This is expected for higher timeframes - we only keep labels that align
+                    labels_df_filtered = labels_df[mask].copy()
+                    if len(labels_df_filtered) == 0:
+                        raise ValueError(f"Cannot align labels for {col_name}: no matching timestamps")
+                    # Reindex to aligned timestamps using left join (NaN for missing)
+                    labels_indexed = labels_df_filtered.set_index("reference_ts").reindex(aligned_ts)
+                    values = labels_indexed[field].to_numpy()
+                else:
+                    # All label timestamps are present, direct lookup
+                    values = labels_df.set_index("reference_ts").loc[aligned_ts, field].to_numpy()
             else:
                 values = labels_df[field].iloc[start:end].to_numpy()
 
