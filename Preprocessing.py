@@ -304,7 +304,6 @@ def _write_sharded_targets_unified(
     layout: OutputLayout,
     *,
     labels_by_key: dict[tuple[str, int, float], pd.DataFrame],
-    label_df_aligned: pd.DataFrame,
     bars_by_timeframe: dict[str, pd.DataFrame],
     shard_size: int,
 ) -> dict[str, Any]:
@@ -315,109 +314,123 @@ def _write_sharded_targets_unified(
     - future_low, future_high: float16 (price data, acceptable precision loss)
     - event_start_offset, maturity_offset: float16 (offsets, acceptable precision loss)
 
-    Storage structure:
-    - Single targets_shard_{shard_id:05d}.npz file per shard
-    - Column naming convention: {field}_{timeframe}_h{horizon}_t{threshold}
-      Example: event_flag_1m_h15_t10.0, future_low_5m_h60_t10.0
-    - Total columns: 5 fields × 6 timeframes × 3 horizons × 1 threshold = 90 columns
+    Storage structure (Option A - per-timeframe storage):
+    - Separate targets_{timeframe}_shard_{shard_id:05d}.npz file per timeframe per shard
+    - Column naming convention: {field}_h{horizon}_t{threshold} (timeframe in filename)
+      Example: targets_1m_shard_00000.npz contains event_flag_h15_t10.0, future_low_h15_t10.0, etc.
+    - Per-file columns: 5 fields × 3 horizons × 1 threshold = 15 columns per timeframe
+    - Total files: 6 timeframes × n_shards
 
     Args:
         layout: Output layout for disk paths.
         labels_by_key: Mapping (timeframe, horizon, threshold) -> label DataFrame.
-        label_df_aligned: Aligned label frame for backward compatibility (1m reference timestamps).
         bars_by_timeframe: Mapping timeframe -> OHLC bars for reference close prices.
         shard_size: Samples per shard.
 
     Returns:
-        Manifest fragment with shard counts and column metadata.
+        Manifest fragment with shard counts and column metadata per timeframe.
     """
-    total_samples = int(len(label_df_aligned))
-    if total_samples == 0:
-        raise ValueError("No aligned labels available (0 samples).")
-    if shard_size <= 0:
-        raise ValueError("shard_size must be positive.")
-
-    n_shards = int(math.ceil(total_samples / shard_size))
-    ref_ts_ns = _as_int64_ns(label_df_aligned["reference_ts"])
-
-    # Get reference close from 1m bars (backward compatible)
-    bars_1m = bars_by_timeframe["1m"]
-    reference_close = bars_1m.loc[pd.DatetimeIndex(label_df_aligned["reference_ts"]), "close"].to_numpy(dtype=np.float32)
-
-    # Build column name mapping for all combinations
-    column_names = []
-    for key in sorted(labels_by_key.keys()):
+    # Group labels by timeframe
+    labels_by_timeframe: dict[str, dict[tuple[int, float], pd.DataFrame]] = {}
+    for key, labels_df in labels_by_key.items():
         timeframe, horizon, threshold = key
-        for field in ("event_flag", "future_low", "future_high", "event_start_offset", "maturity_offset"):
-            col_name = f"{field}_{timeframe}_h{horizon}_t{threshold}"
-            column_names.append((col_name, key, field))
+        if timeframe not in labels_by_timeframe:
+            labels_by_timeframe[timeframe] = {}
+        labels_by_timeframe[timeframe][(horizon, threshold)] = labels_df
 
-    for shard_id in range(n_shards):
-        start = shard_id * shard_size
-        end = min(start + shard_size, total_samples)
-
-        # Write reference arrays (same for all combinations)
-        shard_ref_ts = ref_ts_ns[start:end]
-        shard_close = reference_close[start:end]
-        np.save(layout.reference_dir / f"reference_ts_ns_shard_{shard_id:05d}.npy", shard_ref_ts, allow_pickle=False)
-        np.save(layout.reference_dir / f"reference_close_shard_{shard_id:05d}.npy", shard_close, allow_pickle=False)
-
-        # Build unified targets dictionary
-        shard_targets = {}
-        for col_name, key, field in column_names:
-            labels_df = labels_by_key[key]
-            # Align labels to the same reference timestamps as label_df_aligned
-            # Different timeframes have different numbers of bars, so we need to align by reference_ts
-            if len(labels_df) != total_samples:
-                # If lengths differ, we need to align by reference_ts
-                label_ts = pd.DatetimeIndex(labels_df["reference_ts"])
-                aligned_ts = pd.DatetimeIndex(label_df_aligned["reference_ts"][start:end])
-                # Check if label timestamps are present in aligned timestamps (not the other way around)
-                mask = label_ts.isin(aligned_ts)
-                if not mask.all():
-                    # Some label timestamps are not in the aligned reference timestamps
-                    # This is expected for higher timeframes - we only keep labels that align
-                    labels_df_filtered = labels_df[mask].copy()
-                    if len(labels_df_filtered) == 0:
-                        raise ValueError(f"Cannot align labels for {col_name}: no matching timestamps")
-                    # Reindex to aligned timestamps using left join (NaN for missing)
-                    labels_indexed = labels_df_filtered.set_index("reference_ts").reindex(aligned_ts)
-                    values = labels_indexed[field].to_numpy()
+    # Process each timeframe separately
+    timeframe_manifests = {}
+    for timeframe in sorted(labels_by_timeframe.keys()):
+        timeframe_labels = labels_by_timeframe[timeframe]
+        
+        # Filter ambiguous labels for this timeframe
+        first_key = next(iter(timeframe_labels.keys()))
+        first_df = timeframe_labels[first_key]
+        first_df_filtered = first_df[~first_df["ambiguous"]].copy()
+        
+        if len(first_df_filtered) == 0:
+            raise ValueError(f"All labels are ambiguous for timeframe {timeframe} after filtering; cannot proceed.")
+        
+        # Use this timeframe's native timestamps
+        ref_ts = pd.DatetimeIndex(first_df_filtered["reference_ts"])
+        total_samples = int(len(ref_ts))
+        
+        if total_samples == 0:
+            raise ValueError(f"No labels available for timeframe {timeframe} (0 samples).")
+        
+        n_shards = int(math.ceil(total_samples / shard_size))
+        ref_ts_ns = _as_int64_ns(ref_ts)
+        
+        # Get reference close from this timeframe's bars
+        bars_tf = bars_by_timeframe[timeframe]
+        reference_close = bars_tf.loc[ref_ts, "close"].to_numpy(dtype=np.float32)
+        
+        # Build column name mapping for this timeframe
+        column_names = []
+        for (horizon, threshold) in sorted(timeframe_labels.keys()):
+            for field in ("event_flag", "future_low", "future_high", "event_start_offset", "maturity_offset"):
+                col_name = f"{field}_h{horizon}_t{threshold}"
+                column_names.append((col_name, (horizon, threshold), field))
+        
+        # Write shards for this timeframe
+        for shard_id in range(n_shards):
+            start = shard_id * shard_size
+            end = min(start + shard_size, total_samples)
+            
+            # Write reference arrays for this timeframe
+            shard_ref_ts = ref_ts_ns[start:end]
+            shard_close = reference_close[start:end]
+            np.save(layout.reference_dir / f"reference_ts_ns_{timeframe}_shard_{shard_id:05d}.npy", shard_ref_ts, allow_pickle=False)
+            np.save(layout.reference_dir / f"reference_close_{timeframe}_shard_{shard_id:05d}.npy", shard_close, allow_pickle=False)
+            
+            # Build targets dictionary for this timeframe
+            shard_targets = {}
+            for col_name, (horizon, threshold), field in column_names:
+                labels_df = timeframe_labels[(horizon, threshold)]
+                # Filter ambiguous labels
+                labels_df_filtered = labels_df[~labels_df["ambiguous"]].copy()
+                # Get values for this shard
+                values = labels_df_filtered[field].iloc[start:end].to_numpy()
+                
+                # Apply mixed precision
+                if field == "event_flag":
+                    shard_targets[col_name] = values.astype(np.float32)
                 else:
-                    # All label timestamps are present, direct lookup
-                    values = labels_df.set_index("reference_ts").loc[aligned_ts, field].to_numpy()
-            else:
-                values = labels_df[field].iloc[start:end].to_numpy()
-
-            # Apply mixed precision
-            if field == "event_flag":
-                shard_targets[col_name] = values.astype(np.float32)
-            else:
-                shard_targets[col_name] = values.astype(np.float16)
-
-        np.savez_compressed(layout.targets_dir / f"targets_shard_{shard_id:05d}.npz", **shard_targets)
-
-    return {
-        "total_samples": total_samples,
-        "shard_size": shard_size,
-        "num_shards": n_shards,
-        "column_names": [col_name for col_name, _, _ in column_names],
-        "num_columns": len(column_names),
-    }
+                    shard_targets[col_name] = values.astype(np.float16)
+            
+            np.savez_compressed(layout.targets_dir / f"targets_{timeframe}_shard_{shard_id:05d}.npz", **shard_targets)
+        
+        timeframe_manifests[timeframe] = {
+            "total_samples": total_samples,
+            "shard_size": shard_size,
+            "num_shards": n_shards,
+            "column_names": [col_name for col_name, _, _ in column_names],
+            "num_columns": len(column_names),
+        }
+    
+    return timeframe_manifests
 
 
 def _write_sharded_windows(
     layout: OutputLayout,
     *,
     features_by_tf: dict[str, pd.DataFrame],
-    label_df_aligned: pd.DataFrame,
+    labels_by_key: dict[tuple[str, int, float], pd.DataFrame],
     lookbacks_by_tf: dict[str, int],
     shard_size: int,
 ) -> dict[str, Any]:
-    """Write sharded windows to disk timeframe-by-timeframe (RAM bounded)."""
-    total_samples = int(len(label_df_aligned))
-    n_shards = int(math.ceil(total_samples / shard_size))
-    label_ts_ns = _as_int64_ns(label_df_aligned["reference_ts"])
+    """Write sharded windows to disk timeframe-by-timeframe (RAM bounded).
+
+    With Option A (per-timeframe storage), each timeframe uses its own native timestamps
+    for window construction, avoiding cross-timeframe alignment issues.
+    """
+    # Group labels by timeframe to get native timestamps
+    labels_by_timeframe: dict[str, dict[tuple[int, float], pd.DataFrame]] = {}
+    for key, labels_df in labels_by_key.items():
+        timeframe, horizon, threshold = key
+        if timeframe not in labels_by_timeframe:
+            labels_by_timeframe[timeframe] = {}
+        labels_by_timeframe[timeframe][(horizon, threshold)] = labels_df
 
     manifest_by_tf: dict[str, Any] = {}
 
@@ -430,41 +443,31 @@ def _write_sharded_windows(
         if not np.all(tf_ref_ts_ns[1:] >= tf_ref_ts_ns[:-1]):
             raise ValueError(f"Feature index is not monotonic for timeframe={tf}.")
 
-        # Alignment policy:
-        # - `1m`: labels are anchored to `1m` end_ts, so we require exact reference timestamp matches.
-        # - higher timeframes: align each `1m` reference_ts to the latest fully-closed higher-timeframe
-        #   window reference at or before the label timestamp. This is causal and prevents future leakage.
-        if tf == "1m":
-            positions = np.searchsorted(tf_ref_ts_ns, label_ts_ns, side="left")
-            if positions.max(initial=0) >= len(tf_ref_ts_ns):
-                raise ValueError(f"Label timestamps exceed available window references for timeframe={tf}.")
-            if not np.array_equal(tf_ref_ts_ns[positions], label_ts_ns):
-                mismatches = np.flatnonzero(tf_ref_ts_ns[positions] != label_ts_ns)
-                example = int(mismatches[0])
-                raise ValueError(
-                    f"Timestamp alignment mismatch for timeframe={tf}. "
-                    f"example_label_ts_ns={int(label_ts_ns[example])} "
-                    f"matched_ts_ns={int(tf_ref_ts_ns[positions[example]])}"
-                )
-        else:
-            # `side="right" - 1` yields the last index where tf_ref_ts_ns[idx] <= label_ts_ns.
-            positions = np.searchsorted(tf_ref_ts_ns, label_ts_ns, side="right") - 1
-            if positions.min(initial=0) < 0:
-                # No prior higher-timeframe reference exists for at least one label timestamp.
-                bad = np.flatnonzero(positions < 0)
-                example = int(bad[0])
-                raise ValueError(
-                    f"Label timestamp precedes first window reference for timeframe={tf}. "
-                    f"example_label_ts_ns={int(label_ts_ns[example])} first_tf_ref_ts_ns={int(tf_ref_ts_ns[0])}"
-                )
-            matched = tf_ref_ts_ns[positions]
-            if np.any(matched > label_ts_ns):
-                bad = np.flatnonzero(matched > label_ts_ns)
-                example = int(bad[0])
-                raise ValueError(
-                    f"Future leakage detected in alignment for timeframe={tf}. "
-                    f"example_label_ts_ns={int(label_ts_ns[example])} matched_ts_ns={int(matched[example])}"
-                )
+        # Get this timeframe's native label timestamps
+        if tf not in labels_by_timeframe:
+            raise ValueError(f"No labels available for timeframe={tf}")
+        
+        first_key = next(iter(labels_by_timeframe[tf].keys()))
+        tf_labels = labels_by_timeframe[tf][first_key]
+        tf_labels_filtered = tf_labels[~tf_labels["ambiguous"]].copy()
+        tf_label_ts_ns = _as_int64_ns(tf_labels_filtered["reference_ts"])
+        
+        total_samples = int(len(tf_label_ts_ns))
+        n_shards = int(math.ceil(total_samples / shard_size))
+
+        # For per-timeframe storage, we require exact timestamp matches
+        # since labels are generated from the same timeframe's bars
+        positions = np.searchsorted(tf_ref_ts_ns, tf_label_ts_ns, side="left")
+        if positions.max(initial=0) >= len(tf_ref_ts_ns):
+            raise ValueError(f"Label timestamps exceed available window references for timeframe={tf}.")
+        if not np.array_equal(tf_ref_ts_ns[positions], tf_label_ts_ns):
+            mismatches = np.flatnonzero(tf_ref_ts_ns[positions] != tf_label_ts_ns)
+            example = int(mismatches[0])
+            raise ValueError(
+                f"Timestamp alignment mismatch for timeframe={tf}. "
+                f"example_label_ts_ns={int(tf_label_ts_ns[example])} "
+                f"matched_ts_ns={int(tf_ref_ts_ns[positions[example]])}"
+            )
 
         # Build a strided view over all windows (small metadata object; no full tensor allocation).
         values = tf_frame.to_numpy(dtype=np.float32, copy=False)
@@ -622,7 +625,6 @@ def main() -> None:
     target_manifest = _write_sharded_targets_unified(
         layout,
         labels_by_key=labels_by_key,
-        label_df_aligned=label_df_aligned,
         bars_by_timeframe=bars_by_tf,
         shard_size=int(args.shard_size),
     )
@@ -631,7 +633,7 @@ def main() -> None:
     windows_manifest = _write_sharded_windows(
         layout,
         features_by_tf=features_by_tf,
-        label_df_aligned=label_df_aligned,
+        labels_by_key=labels_by_key,
         lookbacks_by_tf=lookbacks_by_tf,
         shard_size=int(args.shard_size),
     )
@@ -644,7 +646,7 @@ def main() -> None:
             "runtime_timezone": config.time.runtime_timezone,
         },
         "lookbacks_by_timeframe": lookbacks_by_tf,
-        "targets": target_manifest,
+        "targets": target_manifest,  # Now a dict of manifests per timeframe
         "windows": windows_manifest,
         "output_layout": {"root": str(layout.root)},
         "elapsed_seconds": float(time.time() - t0),
