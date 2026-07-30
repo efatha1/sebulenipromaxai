@@ -332,9 +332,10 @@ class ShardedDatasetStore:
                         print(f"[DEBUG] Processing key={key}, parts={parts}, len(parts)={len(parts)}")
                     if len(parts) >= 3:
                         # Find horizon indicator to split field from parameters
+                        # Match pattern: h followed by digits (e.g., h15, h60, h120)
                         horizon_part_idx = None
                         for i, part in enumerate(parts):
-                            if part.startswith("h"):
+                            if part.startswith("h") and len(part) > 1 and part[1:].isdigit():
                                 horizon_part_idx = i
                                 break
                         
