@@ -29,7 +29,7 @@ resampling:
     - "15m"
     - "1h"
     - "4h"
-    - "1d"
+#   - "1d"
 
 features:
   enabled_features:
@@ -72,7 +72,7 @@ preprocessing:
     "15m": 48
     "1h": 24
     "4h": 16
-    "1d": 10
+#    "1d": 10
   output_root: "/kaggle/tmp/sebulenipromaxai/artifacts/preprocessing_shards"
 
 unified_heads:
@@ -83,7 +83,7 @@ unified_heads:
     - "15m"
     - "1h"
     - "4h"
-    - "1d"
+#    - "1d"
   horizons:
     - 15
     - 60
@@ -114,11 +114,11 @@ unified_heads:
         - 15
         - 60
         - 120
-    - timeframe: "1d"
-      horizons:
-        - 15
-        - 60
-        - 120
+#    - timeframe: "1d"
+#      horizons:
+#        - 15
+#        - 60
+#        - 120
 
 retrieval:
   top_k_analogs: 5
