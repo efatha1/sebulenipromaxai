@@ -453,6 +453,13 @@ class ShardedDatasetStore:
                     raise ShardedStoreError(f"Missing maturity_offset for timeframe={tf}, horizon={horizon}. Check that target files contain the expected keys.")
             
             # Stack horizons: (batch, num_horizons)
+            if self.debug:
+                print(f"[DEBUG] Stacking tensors for timeframe={tf}")
+                print(f"[DEBUG] event_flag_tensors shapes: {[t.shape for t in event_flag_tensors]}")
+                print(f"[DEBUG] future_low_tensors shapes: {[t.shape for t in future_low_tensors]}")
+                print(f"[DEBUG] future_high_tensors shapes: {[t.shape for t in future_high_tensors]}")
+                print(f"[DEBUG] event_start_offset_tensors shapes: {[t.shape for t in event_start_offset_tensors]}")
+                print(f"[DEBUG] maturity_offset_tensors shapes: {[t.shape for t in maturity_offset_tensors]}")
             event_flag[tf] = torch.from_numpy(np.stack(event_flag_tensors, axis=1))
             future_low[tf] = torch.from_numpy(np.stack(future_low_tensors, axis=1))
             future_high[tf] = torch.from_numpy(np.stack(future_high_tensors, axis=1))
