@@ -371,7 +371,7 @@ def compute_unified_multitask_loss(
     """
     # Reshape unified outputs to separate by timeframe
     # Output order: 1m_h15, 1m_h60, 1m_h120, 5m_h15, 5m_h60, 5m_h120, ..., 1d_h120
-    timeframes = ("1m", "5m", "15m", "1h", "4h", "1d")
+    timeframes = ("1m", "5m", "15m", "1h", "4h")
     horizons = (15, 60, 120)
 
     event_losses = []
@@ -474,7 +474,7 @@ def compute_unified_multitask_loss_with_uncertainty(
     """
     # Reshape unified outputs to separate by timeframe
     # Output order: 1m_h15, 1m_h60, 1m_h120, 5m_h15, 5m_h60, 5m_h120, ..., 1d_h120
-    timeframes = ("1m", "5m", "15m", "1h", "4h", "1d")
+    timeframes = ("1m", "5m", "15m", "1h", "4h")
     horizons = (15, 60, 120)
 
     event_losses = []

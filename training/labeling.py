@@ -95,7 +95,7 @@ def generate_labels_multi_timeframe(
     """Generate labels for each (timeframe, horizon, threshold) combination.
 
     For each timeframe in MODELED_TIMEFRAMES, generates labels using that timeframe's
-    own bars. Higher timeframes (5m, 15m, 1h, 4h, 1d) use their resampled bars for
+    own bars. Higher timeframes (5m, 15m, 1h, 4h) use their resampled bars for
     label generation. Ambiguity classification uses horizon_bars in 1-minute equivalents,
     converted per timeframe.
 

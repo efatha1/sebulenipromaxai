@@ -65,7 +65,7 @@ def predict(
         unified_timing = model.unified_timing_head(latent)
 
         # Default to all timeframes and horizons if not specified
-        requested_timeframes = request.requested_timeframes or ("1m", "5m", "15m", "1h", "4h", "1d")
+        requested_timeframes = request.requested_timeframes or ("1m", "5m", "15m", "1h", "4h")
         requested_horizons = request.requested_horizons or (15, 60, 120)
 
         # Extract predictions for requested combinations
@@ -215,7 +215,7 @@ def _extract_unified_predictions(
         List of prediction dictionaries for each requested combination.
     """
     # Output order: 1m_h15, 1m_h60, 1m_h120, 5m_h15, 5m_h60, 5m_h120, ..., 1d_h120
-    timeframes = ("1m", "5m", "15m", "1h", "4h", "1d")
+    timeframes = ("1m", "5m", "15m", "1h", "4h")
     horizons = (15, 60, 120)
 
     predictions = []

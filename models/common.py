@@ -10,7 +10,7 @@ import torch
 
 LOGGER = logging.getLogger(__name__)
 
-TIMEFRAMES: Final[tuple[str, ...]] = ("1m", "5m", "15m", "1h", "4h", "1d")
+TIMEFRAMES: Final[tuple[str, ...]] = ("1m", "5m", "15m", "1h", "4h")
 
 
 class ModelError(ValueError):
