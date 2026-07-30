@@ -15,7 +15,7 @@
     "5m": 60
   },
   "output_layout": {
-    "root": "/kaggle/tmp/sebulenipromaxai/artifacts/preprocessing_shards"
+    "root": "/kaggle/input/datasets/efathakanafunzi/sebulenipromaxaifinal3/kaggle/tmp/sebulenipromaxai/artifacts/preprocessing_shards"
   },
   "targets": {
     "15m": {
