@@ -396,22 +396,22 @@ def compute_unified_multitask_loss(
 
             # Extract event logits for this combination
             event_logits = unified_event[:, flat_idx : flat_idx + 1]
-            event_target = targets.event_flag[timeframe][:, h_idx : h_idx + 1]
+            event_target = targets.event_flag[timeframe][:, h_idx : h_idx + 1].squeeze(-1)
             event_loss = F.binary_cross_entropy_with_logits(event_logits, event_target)
             event_losses.append(event_loss)
 
             # Extract boundary predictions for this combination
             boundary_pred = unified_boundary[:, flat_idx, :]
-            boundary_low = targets.future_low[timeframe][:, h_idx : h_idx + 1]
-            boundary_high = targets.future_high[timeframe][:, h_idx : h_idx + 1]
+            boundary_low = targets.future_low[timeframe][:, h_idx : h_idx + 1].squeeze(-1)
+            boundary_high = targets.future_high[timeframe][:, h_idx : h_idx + 1].squeeze(-1)
             boundary_truth = torch.stack((boundary_low, boundary_high), dim=1).to(device=boundary_pred.device, dtype=boundary_pred.dtype)
             boundary_loss = F.smooth_l1_loss(boundary_pred, boundary_truth)
             boundary_losses.append(boundary_loss)
 
             # Extract timing predictions for this combination
             timing_pred = unified_timing[:, flat_idx, :]
-            timing_start = targets.event_start_offset[timeframe][:, h_idx : h_idx + 1]
-            timing_maturity = targets.maturity_offset[timeframe][:, h_idx : h_idx + 1]
+            timing_start = targets.event_start_offset[timeframe][:, h_idx : h_idx + 1].squeeze(-1)
+            timing_maturity = targets.maturity_offset[timeframe][:, h_idx : h_idx + 1].squeeze(-1)
             timing_truth = torch.stack((timing_start, timing_maturity), dim=1).to(device=timing_pred.device, dtype=timing_pred.dtype)
 
             # Mask invalid timing targets
@@ -499,22 +499,22 @@ def compute_unified_multitask_loss_with_uncertainty(
 
             # Extract event logits for this combination
             event_logits = unified_event[:, flat_idx : flat_idx + 1]
-            event_target = targets.event_flag[timeframe][:, h_idx : h_idx + 1]
+            event_target = targets.event_flag[timeframe][:, h_idx : h_idx + 1].squeeze(-1)
             event_loss = F.binary_cross_entropy_with_logits(event_logits, event_target)
             event_losses.append(event_loss)
 
             # Extract boundary predictions for this combination
             boundary_pred = unified_boundary[:, flat_idx, :]
-            boundary_low = targets.future_low[timeframe][:, h_idx : h_idx + 1]
-            boundary_high = targets.future_high[timeframe][:, h_idx : h_idx + 1]
+            boundary_low = targets.future_low[timeframe][:, h_idx : h_idx + 1].squeeze(-1)
+            boundary_high = targets.future_high[timeframe][:, h_idx : h_idx + 1].squeeze(-1)
             boundary_truth = torch.stack((boundary_low, boundary_high), dim=1).to(device=boundary_pred.device, dtype=boundary_pred.dtype)
             boundary_loss = F.smooth_l1_loss(boundary_pred, boundary_truth)
             boundary_losses.append(boundary_loss)
 
             # Extract timing predictions for this combination
             timing_pred = unified_timing[:, flat_idx, :]
-            timing_start = targets.event_start_offset[timeframe][:, h_idx : h_idx + 1]
-            timing_maturity = targets.maturity_offset[timeframe][:, h_idx : h_idx + 1]
+            timing_start = targets.event_start_offset[timeframe][:, h_idx : h_idx + 1].squeeze(-1)
+            timing_maturity = targets.maturity_offset[timeframe][:, h_idx : h_idx + 1].squeeze(-1)
             timing_truth = torch.stack((timing_start, timing_maturity), dim=1).to(device=timing_pred.device, dtype=timing_pred.dtype)
 
             # Mask invalid timing targets
