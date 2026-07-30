@@ -554,6 +554,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -1100,6 +1136,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -1646,6 +1718,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -2192,6 +2300,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -2738,6 +2882,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -3284,6 +3464,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -3830,6 +4046,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -4376,6 +4628,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -4922,6 +5210,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -5468,6 +5792,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -6014,6 +6374,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -6560,6 +6956,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -7106,6 +7538,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -7652,6 +8120,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -8198,6 +8702,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -8744,6 +9284,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -9290,6 +9866,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -9836,6 +10448,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -10382,6 +11030,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -10928,6 +11612,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -11474,6 +12194,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -12020,6 +12776,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -12566,6 +13358,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -13112,6 +13940,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -13658,6 +14522,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -14204,6 +15104,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -14750,6 +15686,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -15296,6 +16268,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -15842,6 +16850,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -16388,6 +17432,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -16934,6 +18014,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -17480,6 +18596,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -18026,6 +19178,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -18572,6 +19760,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -19118,6 +20342,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -19664,6 +20924,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -20210,6 +21506,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -20756,6 +22088,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -21302,6 +22670,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -21848,6 +23252,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -22394,6 +23834,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -22940,6 +24416,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -23486,6 +24998,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -24032,6 +25580,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -24578,6 +26162,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -25124,6 +26744,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -25670,6 +27326,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -26216,6 +27908,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -26762,6 +28490,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -27308,6 +29072,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -27854,6 +29654,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -28400,6 +30236,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -28946,6 +30818,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -29492,6 +31400,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -30038,6 +31982,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -30584,6 +32564,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -31130,6 +33146,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -31676,6 +33728,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -32222,6 +34310,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -32768,6 +34892,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -33314,6 +35474,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -33860,6 +36056,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -34406,6 +36638,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -34952,6 +37220,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
 [DEBUG] Processing timeframe=1m, found 15 keys: ['event_flag_h15_t10.0', 'future_low_h15_t10.0', 'future_high_h15_t10.0', 'event_start_offset_h15_t10.0', 'maturity_offset_h15_t10.0', 'event_flag_h60_t10.0', 'future_low_h60_t10.0', 'future_high_h60_t10.0', 'event_start_offset_h60_t10.0', 'maturity_offset_h60_t10.0', 'event_flag_h120_t10.0', 'future_low_h120_t10.0', 'future_high_h120_t10.0', 'event_start_offset_h120_t10.0', 'maturity_offset_h120_t10.0']
 [DEBUG] Processing key=event_flag_h15_t10.0, parts=['event', 'flag', 'h15', 't10.0'], len(parts)=4
 [DEBUG] horizon_part_idx=2
@@ -35487,7 +37791,7 @@
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=future_high, tf=1d, horizon_idx=2
 [DEBUG] Processing key=event_start_offset_h120_t10.0, parts=['event', 'start', 'offset', 'h120', 't10.0'], len(parts)=5
-[DEBUG] horizon_part_idx=3
+[DEBUG] horizon_part_idx=3  37848 - 37794   4
 [DEBUG] field=event_start_offset, field in unified_targets_parts=True
 [DEBUG] Key=event_start_offset_h120_t10.0, field=event_start_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
@@ -35498,6 +37802,42 @@
 [DEBUG] Key=maturity_offset_h120_t10.0, field=maturity_offset, horizon=120, threshold=10.0
 [DEBUG] Comparison: horizon in self.horizons=True, threshold in self.thresholds=True
 [DEBUG] Successfully stored: field=maturity_offset, tf=1d, horizon_idx=2
+[DEBUG] Stacking tensors for timeframe=1m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=5m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=15m
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=4h
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (32,)]
+[DEBUG] Stacking tensors for timeframe=1d
+[DEBUG] event_flag_tensors shapes: [(32,), (32,), (30,)]
+[DEBUG] future_low_tensors shapes: [(32,), (32,), (30,)]
+[DEBUG] future_high_tensors shapes: [(32,), (32,), (30,)]
+[DEBUG] event_start_offset_tensors shapes: [(32,), (32,), (30,)]
+[DEBUG] maturity_offset_tensors shapes: [(32,), (32,), (30,)]
 {
   "errors": [
     {

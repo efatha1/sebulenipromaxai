@@ -170,6 +170,7 @@ def generate_labels_multi_timeframe(
                     horizon_bars=int(horizon),
                     threshold=float(threshold),
                     ambiguous_mask=ambiguity_mask,
+                    timeframe=timeframe,
                 )
                 out[(timeframe, int(horizon), float(threshold))] = labels
 
@@ -216,6 +217,7 @@ def _labels_for_horizon_threshold(
     horizon_bars: int,
     threshold: float,
     ambiguous_mask: pd.Series,
+    timeframe: str = "1m",
 ) -> pd.DataFrame:
     if horizon_bars <= 0:
         raise LabelingError("horizon_bars must be positive.")
@@ -240,9 +242,18 @@ def _labels_for_horizon_threshold(
 
         ref_close = close[i]
         window_start = i + 1
-        window_end = i + horizon_bars
-        if window_end >= n:
-            raise LabelingError("Ambiguity mask allowed an out-of-range horizon window.")
+
+        # For 1d timeframe, use dynamic horizon based on available data
+        if timeframe == "1d":
+            window_end = min(i + horizon_bars, n - 1)
+            # Use available bars even if fewer than requested horizon
+            if window_end <= window_start:
+                # No future bars available, skip this sample
+                continue
+        else:
+            window_end = i + horizon_bars
+            if window_end >= n:
+                raise LabelingError("Ambiguity mask allowed an out-of-range horizon window.")
 
         slice_high = high[window_start : window_end + 1]
         slice_low = low[window_start : window_end + 1]
