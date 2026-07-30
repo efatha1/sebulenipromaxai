@@ -4,8 +4,8 @@
     "ohlc_path": "/kaggle/input/datasets/efathakanafunzi/full1minohlc-parquet/1min_OHLCnw1Fixed.parquet",
     "runtime_timezone": "America/New_York"
   },
-  "created_at_unix": 1785319461,
-  "elapsed_seconds": 1883.202356338501,
+  "created_at_unix": 1785399095,
+  "elapsed_seconds": 1680.1201057434082,
   "lookbacks_by_timeframe": {
     "15m": 48,
     "1d": 10,
@@ -15,7 +15,7 @@
     "5m": 60
   },
   "output_layout": {
-    "root": "/kaggle/input/datasets/efathakanafunzi/sebulenipromaxaifinal3/kaggle/tmp/sebulenipromaxai/artifacts/preprocessing_shards"
+    "root": "/kaggle/tmp/sebulenipromaxai/artifacts/preprocessing_shards"
   },
   "targets": {
     "15m": {
