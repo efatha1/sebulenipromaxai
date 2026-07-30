@@ -13,8 +13,8 @@ from typing import Annotated, Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr, field_validator
 
-ACTIVE_TARGET_TIMEFRAMES: tuple[str, ...] = ("5m", "15m", "1h", "4h", "1d")
-MODELED_TIMEFRAMES: tuple[str, ...] = ("1m", "5m", "15m", "1h", "4h", "1d")
+ACTIVE_TARGET_TIMEFRAMES: tuple[str, ...] = ("5m", "15m", "1h", "4h")
+MODELED_TIMEFRAMES: tuple[str, ...] = ("1m", "5m", "15m", "1h", "4h")
 TIME_PATTERN = re.compile(r"^\d{2}:\d{2}$")
 
 NonEmptyStr = Annotated[StrictStr, Field(min_length=1)]
@@ -173,14 +173,14 @@ class ResamplingConfig(FrozenModel):
     """Resampling configuration for the active timeframe stack."""
 
     base_timeframe: Literal["1m"]
-    target_timeframes: tuple[Literal["5m", "15m", "1h", "4h", "1d"], ...]
+    target_timeframes: tuple[Literal["5m", "15m", "1h", "4h"], ...]
 
     @field_validator("target_timeframes")
     @classmethod
     def validate_target_timeframes(
         cls,
-        value: tuple[Literal["5m", "15m", "1h", "4h", "1d"], ...],
-    ) -> tuple[Literal["5m", "15m", "1h", "4h", "1d"], ...]:
+        value: tuple[Literal["5m", "15m", "1h", "4h"], ...],
+    ) -> tuple[Literal["5m", "15m", "1h", "4h"], ...]:
         """Validate the approved derived timeframe set.
 
         Args:
@@ -279,15 +279,15 @@ class TrainingConfig(FrozenModel):
 class PreprocessingConfig(FrozenModel):
     """Preprocessing-specific configuration."""
 
-    lookbacks_by_timeframe: dict[Literal["1m", "5m", "15m", "1h", "4h", "1d"], PositiveInt] | None = None
+    lookbacks_by_timeframe: dict[Literal["1m", "5m", "15m", "1h", "4h"], PositiveInt] | None = None
     output_root: Path | None = None
 
     @field_validator("lookbacks_by_timeframe")
     @classmethod
     def validate_lookbacks_by_timeframe(
         cls,
-        value: dict[Literal["1m", "5m", "15m", "1h", "4h", "1d"], PositiveInt] | None,
-    ) -> dict[Literal["1m", "5m", "15m", "1h", "4h", "1d"], PositiveInt] | None:
+        value: dict[Literal["1m", "5m", "15m", "1h", "4h"], PositiveInt] | None,
+    ) -> dict[Literal["1m", "5m", "15m", "1h", "4h"], PositiveInt] | None:
         """Validate that per-timeframe lookbacks cover the full modeled stack.
 
         Args:
@@ -301,7 +301,7 @@ class PreprocessingConfig(FrozenModel):
         """
         if value is None:
             return None
-        expected = {"1m", "5m", "15m", "1h", "4h", "1d"}
+        expected = {"1m", "5m", "15m", "1h", "4h"}
         actual = set(value.keys())
         if actual != expected:
             missing = sorted(expected - actual)
@@ -361,7 +361,7 @@ class UnifiedHeadsConfig(FrozenModel):
     """Configuration for unified multi-horizon multi-timeframe prediction heads."""
 
     enabled: StrictBool
-    timeframes: tuple[Literal["1m", "5m", "15m", "1h", "4h", "1d"], ...]
+    timeframes: tuple[Literal["1m", "5m", "15m", "1h", "4h"], ...]
     horizons: tuple[PositiveInt, ...]
     default_outputs: tuple[dict[str, Any], ...] | None = None
 
@@ -369,8 +369,8 @@ class UnifiedHeadsConfig(FrozenModel):
     @classmethod
     def validate_timeframes(
         cls,
-        value: tuple[Literal["1m", "5m", "15m", "1h", "4h", "1d"], ...],
-    ) -> tuple[Literal["1m", "5m", "15m", "1h", "4h", "1d"], ...]:
+        value: tuple[Literal["1m", "5m", "15m", "1h", "4h"], ...],
+    ) -> tuple[Literal["1m", "5m", "15m", "1h", "4h"], ...]:
         """Validate that timeframes match the modeled timeframe stack.
 
         Args:

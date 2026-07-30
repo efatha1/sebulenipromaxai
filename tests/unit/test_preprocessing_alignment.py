@@ -80,7 +80,6 @@ def test_common_history_start_is_max_across_timeframes() -> None:
     idx_15m = pd.date_range("2026-01-01 00:15", periods=200, freq="15min", tz="UTC")
     idx_1h = pd.date_range("2026-01-01 01:00", periods=200, freq="1h", tz="UTC")
     idx_4h = pd.date_range("2026-01-01 04:00", periods=200, freq="4h", tz="UTC")
-    idx_1d = pd.date_range("2026-01-02", periods=200, freq="1d", tz="UTC")
 
     features_by_tf = {
         "1m": pd.DataFrame(index=idx_1m, data={"f": 0.0}),
@@ -88,11 +87,10 @@ def test_common_history_start_is_max_across_timeframes() -> None:
         "15m": pd.DataFrame(index=idx_15m, data={"f": 0.0}),
         "1h": pd.DataFrame(index=idx_1h, data={"f": 0.0}),
         "4h": pd.DataFrame(index=idx_4h, data={"f": 0.0}),
-        "1d": pd.DataFrame(index=idx_1d, data={"f": 0.0}),
     }
     lookbacks_by_tf = {tf: 3 for tf in features_by_tf}
     common = _compute_common_history_start(features_by_tf=features_by_tf, lookbacks_by_tf=lookbacks_by_tf)
-    assert common == max(pd.Timestamp(idx[2]) for idx in (idx_1m, idx_5m, idx_15m, idx_1h, idx_4h, idx_1d))
+    assert common == max(pd.Timestamp(idx[2]) for idx in (idx_1m, idx_5m, idx_15m, idx_1h, idx_4h))
 
 
 def test_resolve_lookbacks_by_timeframe_prefers_config_mapping() -> None:
@@ -111,7 +109,7 @@ def test_resolve_lookbacks_by_timeframe_prefers_config_mapping() -> None:
                 "holiday_policy": "include",
                 "definitions": [{"name": "primary", "start": "00:00", "end": "23:59"}],
             },
-            "resampling": {"base_timeframe": "1m", "target_timeframes": ["5m", "15m", "1h", "4h", "1d"]},
+            "resampling": {"base_timeframe": "1m", "target_timeframes": ["5m", "15m", "1h", "4h"]},
             "features": {
                 "enabled_features": ["returns", "ranges", "wick_body_ratios"],
                 "deterministic_derived_features": ["returns", "ranges", "wick_body_ratios"],
@@ -133,7 +131,6 @@ def test_resolve_lookbacks_by_timeframe_prefers_config_mapping() -> None:
                     "15m": 48,
                     "1h": 24,
                     "4h": 16,
-                    "1d": 10,
                 }
             },
             "retrieval": {"top_k_analogs": 1},
@@ -144,4 +141,4 @@ def test_resolve_lookbacks_by_timeframe_prefers_config_mapping() -> None:
     )
 
     resolved = _resolve_lookbacks_by_timeframe(config=config, fallback_lookback=123)
-    assert resolved == {"1m": 90, "5m": 60, "15m": 48, "1h": 24, "4h": 16, "1d": 10}
+    assert resolved == {"1m": 90, "5m": 60, "15m": 48, "1h": 24, "4h": 16}

@@ -14,25 +14,25 @@ def test_sharded_store_slice_roundtrip(tmp_path: Path) -> None:
     (root / "targets").mkdir(parents=True)
     (root / "reference").mkdir(parents=True)
     (root / "labels").mkdir(parents=True)
-    for tf in ("1m", "5m", "15m", "1h", "4h", "1d"):
+    for tf in ("1m", "5m", "15m", "1h", "4h"):
         (root / "windows" / tf).mkdir(parents=True)
 
     total = 3
     lookback = 2
     feature_dim = 4
 
-    for tf in ("1m", "5m", "15m", "1h", "4h", "1d"):
+    for tf in ("1m", "5m", "15m", "1h", "4h"):
         arr = np.arange(total * lookback * feature_dim, dtype=np.float32).reshape(total, lookback, feature_dim)
         np.save(root / "windows" / tf / "windows_shard_00000.npy", arr, allow_pickle=False)
 
     # Per-timeframe reference files
-    for tf in ("1m", "5m", "15m", "1h", "4h", "1d"):
+    for tf in ("1m", "5m", "15m", "1h", "4h"):
         np.save(root / "reference" / f"reference_close_{tf}_shard_00000.npy", np.array([1.0, 2.0, 3.0], dtype=np.float32), allow_pickle=False)
     
     # Per-timeframe target files with multiple horizons
     horizons = [15, 60, 120]
     threshold = 10.0
-    for tf in ("1m", "5m", "15m", "1h", "4h", "1d"):
+    for tf in ("1m", "5m", "15m", "1h", "4h"):
         target_dict = {}
         for horizon in horizons:
             target_dict[f"event_flag_h{horizon}_t{threshold}"] = np.array([0.0, 1.0, 0.0], dtype=np.float32)
@@ -47,9 +47,9 @@ def test_sharded_store_slice_roundtrip(tmp_path: Path) -> None:
 
     manifest = {
         "output_layout": {"root": str(root)},
-        "lookbacks_by_timeframe": {tf: lookback for tf in ("1m", "5m", "15m", "1h", "4h", "1d")},
-        "targets": {tf: {"total_samples": total, "shard_size": total, "num_shards": 1, "column_names": [f"event_flag_h{h}_t{threshold}" for h in horizons]} for tf in ("1m", "5m", "15m", "1h", "4h", "1d")},
-        "windows": {tf: {"lookback": lookback, "num_features": feature_dim, "feature_names": ["a", "b", "c", "d"]} for tf in ("1m", "5m", "15m", "1h", "4h", "1d")},
+        "lookbacks_by_timeframe": {tf: lookback for tf in ("1m", "5m", "15m", "1h", "4h")},
+        "targets": {tf: {"total_samples": total, "shard_size": total, "num_shards": 1, "column_names": [f"event_flag_h{h}_t{threshold}" for h in horizons]} for tf in ("1m", "5m", "15m", "1h", "4h")},
+        "windows": {tf: {"lookback": lookback, "num_features": feature_dim, "feature_names": ["a", "b", "c", "d"]} for tf in ("1m", "5m", "15m", "1h", "4h")},
         "label_selection": {"horizon": 15, "threshold": threshold},
     }
     manifest_path = root / "manifest.json"

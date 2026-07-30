@@ -50,7 +50,7 @@ def test_u2_end_to_end_csv_to_multitimeframe_output(tmp_path: Path) -> None:
             "holiday_policy": "include",
             "definitions": [{"name": "primary", "start": "00:00", "end": "23:59"}],
         },
-        "resampling": {"base_timeframe": "1m", "target_timeframes": ["5m", "15m", "1h", "4h", "1d"]},
+        "resampling": {"base_timeframe": "1m", "target_timeframes": ["5m", "15m", "1h", "4h"]},
         "features": {"enabled_features": ["returns"], "deterministic_derived_features": ["returns"]},
         "labeling": {"thresholds": [10.0], "horizon_bars": [15]},
         "walk_forward": {"train_bars": 1000, "validation_bars": 200, "test_bars": 200, "step_bars": 200},
@@ -75,10 +75,8 @@ def test_u2_end_to_end_csv_to_multitimeframe_output(tmp_path: Path) -> None:
     validate_bar_sequence(frame_1m, config)
     out = resample_timeframes(frame_1m, config)
 
-    assert set(out.keys()) == {"1m", "5m", "15m", "1h", "4h", "1d"}
+    assert set(out.keys()) == {"1m", "5m", "15m", "1h", "4h"}
     assert len(out["1m"]) == len(timestamps)
     assert out["1m"]["end_ts"].dt.tz is not None
     assert out["5m"]["end_ts"].dt.tz is not None
-    assert out["1d"]["end_ts"].dt.tz is not None
-    assert len(out["1d"]) == 2
 

@@ -22,7 +22,7 @@ def resample_timeframes(frame_1m: pd.DataFrame, config: RuntimeConfig) -> dict[s
 
     The returned mapping contains:
     - `1m`: validated `1m` bars as a standardized bar frame
-    - `5m`, `15m`, `1h`, `4h`, `1d`: deterministically derived OHLC bars
+    - `5m`, `15m`, `1h`, `4h`: deterministically derived OHLC bars
 
     Args:
         frame_1m: Validated `1m` OHLC frame.
@@ -51,10 +51,7 @@ def resample_timeframes(frame_1m: pd.DataFrame, config: RuntimeConfig) -> dict[s
     out["1m"] = _standardize_1m(frame_1m)
 
     for timeframe in config.resampling.target_timeframes:
-        if timeframe == "1d":
-            out["1d"] = _resample_daily_close(frame_1m, config)
-        else:
-            out[timeframe] = _resample_fixed_interval(frame_1m, timeframe)
+        out[timeframe] = _resample_fixed_interval(frame_1m, timeframe)
 
     LOGGER.info(
         "resampled_timeframes",
@@ -66,7 +63,6 @@ def resample_timeframes(frame_1m: pd.DataFrame, config: RuntimeConfig) -> dict[s
             "rows_15m": int(len(out.get("15m", []))),
             "rows_1h": int(len(out.get("1h", []))),
             "rows_4h": int(len(out.get("4h", []))),
-            "rows_1d": int(len(out.get("1d", []))),
         },
     )
     return out
@@ -108,39 +104,6 @@ def _resample_fixed_interval(frame_1m: pd.DataFrame, timeframe: str) -> pd.DataF
         raise ResampleError(f"No data available to resample timeframe={timeframe}")
 
     result = pd.concat(frames, ignore_index=True).sort_values("end_ts").reset_index(drop=True)
-    result.set_index("end_ts", inplace=True, drop=False)
-    return result
-
-
-def _resample_daily_close(frame_1m: pd.DataFrame, config: RuntimeConfig) -> pd.DataFrame:
-    close_tz = _require_timezone(config.time.daily_close.timezone, field_name="time.daily_close.timezone")
-    runtime_tz = _require_timezone(config.time.runtime_timezone, field_name="time.runtime_timezone")
-    close_time = _parse_close_time(config.time.daily_close.time)
-
-    end_ts_runtime = pd.DatetimeIndex(frame_1m.index).tz_convert(runtime_tz)
-    end_ts_close = end_ts_runtime.tz_convert(close_tz)
-
-    close_midnight = end_ts_close.normalize()
-    close_dt = close_midnight + pd.Timedelta(hours=close_time.hour, minutes=close_time.minute)
-    # Use DateOffset instead of Timedelta to handle DST transitions correctly
-    bucket_end_close = close_dt.where(end_ts_close <= close_dt, close_dt + pd.DateOffset(days=1))
-    bucket_end_runtime = bucket_end_close.tz_convert(runtime_tz)
-
-    grouped = frame_1m.copy()
-    grouped["bucket_end"] = bucket_end_runtime
-
-    aggregated = grouped.groupby("bucket_end", sort=True).agg(
-        open=("open", "first"),
-        high=("high", "max"),
-        low=("low", "min"),
-        close=("close", "last"),
-    )
-
-    aggregated = aggregated.reset_index().rename(columns={"bucket_end": "end_ts"})
-    aggregated["timeframe"] = "1d"
-    # Use DateOffset instead of Timedelta to handle DST transitions correctly
-    aggregated["start_ts"] = aggregated["end_ts"].apply(lambda ts: (ts.tz_convert(close_tz) - pd.DateOffset(days=1)).tz_convert(runtime_tz))
-    result = aggregated[["timeframe", "start_ts", "end_ts", "open", "high", "low", "close"]]
     result.set_index("end_ts", inplace=True, drop=False)
     return result
 

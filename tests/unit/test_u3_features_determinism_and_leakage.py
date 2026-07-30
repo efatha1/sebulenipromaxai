@@ -26,7 +26,7 @@ def build_config() -> object:
                 "holiday_policy": "include",
                 "definitions": [{"name": "primary", "start": "00:00", "end": "23:59"}],
             },
-            "resampling": {"base_timeframe": "1m", "target_timeframes": ["5m", "15m", "1h", "4h", "1d"]},
+            "resampling": {"base_timeframe": "1m", "target_timeframes": ["5m", "15m", "1h", "4h"]},
             "features": {
                 "enabled_features": ["returns", "ranges", "calendar_time", "session_primary", "roll_mean_return_3"],
                 "deterministic_derived_features": ["returns", "ranges"],
@@ -67,7 +67,7 @@ def build_bars(n: int) -> pd.DataFrame:
 def test_determinism_identical_input_identical_output() -> None:
     config = build_config()
     bars = build_bars(10)
-    bars_by_tf = {tf: bars.copy() for tf in ("1m", "5m", "15m", "1h", "4h", "1d")}
+    bars_by_tf = {tf: bars.copy() for tf in ("1m", "5m", "15m", "1h", "4h")}
 
     out1 = build_features(bars_by_tf, config)
     out2 = build_features(bars_by_tf, config)
@@ -79,13 +79,13 @@ def test_determinism_identical_input_identical_output() -> None:
 def test_no_future_leakage_from_future_bar_mutation() -> None:
     config = build_config()
     bars = build_bars(10)
-    bars_by_tf = {tf: bars.copy() for tf in ("1m", "5m", "15m", "1h", "4h", "1d")}
+    bars_by_tf = {tf: bars.copy() for tf in ("1m", "5m", "15m", "1h", "4h")}
 
     out1 = build_features(bars_by_tf, config)["1m"]
 
     mutated = bars.copy()
     mutated.loc[len(mutated) - 1, "close"] = mutated.loc[len(mutated) - 1, "close"] + 1000.0
-    bars_by_tf_mut = {tf: mutated.copy() for tf in ("1m", "5m", "15m", "1h", "4h", "1d")}
+    bars_by_tf_mut = {tf: mutated.copy() for tf in ("1m", "5m", "15m", "1h", "4h")}
     out2 = build_features(bars_by_tf_mut, config)["1m"]
 
     assert out1.iloc[:7].equals(out2.iloc[:7])

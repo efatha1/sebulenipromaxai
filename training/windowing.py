@@ -43,7 +43,7 @@ def build_windows(
         WindowingError: If lookbacks are invalid, frames are misaligned, or the
             requested window cannot be built.
     """
-    expected = {"1m", "5m", "15m", "1h", "4h", "1d"}
+    expected = {"1m", "5m", "15m", "1h", "4h"}
     if set(features_by_timeframe.keys()) != expected:
         raise WindowingError(f"features_by_timeframe must contain exactly {sorted(expected)}.")
     if set(lookbacks_by_timeframe.keys()) != expected:

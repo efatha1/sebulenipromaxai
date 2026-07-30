@@ -87,7 +87,7 @@ class PredictionRequestContract(ContractModel):
     top_k_analogs: PositiveInt
 
     # New fields for unified heads
-    requested_timeframes: tuple[Literal["1m", "5m", "15m", "1h", "4h", "1d"], ...] | None = None
+    requested_timeframes: tuple[Literal["1m", "5m", "15m", "1h", "4h"], ...] | None = None
     requested_horizons: tuple[PositiveInt, ...] | None = None
 
     @model_validator(mode="after")
@@ -117,7 +117,7 @@ class PredictionRequestContract(ContractModel):
             ValueError: If the requested timeframes or horizons are invalid.
         """
         if self.requested_timeframes is not None:
-            valid_timeframes = ("1m", "5m", "15m", "1h", "4h", "1d")
+            valid_timeframes = ("1m", "5m", "15m", "1h", "4h")
             for tf in self.requested_timeframes:
                 if tf not in valid_timeframes:
                     raise ValueError(f"requested_timeframes contains invalid timeframe: {tf}")
@@ -142,7 +142,7 @@ class PredictionRecordContract(ContractModel):
     maturity_estimate: PositiveInt | None = None
     duration_estimate: PositiveInt | None = None
     low_confidence_advisory: StrictBool
-    timeframe: Literal["1m", "5m", "15m", "1h", "4h", "1d"] | None = None
+    timeframe: Literal["1m", "5m", "15m", "1h", "4h"] | None = None
 
     @field_validator("reference_ts")
     @classmethod

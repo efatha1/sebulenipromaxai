@@ -37,7 +37,7 @@ def build_features(
         FeatureEngineeringError: If inputs are invalid, features are unknown,
             or any computation is non-causal or inconsistent.
     """
-    expected = {"1m", "5m", "15m", "1h", "4h", "1d"}
+    expected = {"1m", "5m", "15m", "1h", "4h"}
     if set(bars_by_timeframe.keys()) != expected:
         raise FeatureEngineeringError(
             f"bars_by_timeframe must contain exactly the modeled stack {sorted(expected)}."

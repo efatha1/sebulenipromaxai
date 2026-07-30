@@ -135,7 +135,6 @@ def generate_labels_multi_timeframe(
         "15m": 15,
         "1h": 60,
         "4h": 240,
-        "1d": 1440,
     }
 
     # Timeframe-specific cadence for ambiguity validation
@@ -145,7 +144,6 @@ def generate_labels_multi_timeframe(
         "15m": pd.Timedelta(minutes=15),
         "1h": pd.Timedelta(hours=1),
         "4h": pd.Timedelta(hours=4),
-        "1d": pd.Timedelta(days=1),
     }
 
     out: dict[tuple[str, int, float], pd.DataFrame] = {}
@@ -161,7 +159,7 @@ def generate_labels_multi_timeframe(
                 horizon_bars=int(horizon),
                 config=config,
                 expected_cadence=timeframe_to_cadence[timeframe],
-                validate_cadence=(timeframe != "1d"),  # Skip cadence validation for daily data due to DST transitions
+                validate_cadence=True,
             )
 
             for threshold in thresholds_to_use:
@@ -242,18 +240,9 @@ def _labels_for_horizon_threshold(
 
         ref_close = close[i]
         window_start = i + 1
-
-        # For 1d timeframe, use dynamic horizon based on available data
-        if timeframe == "1d":
-            window_end = min(i + horizon_bars, n - 1)
-            # Use available bars even if fewer than requested horizon
-            if window_end <= window_start:
-                # No future bars available, skip this sample
-                continue
-        else:
-            window_end = i + horizon_bars
-            if window_end >= n:
-                raise LabelingError("Ambiguity mask allowed an out-of-range horizon window.")
+        window_end = i + horizon_bars
+        if window_end >= n:
+            raise LabelingError("Ambiguity mask allowed an out-of-range horizon window.")
 
         slice_high = high[window_start : window_end + 1]
         slice_low = low[window_start : window_end + 1]

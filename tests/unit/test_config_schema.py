@@ -28,7 +28,7 @@ def build_valid_config() -> dict[str, object]:
         },
         "resampling": {
             "base_timeframe": "1m",
-            "target_timeframes": ["5m", "15m", "1h", "4h", "1d"],
+            "target_timeframes": ["5m", "15m", "1h", "4h"],
         },
         "features": {
             "enabled_features": ["returns", "ranges", "wick_body_ratios"],
@@ -65,7 +65,7 @@ def test_validate_config_returns_runtime_config() -> None:
 
     assert isinstance(config, RuntimeConfig)
     assert config.instrument.instrument_id == "TEST_INSTRUMENT"
-    assert config.resampling.target_timeframes == ("5m", "15m", "1h", "4h", "1d")
+    assert config.resampling.target_timeframes == ("5m", "15m", "1h", "4h")
 
 
 def test_validate_config_missing_required_field_fails() -> None:
@@ -105,7 +105,6 @@ def test_validate_config_accepts_preprocessing_lookbacks() -> None:
             "15m": 48,
             "1h": 24,
             "4h": 16,
-            "1d": 10,
         }
     }
 
@@ -113,7 +112,6 @@ def test_validate_config_accepts_preprocessing_lookbacks() -> None:
 
     assert config.preprocessing is not None
     assert config.preprocessing.lookbacks_by_timeframe is not None
-    assert config.preprocessing.lookbacks_by_timeframe["1d"] == 10
 
 
 def test_validate_config_rejects_incomplete_preprocessing_lookbacks() -> None:

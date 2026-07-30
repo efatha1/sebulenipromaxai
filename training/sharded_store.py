@@ -26,7 +26,7 @@ from models.losses import MultiTaskTargets, MultiTaskTargetsUnified
 
 LOGGER = logging.getLogger(__name__)
 
-MODELED_TIMEFRAMES: tuple[str, ...] = ("1m", "5m", "15m", "1h", "4h", "1d")
+MODELED_TIMEFRAMES: tuple[str, ...] = ("1m", "5m", "15m", "1h", "4h")
 
 
 class ShardedStoreError(ValueError):
