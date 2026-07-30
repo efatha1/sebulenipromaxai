@@ -300,6 +300,30 @@ def _write_sharded_targets(
     return {"total_samples": total_samples, "shard_size": shard_size, "num_shards": n_shards}
 
 
+def _calculate_adaptive_shard_size(
+    total_samples: int,
+    target_memory_mb: int = 100,
+    sample_size_bytes: int = 32,  # float32 = 4 bytes × 8 features
+    min_shard_size: int = 100,
+    max_shard_size: int = 100000
+) -> int:
+    """Calculate adaptive shard size based on memory constraints and data volume.
+
+    Args:
+        total_samples: Total number of samples for this timeframe
+        target_memory_mb: Target memory usage per shard in MB
+        sample_size_bytes: Memory per sample in bytes
+        min_shard_size: Minimum shard size (prevents too-small shards)
+        max_shard_size: Maximum shard size (prevents too-large shards)
+
+    Returns:
+        Adaptive shard size for this timeframe
+    """
+    target_samples = (target_memory_mb * 1024 * 1024) // sample_size_bytes
+    shard_size = min(max_shard_size, max(min_shard_size, min(target_samples, total_samples)))
+    return shard_size
+
+
 def _write_sharded_targets_unified(
     layout: OutputLayout,
     *,
@@ -325,7 +349,7 @@ def _write_sharded_targets_unified(
         layout: Output layout for disk paths.
         labels_by_key: Mapping (timeframe, horizon, threshold) -> label DataFrame.
         bars_by_timeframe: Mapping timeframe -> OHLC bars for reference close prices.
-        shard_size: Samples per shard.
+        shard_size: Samples per shard (deprecated, adaptive sizing will be used per timeframe).
 
     Returns:
         Manifest fragment with shard counts and column metadata per timeframe.
@@ -338,7 +362,7 @@ def _write_sharded_targets_unified(
             labels_by_timeframe[timeframe] = {}
         labels_by_timeframe[timeframe][(horizon, threshold)] = labels_df
 
-    # Process each timeframe separately
+    # Process each timeframe separately with adaptive shard sizing
     timeframe_manifests = {}
     for timeframe in sorted(labels_by_timeframe.keys()):
         timeframe_labels = labels_by_timeframe[timeframe]
@@ -358,7 +382,11 @@ def _write_sharded_targets_unified(
         if total_samples == 0:
             raise ValueError(f"No labels available for timeframe {timeframe} (0 samples).")
         
-        n_shards = int(math.ceil(total_samples / shard_size))
+        # Calculate adaptive shard size for this timeframe
+        adaptive_shard_size = _calculate_adaptive_shard_size(total_samples)
+        LOGGER.info(f"Adaptive shard size for timeframe {timeframe}: {adaptive_shard_size} (total_samples={total_samples})")
+        
+        n_shards = int(math.ceil(total_samples / adaptive_shard_size))
         ref_ts_ns = _as_int64_ns(ref_ts)
         
         # Get reference close from this timeframe's bars
@@ -372,14 +400,14 @@ def _write_sharded_targets_unified(
                 col_name = f"{field}_h{horizon}_t{threshold}"
                 column_names.append((col_name, (horizon, threshold), field))
         
-        # Write shards for this timeframe
+        # Write shards for this timeframe using adaptive shard size
         for shard_id in range(n_shards):
-            start = shard_id * shard_size
-            end = min(start + shard_size, total_samples)
+            shard_start = shard_id * adaptive_shard_size
+            shard_end = min(shard_start + adaptive_shard_size, total_samples)
             
             # Write reference arrays for this timeframe
-            shard_ref_ts = ref_ts_ns[start:end]
-            shard_close = reference_close[start:end]
+            shard_ref_ts = ref_ts_ns[shard_start:shard_end]
+            shard_close = reference_close[shard_start:shard_end]
             np.save(layout.reference_dir / f"reference_ts_ns_{timeframe}_shard_{shard_id:05d}.npy", shard_ref_ts, allow_pickle=False)
             np.save(layout.reference_dir / f"reference_close_{timeframe}_shard_{shard_id:05d}.npy", shard_close, allow_pickle=False)
             
@@ -389,8 +417,8 @@ def _write_sharded_targets_unified(
                 labels_df = timeframe_labels[(horizon, threshold)]
                 # Filter ambiguous labels
                 labels_df_filtered = labels_df[~labels_df["ambiguous"]].copy()
-                # Get values for this shard
-                values = labels_df_filtered[field].iloc[start:end].to_numpy()
+                # Get values for this shard using adaptive shard slice indices
+                values = labels_df_filtered[field].iloc[shard_start:shard_end].to_numpy()
                 
                 # Apply mixed precision
                 if field == "event_flag":
@@ -402,7 +430,7 @@ def _write_sharded_targets_unified(
         
         timeframe_manifests[timeframe] = {
             "total_samples": total_samples,
-            "shard_size": shard_size,
+            "shard_size": adaptive_shard_size,
             "num_shards": n_shards,
             "column_names": [col_name for col_name, _, _ in column_names],
             "num_columns": len(column_names),
@@ -463,7 +491,12 @@ def _write_sharded_windows(
         tf_label_ts_ns = _as_int64_ns(tf_labels_aligned["reference_ts"])
         
         total_samples = int(len(tf_label_ts_ns))
-        n_shards = int(math.ceil(total_samples / shard_size))
+        
+        # Calculate adaptive shard size for this timeframe (same as targets for consistency)
+        adaptive_shard_size = _calculate_adaptive_shard_size(total_samples)
+        LOGGER.info(f"Adaptive shard size for timeframe {tf} windows: {adaptive_shard_size} (total_samples={total_samples})")
+        
+        n_shards = int(math.ceil(total_samples / adaptive_shard_size))
 
         # Verify exact timestamp matches after alignment
         positions = np.searchsorted(tf_ref_ts_ns, tf_label_ts_ns, side="left")
@@ -486,8 +519,8 @@ def _write_sharded_windows(
         window_view = _build_window_view(values, lookback=lookback)
 
         for shard_id in range(n_shards):
-            start = shard_id * shard_size
-            end = min(start + shard_size, total_samples)
+            start = shard_id * adaptive_shard_size
+            end = min(start + adaptive_shard_size, total_samples)
             idx = positions[start:end]
 
             shard_windows = window_view[idx].copy()  # materialize only the shard
